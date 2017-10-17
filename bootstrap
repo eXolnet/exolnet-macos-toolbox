@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+# eXolnet directory
+EXOLNET="$HOME/.exolnet"
+
+echo "Cloning exolnet-macos-toolbox ..."
+echo
+
+# Clone exolnet-macos-toolbox
+git clone -b master https://github.com/eXolnet/exolnet-macos-toolbox.git $EXOLNET
+cd $EXOLNET
+
+echo
+echo "Installing exolnet-macos-toolbox ..."
+
+# Install exolnet-macos-toolbox
+./install

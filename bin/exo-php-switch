@@ -1,0 +1,70 @@
+#!/usr/bin/env bash
+
+#
+# Basic setup
+#
+
+# eXolnet directory
+EXOLNET="$HOME/.exolnet"
+
+# Environment checks
+if [ ! -d "$EXOLNET" ]; then
+    echo "Directory ~/.exolnet does not exists, exiting ..."
+    exit 1
+fi
+
+# Source helpers
+. $EXOLNET/lib/header
+. $EXOLNET/lib/utils
+. $EXOLNET/lib/brew
+. $EXOLNET/lib/httpd
+. $EXOLNET/lib/php
+
+#
+# Script checks
+#
+
+# Check if command was ran as root.
+if [[ $(id -u) -eq 0 ]]; then
+    echo
+    echo "The command \"exo-php-switch\" should not be executed as root or via sudo directly."
+    echo "When a service requires root access, you will be prompted for a password as needed."
+    exit 1
+fi
+
+# Usage
+if [ $# -ne 1 ]; then
+    first=true
+
+    brew list | grep '^php[0-9]\{2,\}$' | grep -o -E '[0-9]+' | while read -r line ; do
+        if [ "$first" = true ]; then
+            echo
+            echo -n "Usage: exo-php-switch ["
+        else
+            echo -n "|"
+        fi
+
+        echo -n "php$line"
+        first=false
+    done
+
+    echo "]"
+    exit 1
+fi
+
+#
+# Script execution
+#
+
+currentversion="$(php_get_current_version)"
+newversion="$1"
+
+e_header "Switching php version"
+
+safe_execute "brew list $newversion" "Found $newversion" "Failed to find $newversion"
+brew_unlink $currentversion
+brew_link $newversion
+link_file "$EXOLNET/conf/httpd_php/$newversion.conf" "$HTTPD_ETC/exolnet/php.conf"
+sudo_brew_restart httpd
+
+e_header "All done!"

@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+
+function install_homebrew()
+{
+    command -v brew &> /dev/null
+
+    if [ $? -eq 0 ]; then
+        e_success "Installed homebrew"
+    else
+        echo
+        /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+    fi
+}
+
+function brew_install()
+{
+    local formula=$@
+
+    safe_execute "brew install $formula" "Installed $formula" "Failed to install $formula"
+}
+
+function brew_link()
+{
+    local formula=$@
+
+    safe_execute "brew link $formula" "Linked $formula" "Failed to link $formula"
+}
+
+function brew_unlink()
+{
+    local formula=$@
+
+    safe_execute "brew unlink $formula" "Unlinked $formula" "Failed to unlink $formula"
+}
+
+function brew_restart()
+{
+    local service=$1
+
+    safe_execute "brew services restart $service" "Restarted $service" "Failed to restarted $service"
+}
+
+function sudo_brew_restart()
+{
+    local service=$1
+
+    safe_execute "sudo brew services restart $service" "Restarted $service" "Failed to restarted $service"
+}
