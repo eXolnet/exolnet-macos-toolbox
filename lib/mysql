@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+function mysql_create_user()
+{
+    mysql -v -u root -e 'CREATE USER IF NOT EXISTS "exolnet_dev"@"localhost"'
+}
+
+function mysql_grant_user()
+{
+    mysql -v -u root -e 'GRANT ALL PRIVILEGES ON `%\_dev`.* to "exolnet_dev"@"localhost"'
+}
+
+function mysql_wait_for_connection()
+{
+    echo -n -e " \033[1m?\033[0m Waiting for mysql to be online "
+    while ! mysql -u root -e 'SELECT USER()' &> /dev/null ; do
+        echo -n '.' && sleep 1
+    done
+    echo -e "\r \033[1;32m✔\033[0m Connected to mysql                                        "
+}

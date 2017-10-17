@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+
+HTTPD_ETC="/usr/local/etc/httpd"
+HTTPD_WWW="/usr/local/var/www"
+
+function httpd_replace_listen_80()
+{
+    /usr/bin/sed -i '' 's/^Listen.*$/Listen 80/g' $HTTPD_ETC/httpd.conf
+}
+
+function httpd_replace_listen_443()
+{
+    /usr/bin/sed -i '' 's/^Listen.*$/Listen 443/g' $HTTPD_ETC/extra/httpd-ssl.conf
+}
+
+function httpd_add_inlude_exolnet()
+{
+    if ! grep -q "EXOLNET-MACOS-TOOLBOX" $HTTPD_ETC/httpd.conf; then
+cat >> $HTTPD_ETC/httpd.conf <<EOL
+# EXOLNET-MACOS-TOOLBOX BEGIN
+Include /usr/local/etc/httpd/exolnet/*
+# EXOLNET-MACOS-TOOLBOX END
+EOL
+    fi
+}
+
+function httpd_generate_user_conf()
+{
+cat > $HTTPD_ETC/exolnet/user.conf <<EOL
+# EXOLNET-MACOS-TOOLBOX BEGIN
+<IfModule unixd_module>
+    User $(whoami)
+    Group staff
+</IfModule>
+# EXOLNET-MACOS-TOOLBOX END
+EOL
+}
+
+function httpd_disable_php_module()
+{
+    /usr/bin/sed -i '' 's/^\(LoadModule php[57]_module .*\)$/#\1/g' $HTTPD_ETC/httpd.conf
+}

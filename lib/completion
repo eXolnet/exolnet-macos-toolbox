@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+function completion_add_source_bash_profile()
+{
+    [ -e $HOME/.bash_profile ] || touch $HOME/.bash_profile
+
+    if ! grep -q "/usr/local/etc/bash_completion" $HOME/.bash_profile; then
+cat >> $HOME/.bash_profile <<EOL
+# EXOLNET-MACOS-TOOLBOX BEGIN
+# Enable programmable completion features
+if [ -f /usr/local/etc/bash_completion ]; then
+    . /usr/local/etc/bash_completion
+fi
+# EXOLNET-MACOS-TOOLBOX END
+EOL
+    fi
+}
+
+function completion_load()
+{
+    . /usr/local/etc/bash_completion
+
+    e_success "Loaded bash-completion"
+}

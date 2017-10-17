@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+function npm_global_install()
+{
+    local package=$@
+
+    safe_execute "npm install -g $package" "Installed $package" "Failed to install $package"
+}

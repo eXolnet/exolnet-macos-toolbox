@@ -1,0 +1,132 @@
+#!/usr/bin/env bash
+
+#
+# Basic setup
+#
+
+# eXolnet directory
+EXOLNET="$HOME/.exolnet"
+
+# Environment checks
+if [ ! -d "$EXOLNET" ]; then
+    echo "Directory ~/.exolnet does not exists, exiting ..."
+    exit 1
+fi
+
+# Source helpers
+. $EXOLNET/lib/header
+. $EXOLNET/lib/utils
+. $EXOLNET/lib/brew
+. $EXOLNET/lib/mysql
+. $EXOLNET/lib/httpd
+. $EXOLNET/lib/php
+. $EXOLNET/lib/node
+. $EXOLNET/lib/completion
+
+#
+# Script execution
+#
+
+# Tweak file globbing
+shopt -s dotglob
+shopt -s nullglob
+
+# If backups are needed, this is where they'll go
+BACKUP_DIR="$EXOLNET/backups/$(date "+%Y%m%d-%H%M%S")"
+BACKUP=
+
+e_header "Installing homebrew"
+install_homebrew
+
+e_header "Installing base utilities"
+brew_install colordiff
+brew_install coreutils
+brew_install curl
+brew_install git
+brew_install htop
+brew_install rsync
+brew_install ssh-copy-id
+brew_install trash
+brew_install tree
+brew_install vim
+brew_install wget
+
+e_header "Installing and configuring mysql"
+brew_install mysql
+brew_restart mysql
+mysql_wait_for_connection
+safe_execute "mysql_create_user" "Created user exolnet_dev" "Failed to create user exolnet_dev"
+safe_execute "mysql_grant_user" "Granted user exolnet_dev" "Failed to grant user exolnet_dev"
+
+e_header "Installing and configuring apache"
+safe_execute "sudo apachectl stop" "Stopped built-in apache" "Failed to stop built-in apache"
+safe_execute "sudo launchctl unload -w /System/Library/LaunchDaemons/org.apache.httpd.plist" "Disabled built-in apache" "Failed to disable built-in apache"
+create_directory "$HOME/Sites"
+brew_install httpd
+safe_execute "httpd_replace_listen_80" "Changed listen port 8080 -> 80" "Failed to change listen port 8080 -> 80"
+safe_execute "httpd_replace_listen_443" "Changed listen port 8443 -> 443" "Failed to change listen port 8443 -> 443"
+create_directory "$HTTPD_ETC/exolnet"
+safe_execute "httpd_add_inlude_exolnet" "Added exolnet include directive" "Failed to add exolnet include directive"
+process_recursive "link_file" "$EXOLNET/conf/httpd" "$HTTPD_ETC/exolnet"
+safe_execute "httpd_generate_user_conf" "Generated user conf file" "Failed to generate user conf file"
+link_file "$HOME/Sites" "$HTTPD_WWW"
+sudo_brew_restart httpd
+
+e_header "Installing and configuring php"
+brew_install homebrew/php/php56 --with-httpd24
+brew_install --build-from-source homebrew/php/php56-imagick
+brew_install --build-from-source homebrew/php/php56-mcrypt
+brew_install --build-from-source homebrew/php/php56-xdebug
+brew_unlink php56
+brew_install homebrew/php/php70 --with-httpd24
+brew_install --build-from-source homebrew/php/php70-imagick
+brew_install --build-from-source homebrew/php/php70-mcrypt
+brew_install --build-from-source homebrew/php/php70-xdebug
+brew_unlink php70
+brew_install homebrew/php/php71 --with-httpd24
+brew_install --build-from-source homebrew/php/php71-imagick
+brew_install --build-from-source homebrew/php/php71-mcrypt
+brew_install --build-from-source homebrew/php/php71-xdebug
+# keeping php71 by default, no need to unlink
+brew_install homebrew/php/composer
+safe_execute "httpd_disable_php_module" "Disable php module in httpd" "Failed to disable php module in httpd"
+link_file "$EXOLNET/conf/httpd_php/php71.conf" "$HTTPD_ETC/exolnet/php.conf"
+sudo_brew_restart httpd
+safe_execute "php_create_phpinfo" "Create phpinfo.php file" "Failed to create phpinfo.php file"
+
+e_header "Installing and configuring node"
+brew_install node
+npm_global_install bower
+npm_global_install gulp-cli
+npm_global_install grunt-cli
+npm_global_install polymer-cli
+npm_global_install lighthouse
+brew_install yarn
+
+e_header "Installing and configuring redis"
+brew_install redis
+brew_restart redis
+
+e_header "Installing bash-completion"
+brew_install bash
+brew_install bash-completion
+# brew_install docker-completion
+# brew_install docker-compose-completion
+# brew_install docker-machine-completion
+brew_install grunt-completion
+# brew_install vagrant-completion
+safe_execute "completion_add_source_bash_profile" "Added bash-completion source directive" "Failed to add bash-completion source directive"
+completion_load
+
+e_header "Installing scripts"
+process_recursive "link_file" "$EXOLNET/bin" "/usr/local/bin"
+
+# Display if backups were made
+if [ "$BACKUP" ]; then
+    e_header "Backups"
+    e_arrow "Existing files were moved to $BACKUP_DIR"
+fi
+
+e_header "All done!"
+
+exit 0

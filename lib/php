@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+function php_create_phpinfo()
+{
+cat > $HOME/Sites/phpinfo.php <<EOL
+<?php
+// EXOLNET-MACOS-TOOLBOX
+phpinfo();
+EOL
+}
+
+function php_get_current_version()
+{
+    php -r "error_reporting(0); echo 'php'.str_replace('.', '', substr(phpversion(), 0, 3));"
+}
