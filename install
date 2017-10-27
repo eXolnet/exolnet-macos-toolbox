@@ -65,6 +65,8 @@ create_directory "$HOME/Sites"
 brew_install httpd
 safe_execute "httpd_replace_listen_80" "Changed listen port 8080 -> 80" "Failed to change listen port 8080 -> 80"
 safe_execute "httpd_replace_listen_443" "Changed listen port 8443 -> 443" "Failed to change listen port 8443 -> 443"
+safe_execute "httpd_disable_mpm_event_module" "Disabled mpm event module in httpd" "Failed to disable mpm event module in httpd"
+safe_execute "httpd_enable_mpm_prefork_module" "Enabled mpm prefork module in httpd" "Failed to enable mpm prefork module in httpd"
 create_directory "$HTTPD_ETC/exolnet"
 safe_execute "httpd_add_inlude_exolnet" "Added exolnet include directive" "Failed to add exolnet include directive"
 process_recursive "link_file" "$EXOLNET/conf/httpd" "$HTTPD_ETC/exolnet"
@@ -73,26 +75,26 @@ link_file "$HOME/Sites" "$HTTPD_WWW"
 sudo_brew_restart httpd
 
 e_header "Installing and configuring php"
-brew_install homebrew/php/php56 --with-httpd24
-brew_install --build-from-source homebrew/php/php56-imagick
-brew_install --build-from-source homebrew/php/php56-mcrypt
-brew_install --build-from-source homebrew/php/php56-xdebug
+brew_install homebrew/php/php56 --with-httpd --build-from-source
+brew_install homebrew/php/php56-imagick --build-from-source
+brew_install homebrew/php/php56-mcrypt --build-from-source
+brew_install homebrew/php/php56-xdebug --build-from-source
 brew_unlink php56
-brew_install homebrew/php/php70 --with-httpd24
-brew_install --build-from-source homebrew/php/php70-imagick
-brew_install --build-from-source homebrew/php/php70-mcrypt
-brew_install --build-from-source homebrew/php/php70-xdebug
+brew_install homebrew/php/php70 --with-httpd --build-from-source
+brew_install homebrew/php/php70-imagick --build-from-source
+brew_install homebrew/php/php70-mcrypt --build-from-source
+brew_install homebrew/php/php70-xdebug --build-from-source
 brew_unlink php70
-brew_install homebrew/php/php71 --with-httpd24
-brew_install --build-from-source homebrew/php/php71-imagick
-brew_install --build-from-source homebrew/php/php71-mcrypt
-brew_install --build-from-source homebrew/php/php71-xdebug
+brew_install homebrew/php/php71 --with-httpd --build-from-source
+brew_install homebrew/php/php71-imagick --build-from-source
+brew_install homebrew/php/php71-mcrypt --build-from-source
+brew_install homebrew/php/php71-xdebug --build-from-source
 # keeping php71 by default, no need to unlink
 brew_install homebrew/php/composer
-safe_execute "httpd_disable_php_module" "Disable php module in httpd" "Failed to disable php module in httpd"
+safe_execute "httpd_disable_php_module" "Disabled php module in httpd" "Failed to disable php module in httpd"
 link_file "$EXOLNET/conf/httpd_php/php71.conf" "$HTTPD_ETC/exolnet/php.conf"
 sudo_brew_restart httpd
-safe_execute "php_create_phpinfo" "Create phpinfo.php file" "Failed to create phpinfo.php file"
+safe_execute "php_create_phpinfo" "Created phpinfo.php file" "Failed to create phpinfo.php file"
 
 e_header "Installing and configuring node"
 brew_install node

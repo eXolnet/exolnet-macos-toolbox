@@ -1,6 +1,9 @@
 # exolnet-macos-toolbox
 /backups/
 
+# idea
+.idea/
+
 # vim
 .*.sw[a-p]
 

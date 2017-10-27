@@ -17,7 +17,8 @@ bash -c "$(curl -fsSL https://raw.githubusercontent.com/eXolnet/exolnet-macos-to
 Caveats
 =======
 
-* Before running, make sure to run `brew upgrade` if you already have Homebrew installed.
+* Before running, make sure to run `brew upgrade` if you already have Homebrew installed
+* Before installing, make sure to run `xcode-select --install`
 * Before installing (first run only), make sure to remove the following package manually:
   * Mysql if not installed with Homebrew
   * Apache versions `homebrew/apache/httpd22` and `homebrew/apache/httpd24` (they have been replaced by `httpd`)
