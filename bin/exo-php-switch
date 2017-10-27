@@ -57,7 +57,7 @@ fi
 #
 
 currentversion="$(php_get_current_version)"
-newversion="$1"
+newversion="php$(echo $1 | tr -cd [:digit:])"
 
 e_header "Switching php version"
 
