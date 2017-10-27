@@ -91,10 +91,10 @@ brew_install --build-from-source homebrew/php/php71-mcrypt
 brew_install --build-from-source homebrew/php/php71-xdebug
 # keeping php71 by default, no need to unlink
 brew_install homebrew/php/composer
-safe_execute "httpd_disable_php_module" "Disable php module in httpd" "Failed to disable php module in httpd"
+safe_execute "httpd_disable_php_module" "Disabled php module in httpd" "Failed to disable php module in httpd"
 link_file "$EXOLNET/conf/httpd_php/php71.conf" "$HTTPD_ETC/exolnet/php.conf"
 sudo_brew_restart httpd
-safe_execute "php_create_phpinfo" "Create phpinfo.php file" "Failed to create phpinfo.php file"
+safe_execute "php_create_phpinfo" "Created phpinfo.php file" "Failed to create phpinfo.php file"
 
 e_header "Installing and configuring node"
 brew_install node
