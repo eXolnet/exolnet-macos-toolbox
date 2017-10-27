@@ -75,20 +75,20 @@ link_file "$HOME/Sites" "$HTTPD_WWW"
 sudo_brew_restart httpd
 
 e_header "Installing and configuring php"
-brew_install homebrew/php/php56 --with-httpd24
-brew_install --build-from-source homebrew/php/php56-imagick
-brew_install --build-from-source homebrew/php/php56-mcrypt
-brew_install --build-from-source homebrew/php/php56-xdebug
+brew_install homebrew/php/php56 --with-httpd --build-from-source
+brew_install homebrew/php/php56-imagick --build-from-source
+brew_install homebrew/php/php56-mcrypt --build-from-source
+brew_install homebrew/php/php56-xdebug --build-from-source
 brew_unlink php56
-brew_install homebrew/php/php70 --with-httpd24
-brew_install --build-from-source homebrew/php/php70-imagick
-brew_install --build-from-source homebrew/php/php70-mcrypt
-brew_install --build-from-source homebrew/php/php70-xdebug
+brew_install homebrew/php/php70 --with-httpd --build-from-source
+brew_install homebrew/php/php70-imagick --build-from-source
+brew_install homebrew/php/php70-mcrypt --build-from-source
+brew_install homebrew/php/php70-xdebug --build-from-source
 brew_unlink php70
-brew_install homebrew/php/php71 --with-httpd24
-brew_install --build-from-source homebrew/php/php71-imagick
-brew_install --build-from-source homebrew/php/php71-mcrypt
-brew_install --build-from-source homebrew/php/php71-xdebug
+brew_install homebrew/php/php71 --with-httpd --build-from-source
+brew_install homebrew/php/php71-imagick --build-from-source
+brew_install homebrew/php/php71-mcrypt --build-from-source
+brew_install homebrew/php/php71-xdebug --build-from-source
 # keeping php71 by default, no need to unlink
 brew_install homebrew/php/composer
 safe_execute "httpd_disable_php_module" "Disabled php module in httpd" "Failed to disable php module in httpd"
