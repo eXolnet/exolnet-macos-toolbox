@@ -65,6 +65,8 @@ create_directory "$HOME/Sites"
 brew_install httpd
 safe_execute "httpd_replace_listen_80" "Changed listen port 8080 -> 80" "Failed to change listen port 8080 -> 80"
 safe_execute "httpd_replace_listen_443" "Changed listen port 8443 -> 443" "Failed to change listen port 8443 -> 443"
+safe_execute "httpd_disable_mpm_event_module" "Disabled mpm event module in httpd" "Failed to disable mpm event module in httpd"
+safe_execute "httpd_enable_mpm_prefork_module" "Enabled mpm prefork module in httpd" "Failed to enable mpm prefork module in httpd"
 create_directory "$HTTPD_ETC/exolnet"
 safe_execute "httpd_add_inlude_exolnet" "Added exolnet include directive" "Failed to add exolnet include directive"
 process_recursive "link_file" "$EXOLNET/conf/httpd" "$HTTPD_ETC/exolnet"
