@@ -89,7 +89,11 @@ brew_install homebrew/php/php71 --with-httpd --build-from-source
 brew_install homebrew/php/php71-imagick --build-from-source
 brew_install homebrew/php/php71-mcrypt --build-from-source
 brew_install homebrew/php/php71-xdebug --build-from-source
-# keeping php71 by default, no need to unlink
+brew_unlink php71
+brew_install homebrew/php/php72 --with-httpd --build-from-source
+brew_install homebrew/php/php72-imagick --build-from-source
+# brew_install homebrew/php/php72-xdebug --build-from-source # FIXME: Not available yet
+# keeping php72 by default, no need to unlink
 brew_install homebrew/php/composer
 brew_install homebrew/php/php-code-sniffer
 safe_execute "httpd_disable_php_module" "Disabled php module in httpd" "Failed to disable php module in httpd"
