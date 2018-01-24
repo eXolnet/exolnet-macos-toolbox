@@ -73,7 +73,7 @@ function link_file()
         backup_file "$dest"
     fi
 
-    safe_execute "gln -rsfn $src $dest" "Linked $dest -> $src" "Failed to link $dest -> $src"
+    safe_execute "ln -sfn $src $dest" "Linked $dest -> $src" "Failed to link $dest -> $src"
 }
 
 function copy_file()
