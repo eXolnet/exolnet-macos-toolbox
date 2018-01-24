@@ -4,10 +4,12 @@
 # Basic setup
 #
 
-# eXolnet directory
-EXOLNET="$HOME/.exolnet"
+# Define eXolnet directory if not set
+if [ -z "$EXOLNET" ]; then
+    EXOLNET="$HOME/.exolnet"
+fi
 
-# Environment checks
+# Check if eXolnet directory exists
 if [ ! -d "$EXOLNET" ]; then
     echo "Directory ~/.exolnet does not exists, exiting ..."
     exit 1
@@ -22,6 +24,18 @@ fi
 . $EXOLNET/lib/php
 . $EXOLNET/lib/node
 . $EXOLNET/lib/completion
+
+#
+# Script checks
+#
+
+# Check if command was ran as root.
+if [[ $(id -u) -eq 0 ]]; then
+    echo
+    echo "The command \"`basename \"$0\"`\" should not be executed as root or via sudo directly."
+    echo "When a command requires root access, you will be prompted for a password as needed."
+    exit 1
+fi
 
 #
 # Script execution
@@ -139,5 +153,3 @@ if [ "$BACKUP" ]; then
 fi
 
 e_header "All done!"
-
-exit 0

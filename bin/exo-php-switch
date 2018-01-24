@@ -1,13 +1,15 @@
 #!/usr/bin/env bash
 
 #
-# Basic setup
+# Script setup
 #
 
-# eXolnet directory
-EXOLNET="$HOME/.exolnet"
+# Define eXolnet directory if not set
+if [ -z "$EXOLNET" ]; then
+    EXOLNET="$HOME/.exolnet"
+fi
 
-# Environment checks
+# Check if eXolnet directory exists
 if [ ! -d "$EXOLNET" ]; then
     echo "Directory ~/.exolnet does not exists, exiting ..."
     exit 1
@@ -27,8 +29,8 @@ fi
 # Check if command was ran as root.
 if [[ $(id -u) -eq 0 ]]; then
     echo
-    echo "The command \"exo-php-switch\" should not be executed as root or via sudo directly."
-    echo "When a service requires root access, you will be prompted for a password as needed."
+    echo "The command \"`basename \"$0\"`\" should not be executed as root or via sudo directly."
+    echo "When a command requires root access, you will be prompted for a password as needed."
     exit 1
 fi
 
