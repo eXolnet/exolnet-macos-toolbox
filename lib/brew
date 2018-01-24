@@ -19,6 +19,13 @@ function brew_install()
     HOMEBREW_NO_AUTO_UPDATE=1 safe_execute "brew install $formula" "Installed $formula" "Failed to install $formula"
 }
 
+function brew_reinstall()
+{
+    local formula=$@
+
+    HOMEBREW_NO_AUTO_UPDATE=1 safe_execute "brew reinstall $formula" "Installed $formula" "Failed to install $formula"
+}
+
 function brew_link()
 {
     local formula=$@
