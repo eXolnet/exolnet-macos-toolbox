@@ -68,8 +68,11 @@ safe_execute "httpd_replace_listen_443" "Changed listen port 8443 -> 443" "Faile
 safe_execute "httpd_disable_mpm_event_module" "Disabled mpm event module in httpd" "Failed to disable mpm event module in httpd"
 safe_execute "httpd_enable_mpm_prefork_module" "Enabled mpm prefork module in httpd" "Failed to enable mpm prefork module in httpd"
 create_directory "$HTTPD_ETC/exolnet"
-safe_execute "httpd_add_inlude_exolnet" "Added exolnet include directive" "Failed to add exolnet include directive"
+create_directory "$HTTPD_ETC/exolnet-vhosts"
+safe_execute "httpd_add_include_exolnet" "Added exolnet include directive" "Failed to add exolnet include directive"
+remove_file "$HTTPD_ETC/exolnet/directory.conf" # File was renamed to 000-default.conf
 process_recursive "link_file" "$EXOLNET/conf/httpd" "$HTTPD_ETC/exolnet"
+process_recursive "link_file" "$EXOLNET/conf/httpd_vhosts" "$HTTPD_ETC/exolnet-vhosts"
 safe_execute "httpd_generate_user_conf" "Generated user conf file" "Failed to generate user conf file"
 link_file "$HOME/Sites" "$HTTPD_WWW"
 sudo_brew_restart httpd
