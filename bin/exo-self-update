@@ -1,0 +1,56 @@
+#!/usr/bin/env bash
+
+#
+# Script setup
+#
+
+# Define eXolnet directory if not set
+if [ -z "$EXOLNET" ]; then
+    EXOLNET="$HOME/.exolnet"
+fi
+
+# Check if eXolnet directory exists
+if [ ! -d "$EXOLNET" ]; then
+    echo "Directory ~/.exolnet does not exists, exiting ..."
+    exit 1
+fi
+
+# Source helpers
+. $EXOLNET/lib/header
+. $EXOLNET/lib/utils
+. $EXOLNET/lib/git
+
+#
+# Script checks
+#
+
+# Check if command was ran as root.
+if [[ $(id -u) -eq 0 ]]; then
+    echo
+    echo "The command \"`basename \"$0\"`\" should not be executed as root or via sudo directly."
+    echo "When a command requires root access, you will be prompted for a password as needed."
+    exit 1
+fi
+
+#
+# Script execution
+#
+
+# If backups are needed, this is where they'll go
+BACKUP_DIR="$EXOLNET/backups/$(date "+%Y%m%d-%H%M%S")"
+BACKUP=
+
+e_header "Updating exolnet-macos-toolbox"
+safe_execute "git_fetch" "Fetched remote changes" "Failed to fetch remote changes"
+safe_execute "git_merge" "Fast-forwarded repository" "Failed to fast-forward repository"
+
+e_header "Installing scripts"
+process_recursive "link_file" "$EXOLNET/bin" "/usr/local/bin"
+
+# Display if backups were made
+if [ "$BACKUP" ]; then
+    e_header "Backups"
+    e_arrow "Existing files were moved to $BACKUP_DIR"
+fi
+
+e_header "All done!"

@@ -12,11 +12,32 @@ function install_homebrew()
     fi
 }
 
+function brew_update()
+{
+    local formula=$@
+
+    safe_execute "brew update" "Updated brew" "Failed to update brew"
+}
+
+function brew_upgrade()
+{
+    local formula=$@
+
+    HOMEBREW_NO_AUTO_UPDATE=1 safe_execute "brew upgrade $formula" "Upgraded $formula" "Failed to upgrade $formula"
+}
+
 function brew_install()
 {
     local formula=$@
 
-    safe_execute "brew install $formula" "Installed $formula" "Failed to install $formula"
+    HOMEBREW_NO_AUTO_UPDATE=1 safe_execute "brew install $formula" "Installed $formula" "Failed to install $formula"
+}
+
+function brew_reinstall()
+{
+    local formula=$@
+
+    HOMEBREW_NO_AUTO_UPDATE=1 safe_execute "brew reinstall $formula" "Installed $formula" "Failed to install $formula"
 }
 
 function brew_link()

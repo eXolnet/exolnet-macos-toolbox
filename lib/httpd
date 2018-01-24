@@ -13,20 +13,23 @@ function httpd_replace_listen_443()
     /usr/bin/sed -i '' 's/^Listen.*$/Listen 443/g' $HTTPD_ETC/extra/httpd-ssl.conf
 }
 
-function httpd_add_inlude_exolnet()
+function httpd_add_include_exolnet()
 {
-    if ! grep -q "EXOLNET-MACOS-TOOLBOX" $HTTPD_ETC/httpd.conf; then
+    remove_insert_from_file $HTTPD_ETC/httpd.conf
+
 cat >> $HTTPD_ETC/httpd.conf <<EOL
 # EXOLNET-MACOS-TOOLBOX BEGIN
 Include /usr/local/etc/httpd/exolnet/*
+Include /usr/local/etc/httpd/exolnet-vhosts/*
 # EXOLNET-MACOS-TOOLBOX END
 EOL
-    fi
 }
 
 function httpd_generate_user_conf()
 {
-cat > $HTTPD_ETC/exolnet/user.conf <<EOL
+    remove_insert_from_file $HTTPD_ETC/exolnet/user.conf
+
+cat >> $HTTPD_ETC/exolnet/user.conf <<EOL
 # EXOLNET-MACOS-TOOLBOX BEGIN
 <IfModule unixd_module>
     User $(whoami)

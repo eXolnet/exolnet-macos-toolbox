@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+#
+# Script setup
+#
+
+# Define eXolnet directory if not set
+if [ -z "$EXOLNET" ]; then
+    EXOLNET="$HOME/.exolnet"
+fi
+
+# Check if eXolnet directory exists
+if [ ! -d "$EXOLNET" ]; then
+    echo "Directory ~/.exolnet does not exists, exiting ..."
+    exit 1
+fi
+
+#
+# Script execution
+#
+
+$EXOLNET/install

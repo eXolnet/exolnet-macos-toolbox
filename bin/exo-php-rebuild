@@ -1,0 +1,88 @@
+#!/usr/bin/env bash
+
+#
+# Script setup
+#
+
+# Define eXolnet directory if not set
+if [ -z "$EXOLNET" ]; then
+    EXOLNET="$HOME/.exolnet"
+fi
+
+# Check if eXolnet directory exists
+if [ ! -d "$EXOLNET" ]; then
+    echo "Directory ~/.exolnet does not exists, exiting ..."
+    exit 1
+fi
+
+# Source helpers
+. $EXOLNET/lib/header
+. $EXOLNET/lib/utils
+. $EXOLNET/lib/brew
+. $EXOLNET/lib/httpd
+. $EXOLNET/lib/php
+
+#
+# Script checks
+#
+
+# Check if command was ran as root.
+if [[ $(id -u) -eq 0 ]]; then
+    echo
+    echo "The command \"`basename \"$0\"`\" should not be executed as root or via sudo directly."
+    echo "When a command requires root access, you will be prompted for a password as needed."
+    exit 1
+fi
+
+#
+# Script execution
+#
+
+e_header "Reinstalling and reconfiguring apache"
+safe_execute "sudo apachectl stop" "Stopped built-in apache" "Failed to stop built-in apache"
+safe_execute "sudo launchctl unload -w /System/Library/LaunchDaemons/org.apache.httpd.plist" "Disabled built-in apache" "Failed to disable built-in apache"
+create_directory "$HOME/Sites"
+brew_install httpd # We don't actually need to reinstall httpd until proven otherwise
+safe_execute "httpd_replace_listen_80" "Changed listen port 8080 -> 80" "Failed to change listen port 8080 -> 80"
+safe_execute "httpd_replace_listen_443" "Changed listen port 8443 -> 443" "Failed to change listen port 8443 -> 443"
+safe_execute "httpd_disable_mpm_event_module" "Disabled mpm event module in httpd" "Failed to disable mpm event module in httpd"
+safe_execute "httpd_enable_mpm_prefork_module" "Enabled mpm prefork module in httpd" "Failed to enable mpm prefork module in httpd"
+create_directory "$HTTPD_ETC/exolnet"
+create_directory "$HTTPD_ETC/exolnet-vhosts"
+safe_execute "httpd_add_include_exolnet" "Added exolnet include directive" "Failed to add exolnet include directive"
+remove_file "$HTTPD_ETC/exolnet/directory.conf" # File was renamed to 000-default.conf
+process_recursive "link_file" "$EXOLNET/conf/httpd" "$HTTPD_ETC/exolnet"
+process_recursive "link_file" "$EXOLNET/conf/httpd_vhosts" "$HTTPD_ETC/exolnet-vhosts"
+safe_execute "httpd_generate_user_conf" "Generated user conf file" "Failed to generate user conf file"
+link_file "$HOME/Sites" "$HTTPD_WWW"
+sudo_brew_restart httpd
+
+e_header "Reinstalling and reconfiguring php"
+brew_reinstall homebrew/php/php56 --with-httpd --build-from-source
+brew_reinstall homebrew/php/php56-imagick --build-from-source
+brew_reinstall homebrew/php/php56-mcrypt --build-from-source
+brew_reinstall homebrew/php/php56-xdebug --build-from-source
+brew_unlink php56
+brew_reinstall homebrew/php/php70 --with-httpd --build-from-source
+brew_reinstall homebrew/php/php70-imagick --build-from-source
+brew_reinstall homebrew/php/php70-mcrypt --build-from-source
+brew_reinstall homebrew/php/php70-xdebug --build-from-source
+brew_unlink php70
+brew_reinstall homebrew/php/php71 --with-httpd --build-from-source
+brew_reinstall homebrew/php/php71-imagick --build-from-source
+brew_reinstall homebrew/php/php71-mcrypt --build-from-source
+brew_reinstall homebrew/php/php71-xdebug --build-from-source
+brew_unlink php71
+brew_reinstall homebrew/php/php72 --with-httpd --build-from-source
+brew_reinstall homebrew/php/php72-imagick --build-from-source
+# brew_reinstall homebrew/php/php72-xdebug --build-from-source # FIXME: Not available yet
+brew_unlink php72
+brew_install homebrew/php/composer
+brew_install homebrew/php/php-code-sniffer
+safe_execute "httpd_disable_php_module" "Disabled php module in httpd" "Failed to disable php module in httpd"
+brew_link php71
+link_file "$EXOLNET/conf/httpd_php/php71.conf" "$HTTPD_ETC/exolnet/php.conf"
+sudo_brew_restart httpd
+safe_execute "php_create_phpinfo" "Created phpinfo.php file" "Failed to create phpinfo.php file"
+
+e_header "All done!"
