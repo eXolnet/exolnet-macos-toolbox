@@ -38,7 +38,11 @@ fi
 # Script execution
 #
 
-# TODO: See TODO.md
+# FIXME: This script need to be fixed
+echo
+e_error "This script has been temporarily disabled since it is not producing the expected result."
+e_arrow "Please use 'brew upgrade' instead."
+exit 1
 
 e_header "Warming up"
 
@@ -102,7 +106,7 @@ if echo "$outdated" | egrep -q "^homebrew/php/php72"; then
 
     brew_reinstall homebrew/php/php72 --with-httpd --build-from-source
     brew_reinstall homebrew/php/php72-imagick --build-from-source
-    # brew_reinstall homebrew/php/php72-xdebug --build-from-source # FIXME: Not available yet
+    brew_reinstall homebrew/php/php72-xdebug --build-from-source
     brew_unlink php72
 fi
 
