@@ -106,7 +106,7 @@ if echo "$outdated" | egrep -q "^homebrew/php/php72"; then
 
     brew_reinstall homebrew/php/php72 --with-httpd --build-from-source
     brew_reinstall homebrew/php/php72-imagick --build-from-source
-    # brew_reinstall homebrew/php/php72-xdebug --build-from-source # FIXME: Not available yet
+    brew_reinstall homebrew/php/php72-xdebug --build-from-source
     brew_unlink php72
 fi
 
