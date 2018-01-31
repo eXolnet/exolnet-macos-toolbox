@@ -17,6 +17,7 @@ bash -c "$(curl -fsSL https://raw.githubusercontent.com/eXolnet/exolnet-macos-to
 Starting v1.2.0:
 
 ```bash
+exo-brew-update
 exo-self-update
 exo-self-reinstall
 ```
@@ -24,6 +25,7 @@ exo-self-reinstall
 Before v1.2.0:
 
 ```bash
+brew update && brew upgrade
 cd ~/.exolnet/
 git pull
 ./bin/exo-self-update
