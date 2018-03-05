@@ -41,7 +41,7 @@ fi
 # FIXME: This script need to be fixed
 echo
 e_error "This script has been temporarily disabled since it is not producing the expected result."
-e_arrow "Please use 'brew upgrade' instead."
+e_arrow "Please use 'brew update && brew upgrade' instead."
 exit 1
 
 e_header "Warming up"
