@@ -58,6 +58,10 @@ link_file "$HOME/Sites" "$HTTPD_WWW"
 sudo_brew_restart httpd
 
 e_header "Reinstalling and reconfiguring php"
+brew_unlink php56
+brew_unlink php70
+brew_unlink php71
+brew_unlink php72
 brew_reinstall homebrew/php/php56 --with-httpd --build-from-source
 brew_reinstall homebrew/php/php56-imagick --build-from-source
 brew_reinstall homebrew/php/php56-mcrypt --build-from-source
@@ -73,9 +77,9 @@ brew_reinstall homebrew/php/php71-imagick --build-from-source
 brew_reinstall homebrew/php/php71-mcrypt --build-from-source
 brew_reinstall homebrew/php/php71-xdebug --build-from-source
 brew_unlink php71
-brew_reinstall homebrew/php/php72 --with-httpd --build-from-source
-brew_reinstall homebrew/php/php72-imagick --build-from-source
-brew_reinstall homebrew/php/php72-xdebug --build-from-source
+brew_reinstall php # Replace php72
+brew_reinstall homebrew/php/php72-imagick
+brew_reinstall homebrew/php/php72-xdebug
 brew_unlink php72
 brew_install homebrew/php/composer
 brew_install homebrew/php/php-code-sniffer

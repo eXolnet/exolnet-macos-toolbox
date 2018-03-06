@@ -42,7 +42,7 @@ exo-self-reinstall
 
 ## Caveats
 
-* Before running, make sure to run `brew upgrade` if you already have Homebrew installed
+* Before running, make sure to run `brew update && brew upgrade` if you already have Homebrew installed
   * If you have exolnet-macos-toolbox installed, use `exo-brew-update` instead
 * Before installing, make sure to run `xcode-select --install`
 * Before installing (first run only), make sure to remove the following package manually:

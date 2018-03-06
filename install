@@ -107,9 +107,9 @@ brew_install homebrew/php/php71-imagick --build-from-source
 brew_install homebrew/php/php71-mcrypt --build-from-source
 brew_install homebrew/php/php71-xdebug --build-from-source
 brew_unlink php71
-brew_install homebrew/php/php72 --with-httpd --build-from-source
-brew_install homebrew/php/php72-imagick --build-from-source
-brew_install homebrew/php/php72-xdebug --build-from-source
+brew_install php # Replace php72
+brew_install homebrew/php/php72-imagick
+brew_install homebrew/php/php72-xdebug
 brew_unlink php72
 brew_install homebrew/php/composer
 brew_install homebrew/php/php-code-sniffer
