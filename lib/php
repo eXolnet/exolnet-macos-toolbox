@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+PHP_ETC="/usr/local/etc/php"
+
 function php_create_phpinfo()
 {
 cat > $HOME/Sites/phpinfo.php <<EOL
@@ -12,4 +14,18 @@ EOL
 function php_get_current_version()
 {
     php -r "error_reporting(0); echo 'php'.str_replace('.', '', substr(phpversion(), 0, 3));"
+}
+
+function php_enable_xdebug_remote_debugger()
+{
+    local version=$1
+    local file="$PHP_ETC/$version/conf.d/ext-xdebug.ini"
+
+    remove_insert_from_file $file
+
+cat >> $file <<EOL
+# EXOLNET-MACOS-TOOLBOX BEGIN
+xdebug.remote_enable=1
+# EXOLNET-MACOS-TOOLBOX END
+EOL
 }
