@@ -96,20 +96,24 @@ brew_install homebrew/php/php56 --with-httpd --build-from-source
 brew_install homebrew/php/php56-imagick --build-from-source
 brew_install homebrew/php/php56-mcrypt --build-from-source
 brew_install homebrew/php/php56-xdebug --build-from-source
+safe_execute "php_enable_xdebug_remote_debugger 5.6" "Enabled php56 xdebug remote debugger" "Failed to enable php56 xdebug remote debugger"
 brew_unlink php56
 brew_install homebrew/php/php70 --with-httpd --build-from-source
 brew_install homebrew/php/php70-imagick --build-from-source
 brew_install homebrew/php/php70-mcrypt --build-from-source
 brew_install homebrew/php/php70-xdebug --build-from-source
+safe_execute "php_enable_xdebug_remote_debugger 7.0" "Enabled php70 xdebug remote debugger" "Failed to enable php70 xdebug remote debugger"
 brew_unlink php70
 brew_install homebrew/php/php71 --with-httpd --build-from-source
 brew_install homebrew/php/php71-imagick --build-from-source
 brew_install homebrew/php/php71-mcrypt --build-from-source
 brew_install homebrew/php/php71-xdebug --build-from-source
+safe_execute "php_enable_xdebug_remote_debugger 7.1" "Enabled php71 xdebug remote debugger" "Failed to enable php71 xdebug remote debugger"
 brew_unlink php71
 brew_install php # Replace php72
 brew_install homebrew/php/php72-imagick
 brew_install homebrew/php/php72-xdebug
+safe_execute "php_enable_xdebug_remote_debugger 7.2" "Enabled php72 xdebug remote debugger" "Failed to enable php72 xdebug remote debugger"
 brew_unlink php72
 brew_install homebrew/php/composer
 brew_install homebrew/php/php-code-sniffer
