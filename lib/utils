@@ -121,3 +121,11 @@ function remove_insert_from_file()
     # See: https://nixtricks.wordpress.com/2013/01/09/sed-delete-the-lines-lying-in-between-two-patterns/
     /usr/bin/sed -i '' '/# EXOLNET-MACOS-TOOLBOX BEGIN/,/# EXOLNET-MACOS-TOOLBOX END/d' $file
 }
+
+function remove_insert_from_file2()
+{
+    local file=$1
+
+    # See: https://nixtricks.wordpress.com/2013/01/09/sed-delete-the-lines-lying-in-between-two-patterns/
+    /usr/bin/sed -i '' '/; EXOLNET-MACOS-TOOLBOX BEGIN/,/; EXOLNET-MACOS-TOOLBOX END/d' $file
+}
