@@ -21,11 +21,11 @@ function php_enable_xdebug_remote_debugger()
     local version=$1
     local file="$PHP_ETC/$version/conf.d/ext-xdebug.ini"
 
-    remove_insert_from_file $file
+    remove_insert_from_file2 $file
 
 cat >> $file <<EOL
-# EXOLNET-MACOS-TOOLBOX BEGIN
+; EXOLNET-MACOS-TOOLBOX BEGIN
 xdebug.remote_enable=1
-# EXOLNET-MACOS-TOOLBOX END
+; EXOLNET-MACOS-TOOLBOX END
 EOL
 }
