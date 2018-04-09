@@ -117,6 +117,7 @@ safe_execute "php_enable_xdebug_remote_debugger 7.2" "Enabled php72 xdebug remot
 brew_unlink php72
 brew_install homebrew/php/composer
 brew_install homebrew/php/php-code-sniffer
+brew_install wp-cli
 safe_execute "httpd_disable_php_module" "Disabled php module in httpd" "Failed to disable php module in httpd"
 brew_link php71
 link_file "$EXOLNET/conf/httpd_php/php71.conf" "$HTTPD_ETC/exolnet/php.conf"
