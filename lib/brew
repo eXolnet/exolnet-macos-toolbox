@@ -118,3 +118,10 @@ function sudo_brew_restart()
 
     safe_execute "sudo brew services restart $service" "Restarted $service" "Failed to restarted $service"
 }
+
+function cask_install()
+{
+    local formula=$@
+
+    safe_execute "brew cask install $formula" "Installed cask $formula" "Failed to install cask $formula"
+}
