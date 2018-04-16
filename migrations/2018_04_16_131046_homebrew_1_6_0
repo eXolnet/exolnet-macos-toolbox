@@ -1,0 +1,65 @@
+#!/usr/bin/env bash
+
+e_header "Warming up"
+brew_update
+
+e_header "Untapping deprecated taps"
+brew_is_tapped homebrew/apache && brew_untap homebrew/apache
+brew_is_tapped homebrew/php && brew_untap homebrew/php
+
+e_header "Uninstalling all php versions and extensions"
+brew_is_installed php56-imagick && brew_uninstall php56-imagick
+brew_is_installed php56-mcrypt && brew_uninstall php56-mcrypt
+brew_is_installed php56-xdebug && brew_uninstall php56-xdebug
+brew_is_installed php56 && brew_uninstall php56
+brew_is_installed php70-imagick && brew_uninstall php70-imagick
+brew_is_installed php70-mcrypt && brew_uninstall php70-mcrypt
+brew_is_installed php70-xdebug && brew_uninstall php70-xdebug
+brew_is_installed php70 && brew_uninstall php70
+brew_is_installed php71-imagick && brew_uninstall php71-imagick
+brew_is_installed php71-mcrypt && brew_uninstall php71-mcrypt
+brew_is_installed php71-xdebug && brew_uninstall php71-xdebug
+brew_is_installed php71 && brew_uninstall php71
+brew_is_installed php72-imagick && brew_uninstall php72-imagick
+brew_is_installed php72-mcrypt && brew_uninstall php72-mcrypt
+brew_is_installed php72-xdebug && brew_uninstall php72-xdebug
+brew_is_installed php72 && brew_uninstall php72
+brew_is_installed php@5.6 && brew_uninstall php@5.6
+brew_is_installed php@7.0 && brew_uninstall php@7.0
+brew_is_installed php@7.1 && brew_uninstall php@7.1
+brew_is_installed php@7.2 && brew_uninstall php@7.2
+
+e_header "Removing all php leftover"
+backup_file_if_exists /usr/local/Cellar/php56-imagick
+backup_file_if_exists /usr/local/Cellar/php56-mcrypt
+backup_file_if_exists /usr/local/Cellar/php56-xdebug
+backup_file_if_exists /usr/local/Cellar/php56
+backup_file_if_exists /usr/local/Cellar/php70-imagick
+backup_file_if_exists /usr/local/Cellar/php70-mcrypt
+backup_file_if_exists /usr/local/Cellar/php70-xdebug
+backup_file_if_exists /usr/local/Cellar/php70
+backup_file_if_exists /usr/local/Cellar/php71-imagick
+backup_file_if_exists /usr/local/Cellar/php71-mcrypt
+backup_file_if_exists /usr/local/Cellar/php71-xdebug
+backup_file_if_exists /usr/local/Cellar/php71
+backup_file_if_exists /usr/local/Cellar/php72-imagick
+backup_file_if_exists /usr/local/Cellar/php72-mcrypt
+backup_file_if_exists /usr/local/Cellar/php72-xdebug
+backup_file_if_exists /usr/local/Cellar/php72
+backup_file_if_exists /usr/local/Cellar/php@5.6
+backup_file_if_exists /usr/local/Cellar/php@7.0
+backup_file_if_exists /usr/local/Cellar/php@7.1
+backup_file_if_exists /usr/local/Cellar/php@7.2 # should not exists
+backup_file_if_exists /usr/local/Cellar/php
+backup_file_if_exists /usr/local/lib/php
+backup_file_if_exists /usr/local/etc/php/5.6
+backup_file_if_exists /usr/local/etc/php/7.0
+backup_file_if_exists /usr/local/etc/php/7.1
+backup_file_if_exists /usr/local/etc/php/7.2
+backup_file_if_exists /usr/local/etc/httpd/exolnet/php.conf # not doing this will prevent clean reinstall
+
+e_header "Caveats"
+e_arrow "You may want to run 'brew prune --dry-run' to remove broken stuff"
+e_arrow "You must to run 'brew upgrade' to upgrade all formulae"
+e_arrow "You definitely want to run 'brew cleanup --dry-run' to remove old stuff and free space"
+e_arrow "You need to run 'exo-self-reinstall' to reinstall php and extensions"
