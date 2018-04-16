@@ -38,14 +38,7 @@ fi
 # Script execution
 #
 
-# FIXME: This script need to be fixed
-echo
-e_error "This script has been temporarily disabled since it is not producing the expected result."
-e_arrow "Please use 'brew update && brew upgrade' instead."
-exit 1
-
 e_header "Warming up"
-
 brew_update
 
 outdated=$(brew outdated --quiet)
@@ -57,92 +50,23 @@ if [ -z "$outdated" ]; then
     exit
 fi
 
-echo "$outdated" | egrep -q "^httpd$" && httpd=1
-echo "$outdated" | egrep -q "^(homebrew/)?php" && php=1
-
 e_header "Upgrading formulae"
+brew_is_installed php@5.6 && brew_unlink php@5.6
+brew_is_installed php@7.0 && brew_unlink php@7.0
+brew_is_installed php@7.1 && brew_unlink php@7.1
+brew_is_installed php@7.2 && brew_unlink php@7.2
+brew_upgrade_all
 
-for formula in $(echo "$outdated" | egrep -v "^(homebrew/)?php"); do
-    brew_upgrade "$formula"
-done
-
-#brew_unlink php56
-#brew_unlink php70
-#brew_unlink php71
-#brew_unlink php72
-
-if echo "$outdated" | egrep -q "^homebrew/php/php56"; then
-    e_header "Upgrading php56"
-
-    brew_reinstall homebrew/php/php56 --with-httpd --build-from-source
-    brew_reinstall homebrew/php/php56-imagick --build-from-source
-    brew_reinstall homebrew/php/php56-mcrypt --build-from-source
-    brew_reinstall homebrew/php/php56-xdebug --build-from-source
-    safe_execute "php_enable_xdebug_remote_debugger 5.6" "Enabled php56 xdebug remote debugger" "Failed to enable php56 xdebug remote debugger"
-    brew_unlink php56
-fi
-
-if echo "$outdated" | egrep -q "^homebrew/php/php70"; then
-    e_header "Upgrading php70"
-
-    brew_reinstall homebrew/php/php70 --with-httpd --build-from-source
-    brew_reinstall homebrew/php/php70-imagick --build-from-source
-    brew_reinstall homebrew/php/php70-mcrypt --build-from-source
-    brew_reinstall homebrew/php/php70-xdebug --build-from-source
-    safe_execute "php_enable_xdebug_remote_debugger 7.0" "Enabled php70 xdebug remote debugger" "Failed to enable php70 xdebug remote debugger"
-    brew_unlink php70
-fi
-
-if echo "$outdated" | egrep -q "^homebrew/php/php71"; then
-    e_header "Upgrading php71"
-
-    brew_reinstall homebrew/php/php71 --with-httpd --build-from-source
-    brew_reinstall homebrew/php/php71-imagick --build-from-source
-    brew_reinstall homebrew/php/php71-mcrypt --build-from-source
-    brew_reinstall homebrew/php/php71-xdebug --build-from-source
-    safe_execute "php_enable_xdebug_remote_debugger 7.1" "Enabled php71 xdebug remote debugger" "Failed to enable php71 xdebug remote debugger"
-    brew_unlink php71
-fi
-
-if echo "$outdated" | egrep -q "^php"; then
-    e_header "Upgrading php72"
-
-    brew_reinstall php # Replace php72
-    brew_reinstall homebrew/php/php72-imagick
-    brew_reinstall homebrew/php/php72-xdebug
-    safe_execute "php_enable_xdebug_remote_debugger 7.2" "Enabled php72 xdebug remote debugger" "Failed to enable php72 xdebug remote debugger"
-    brew_unlink php72
-fi
-
-outdated=$(brew outdated --quiet)
-
-if [ -n "$outdated" ]; then
-    e_header "Upgrading remaining formulae"
-
-    for formula in $(echo "$outdated"); do
-        brew_upgrade "$formula"
-    done
-fi
-
-if [[ "$httpd" -eq 1 ]]; then
-    e_header "Reconfiguring apache"
-
-    safe_execute "httpd_replace_listen_80" "Changed listen port 8080 -> 80" "Failed to change listen port 8080 -> 80"
-    safe_execute "httpd_replace_listen_443" "Changed listen port 8443 -> 443" "Failed to change listen port 8443 -> 443"
-    safe_execute "httpd_disable_mpm_event_module" "Disabled mpm event module in httpd" "Failed to disable mpm event module in httpd"
-    safe_execute "httpd_enable_mpm_prefork_module" "Enabled mpm prefork module in httpd" "Failed to enable mpm prefork module in httpd"
-    safe_execute "httpd_add_include_exolnet" "Added exolnet include directive" "Failed to add exolnet include directive"
-    safe_execute "httpd_generate_user_conf" "Generated user conf file" "Failed to generate user conf file"
-    sudo_brew_restart httpd
-fi
-
-if [[ "$php" -eq 1 ]]; then
-    e_header "Reconfiguring php"
-
-    safe_execute "httpd_disable_php_module" "Disabled php module in httpd" "Failed to disable php module in httpd"
-    brew_link php71
-    link_file "$EXOLNET/conf/httpd_php/php71.conf" "$HTTPD_ETC/exolnet/php.conf"
-    sudo_brew_restart httpd
-fi
+e_header "Reconfiguring apache and php"
+safe_execute "httpd_replace_listen_80" "Changed listen port 8080 -> 80" "Failed to change listen port 8080 -> 80"
+safe_execute "httpd_replace_listen_443" "Changed listen port 8443 -> 443" "Failed to change listen port 8443 -> 443"
+safe_execute "httpd_disable_mpm_event_module" "Disabled mpm event module in httpd" "Failed to disable mpm event module in httpd"
+safe_execute "httpd_enable_mpm_prefork_module" "Enabled mpm prefork module in httpd" "Failed to enable mpm prefork module in httpd"
+safe_execute "httpd_add_include_exolnet" "Added exolnet include directive" "Failed to add exolnet include directive"
+safe_execute "httpd_generate_user_conf" "Generated user conf file" "Failed to generate user conf file"
+safe_execute "httpd_disable_php_module" "Disabled php module in httpd" "Failed to disable php module in httpd"
+brew_link php@7.1
+link_file "$EXOLNET/conf/httpd_php/php71.conf" "$HTTPD_ETC/exolnet/php.conf"
+sudo_brew_restart httpd
 
 e_header "All done!"
