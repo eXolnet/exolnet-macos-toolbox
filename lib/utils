@@ -52,6 +52,13 @@ function backup_file()
     safe_execute "mv $file $BACKUP_DIR" "Backed up $file" "Failed to backup $file" "e_arrow"
 }
 
+function backup_file_if_exists()
+{
+    local file=$1
+
+    [ -e "$file" ] && backup_file "$file"
+}
+
 function create_directory()
 {
     local directory=$1

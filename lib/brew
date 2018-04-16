@@ -40,11 +40,34 @@ function brew_reinstall()
     HOMEBREW_NO_AUTO_UPDATE=1 safe_execute "brew reinstall $formula" "Installed $formula" "Failed to install $formula"
 }
 
+function brew_is_installed()
+{
+    local formula=$@
+
+    brew ls --verbose "$formula" &> /dev/null
+
+    return $?
+}
+
+function brew_uninstall()
+{
+    local formula=$@
+
+    safe_execute "brew uninstall $formula" "Uninstalled $formula" "Failed to uninstall $formula"
+}
+
 function brew_link()
 {
     local formula=$@
 
     safe_execute "brew link $formula" "Linked $formula" "Failed to link $formula"
+}
+
+function brew_link_force()
+{
+    local formula=$@
+
+    safe_execute "brew link --overwrite --force $formula" "Linked $formula" "Failed to link $formula"
 }
 
 function brew_unlink()
