@@ -1,0 +1,81 @@
+#!/usr/bin/env bash
+
+#
+# Script setup
+#
+
+# Define eXolnet directory if not set
+if [ -z "$EXOLNET" ]; then
+    EXOLNET="$HOME/.exolnet"
+fi
+
+# Check if eXolnet directory exists
+if [ ! -d "$EXOLNET" ]; then
+    echo "Directory ~/.exolnet does not exists, exiting ..."
+    exit 1
+fi
+
+# Source helpers
+. $EXOLNET/lib/header
+. $EXOLNET/lib/utils
+. $EXOLNET/lib/brew
+
+#
+# Script checks
+#
+
+# Check if command was ran as root.
+if [[ $(id -u) -eq 0 ]]; then
+    echo
+    echo "The command \"`basename \"$0\"`\" should not be executed as root or via sudo directly."
+    echo "When a command requires root access, you will be prompted for a password as needed."
+    exit 1
+fi
+
+#
+# Script execution
+#
+
+# If backups are needed, this is where they'll go
+BACKUP_DIR="$EXOLNET/backups/$(date "+%Y%m%d-%H%M%S")"
+BACKUP=
+
+MIGRATIONS=$(ls $MIGRATIONS_DIR)
+MIGRATED=
+
+if [ ! -d "$STORAGE_MIGRATIONS_DIR" ]; then
+    e_header "Warming up"
+    create_directory "$STORAGE_MIGRATIONS_DIR"
+fi
+
+for migration in $MIGRATIONS; do
+    if [ ! -e "$STORAGE_MIGRATIONS_DIR/$migration" ]; then
+        if [ "$MIGRATED" ]; then
+            echo
+            ask_yes_no "Continue with other migrations?" || break
+        fi
+
+        echo -e "\n\033[32mMigrating:\033[0m $migration"
+
+        INDENT="   "
+        . $MIGRATIONS_DIR/$migration
+        INDENT=
+
+        touch "$STORAGE_MIGRATIONS_DIR/$migration"
+        MIGRATED=true
+    fi
+done
+
+if [ "$MIGRATED" ]; then
+    # Display if backups were made
+    if [ "$BACKUP" ]; then
+        e_header "Backups"
+        e_arrow "Existing files were moved to $BACKUP_DIR"
+    fi
+
+    e_header "All done!"
+else
+    e_header "Nothing to migrate."
+fi
+
+

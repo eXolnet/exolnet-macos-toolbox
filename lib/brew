@@ -82,6 +82,29 @@ function brew_unlink()
     safe_execute "brew unlink $formula" "Unlinked $formula" "Failed to unlink $formula"
 }
 
+function brew_tap()
+{
+    local tap=$@
+
+    HOMEBREW_NO_AUTO_UPDATE=1 safe_execute "brew tap $tap" "Tapped $tap" "Failed to tap $tap"
+}
+
+function brew_is_tapped()
+{
+    local tap=$@
+
+    HOMEBREW_NO_AUTO_UPDATE=1 brew tap | grep -q "$tap" &> /dev/null
+
+    return $?
+}
+
+function brew_untap()
+{
+    local tap=$@
+
+    safe_execute "brew untap $tap" "Untapped $tap" "Failed to untap $tap"
+}
+
 function brew_restart()
 {
     local service=$1
