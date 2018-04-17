@@ -2,6 +2,114 @@
 
 PHP_ETC="/usr/local/etc/php"
 
+function pecl_update_channels()
+{
+    safe_execute "pecl update-channels" "Updated pecl channels" "Failed to update pecl channels"
+}
+
+# we have execute that in a separate function or the pipe won't work
+# `yes` command is required to run in non interactive, because pecl might ask questions
+function _pecl()
+{
+    yes '' | pecl $@
+}
+
+function pecl_install()
+{
+    local version=$1
+    local package=$2
+    local extra=${3:+-${3}} # if $3 is define, return "-$3"
+    local file=${package}.so
+
+    if [ -f "$(php_get_extension_path $version)/$file" ]; then
+        e_success "Installed $package"
+    else
+        pecl_reinstall $@
+    fi
+}
+
+function pecl_reinstall()
+{
+    local version=$1
+    local package=$2
+    local extra=${3:+-${3}} # if $3 is define, return "-$3"
+    local file=${package}.so
+
+    safe_execute "_pecl install --force ${package}${extra}" "Installed $package" "Failed to install $package"
+
+    php_copy_extension "$version" "$file"
+}
+
+function php_get_extension_path()
+{
+    local version=$1
+
+    local opt_prefix="$(brew --prefix php@$version)"
+    local extension_dir="$(php-config --extension-dir)" # or `pecl config-get ext_dir`
+    local php_basename="$(basename $extension_dir)"
+
+    echo "$opt_prefix/lib/php/$php_basename"
+}
+
+function php_copy_extension()
+{
+    local version=$1
+    local extension=$2
+
+    local src="$(pecl config-get ext_dir)/$extension"
+    local dest="$(php_get_extension_path $version)/$extension"
+
+    copy_file "$src" "$dest"
+}
+
+function php_remove_imagick_extension_from_php_ini()
+{
+    local version=$1
+    local file="$PHP_ETC/$version/php.ini"
+
+    /usr/bin/sed -i '' '/extension="imagick.so"/d' $file
+}
+
+function php_remove_xdebug_extension_from_php_ini()
+{
+    local version=$1
+    local file="$PHP_ETC/$version/php.ini"
+
+    /usr/bin/sed -i '' '/zend_extension="xdebug.so"/d' $file
+}
+
+function php_configure_imagick()
+{
+    local version=$1
+    local file="$PHP_ETC/$version/conf.d/exolnet-ext-imagick.ini"
+
+    remove_insert_from_file2 $file
+
+cat >> $file <<EOL
+; EXOLNET-MACOS-TOOLBOX BEGIN
+[imagick]
+extension="$(php_get_extension_path $version)/imagick.so"
+; EXOLNET-MACOS-TOOLBOX END
+EOL
+}
+
+function php_configure_xdebug()
+{
+    local version=$1
+    local file="$PHP_ETC/$version/conf.d/exolnet-ext-xdebug.ini"
+
+    remove_insert_from_file2 $file
+
+cat >> $file <<EOL
+; EXOLNET-MACOS-TOOLBOX BEGIN
+[xdebug]
+zend_extension="$(php_get_extension_path $version)/xdebug.so"
+xdebug.remote_enable=1
+xdebug.idekey=PHPSTORM
+; EXOLNET-MACOS-TOOLBOX END
+EOL
+}
+
 function php_create_phpinfo()
 {
 cat > $HOME/Sites/phpinfo.php <<EOL
@@ -16,16 +124,27 @@ function php_get_current_version()
     php -r "error_reporting(0); echo 'php'.str_replace('.', '', substr(phpversion(), 0, 3));"
 }
 
-function php_enable_xdebug_remote_debugger()
+function php_convert_version_to_homebrew()
 {
-    local version=$1
-    local file="$PHP_ETC/$version/conf.d/ext-xdebug.ini"
+    case "$1" in
+        php56)
+            echo 'php@5.6'
+            ;;
 
-    remove_insert_from_file2 $file
+        php70)
+            echo 'php@7.0'
+            ;;
 
-cat >> $file <<EOL
-; EXOLNET-MACOS-TOOLBOX BEGIN
-xdebug.remote_enable=1
-; EXOLNET-MACOS-TOOLBOX END
-EOL
+        php71)
+            echo 'php@7.1'
+            ;;
+
+        php72)
+            echo 'php@7.2'
+            ;;
+
+        *)
+            echo 'phpinvalid'
+
+    esac
 }

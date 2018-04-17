@@ -19,6 +19,11 @@ function brew_update()
     safe_execute "brew update" "Updated brew" "Failed to update brew"
 }
 
+function brew_upgrade_all()
+{
+    HOMEBREW_NO_AUTO_UPDATE=1 safe_execute "brew upgrade" "Upgraded all formulae" "Failed to upgrade all formulae"
+}
+
 function brew_upgrade()
 {
     local formula=$@
@@ -40,6 +45,22 @@ function brew_reinstall()
     HOMEBREW_NO_AUTO_UPDATE=1 safe_execute "brew reinstall $formula" "Installed $formula" "Failed to install $formula"
 }
 
+function brew_is_installed()
+{
+    local formula=$@
+
+    brew ls --verbose "$formula" &> /dev/null
+
+    return $?
+}
+
+function brew_uninstall()
+{
+    local formula=$@
+
+    safe_execute "brew uninstall $formula" "Uninstalled $formula" "Failed to uninstall $formula"
+}
+
 function brew_link()
 {
     local formula=$@
@@ -47,11 +68,41 @@ function brew_link()
     safe_execute "brew link $formula" "Linked $formula" "Failed to link $formula"
 }
 
+function brew_link_force()
+{
+    local formula=$@
+
+    safe_execute "brew link --overwrite --force $formula" "Linked $formula" "Failed to link $formula"
+}
+
 function brew_unlink()
 {
     local formula=$@
 
     safe_execute "brew unlink $formula" "Unlinked $formula" "Failed to unlink $formula"
+}
+
+function brew_tap()
+{
+    local tap=$@
+
+    HOMEBREW_NO_AUTO_UPDATE=1 safe_execute "brew tap $tap" "Tapped $tap" "Failed to tap $tap"
+}
+
+function brew_is_tapped()
+{
+    local tap=$@
+
+    HOMEBREW_NO_AUTO_UPDATE=1 brew tap | grep -q "$tap" &> /dev/null
+
+    return $?
+}
+
+function brew_untap()
+{
+    local tap=$@
+
+    safe_execute "brew untap $tap" "Untapped $tap" "Failed to untap $tap"
 }
 
 function brew_restart()
@@ -66,4 +117,11 @@ function sudo_brew_restart()
     local service=$1
 
     safe_execute "sudo brew services restart $service" "Restarted $service" "Failed to restarted $service"
+}
+
+function cask_install()
+{
+    local formula=$@
+
+    safe_execute "brew cask install $formula" "Installed cask $formula" "Failed to install cask $formula"
 }

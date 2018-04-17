@@ -92,33 +92,57 @@ link_file "$HOME/Sites" "$HTTPD_WWW"
 sudo_brew_restart httpd
 
 e_header "Installing and configuring php"
-brew_install homebrew/php/php56 --with-httpd --build-from-source
-brew_install homebrew/php/php56-imagick --build-from-source
-brew_install homebrew/php/php56-mcrypt --build-from-source
-brew_install homebrew/php/php56-xdebug --build-from-source
-safe_execute "php_enable_xdebug_remote_debugger 5.6" "Enabled php56 xdebug remote debugger" "Failed to enable php56 xdebug remote debugger"
-brew_unlink php56
-brew_install homebrew/php/php70 --with-httpd --build-from-source
-brew_install homebrew/php/php70-imagick --build-from-source
-brew_install homebrew/php/php70-mcrypt --build-from-source
-brew_install homebrew/php/php70-xdebug --build-from-source
-safe_execute "php_enable_xdebug_remote_debugger 7.0" "Enabled php70 xdebug remote debugger" "Failed to enable php70 xdebug remote debugger"
-brew_unlink php70
-brew_install homebrew/php/php71 --with-httpd --build-from-source
-brew_install homebrew/php/php71-imagick --build-from-source
-brew_install homebrew/php/php71-mcrypt --build-from-source
-brew_install homebrew/php/php71-xdebug --build-from-source
-safe_execute "php_enable_xdebug_remote_debugger 7.1" "Enabled php71 xdebug remote debugger" "Failed to enable php71 xdebug remote debugger"
-brew_unlink php71
-brew_install php # Replace php72
-brew_install homebrew/php/php72-imagick
-brew_install homebrew/php/php72-xdebug
-safe_execute "php_enable_xdebug_remote_debugger 7.2" "Enabled php72 xdebug remote debugger" "Failed to enable php72 xdebug remote debugger"
-brew_unlink php72
-brew_install homebrew/php/composer
-brew_install homebrew/php/php-code-sniffer
+brew_is_installed php@5.6 && brew_unlink php@5.6
+brew_is_installed php@7.0 && brew_unlink php@7.0
+brew_is_installed php@7.1 && brew_unlink php@7.1
+brew_is_installed php@7.2 && brew_unlink php@7.2
+brew_install imagemagick
+brew_install pkg-config
+brew_install php@5.6
+brew_link_force php@5.6
+pecl_update_channels
+pecl_install 5.6 imagick
+pecl_install 5.6 xdebug 2.5.5 # latest version of xdebug do not support php56
+safe_execute "php_remove_imagick_extension_from_php_ini 5.6" "Removed php@5.6 imagick extension from php.ini" "Failed to remove php@5.6 imagick extension from php.ini"
+safe_execute "php_remove_xdebug_extension_from_php_ini 5.6" "Removed php@5.6 xdebug extension from php.ini" "Failed to remove php@5.6 xdebug extension from php.ini"
+safe_execute "php_configure_imagick 5.6" "Configured php@5.6 imagick extension" "Failed to configure php@5.6 imagick extension"
+safe_execute "php_configure_xdebug 5.6" "Configured php@5.6 xdebug extension" "Failed to configure php@5.6 xdebug extension"
+brew_unlink php@5.6
+brew_install php@7.0
+brew_link_force php@7.0
+pecl_update_channels
+pecl_install 7.0 imagick
+pecl_install 7.0 xdebug
+safe_execute "php_remove_imagick_extension_from_php_ini 7.0" "Removed php@7.0 imagick extension from php.ini" "Failed to remove php@7.0 imagick extension from php.ini"
+safe_execute "php_remove_xdebug_extension_from_php_ini 7.0" "Removed php@7.0 xdebug extension from php.ini" "Failed to remove php@7.0 xdebug extension from php.ini"
+safe_execute "php_configure_imagick 7.0" "Configured php@7.0 imagick extension" "Failed to configure php@7.0 imagick extension"
+safe_execute "php_configure_xdebug 7.0" "Configured php@7.0 xdebug extension" "Failed to configure php@7.0 xdebug extension"
+brew_unlink php@7.0
+brew_install php@7.1
+brew_link_force php@7.1
+pecl_update_channels
+pecl_install 7.1 imagick
+pecl_install 7.1 xdebug
+safe_execute "php_remove_imagick_extension_from_php_ini 7.1" "Removed php@7.1 imagick extension from php.ini" "Failed to remove php@7.1 imagick extension from php.ini"
+safe_execute "php_remove_xdebug_extension_from_php_ini 7.1" "Removed php@7.1 xdebug extension from php.ini" "Failed to remove php@7.1 xdebug extension from php.ini"
+safe_execute "php_configure_imagick 7.1" "Configured php@7.1 imagick extension" "Failed to configure php@7.1 imagick extension"
+safe_execute "php_configure_xdebug 7.1" "Configured php@7.1 xdebug extension" "Failed to configure php@7.1 xdebug extension"
+brew_unlink php@7.1
+brew_install php@7.2
+brew_link_force php@7.2
+pecl_update_channels
+pecl_install 7.2 imagick
+pecl_install 7.2 xdebug
+safe_execute "php_remove_imagick_extension_from_php_ini 7.2" "Removed php@7.2 imagick extension from php.ini" "Failed to remove php@7.2 imagick extension from php.ini"
+safe_execute "php_remove_xdebug_extension_from_php_ini 7.2" "Removed php@7.2 xdebug extension from php.ini" "Failed to remove php@7.2 xdebug extension from php.ini"
+safe_execute "php_configure_imagick 7.2" "Configured php@7.2 imagick extension" "Failed to configure php@7.2 imagick extension"
+safe_execute "php_configure_xdebug 7.2" "Configured php@7.2 xdebug extension" "Failed to configure php@7.2 xdebug extension"
+brew_unlink php@7.2
+brew_install composer
+brew_install php-code-sniffer
+brew_install wp-cli
 safe_execute "httpd_disable_php_module" "Disabled php module in httpd" "Failed to disable php module in httpd"
-brew_link php71
+brew_link_force php@7.1
 link_file "$EXOLNET/conf/httpd_php/php71.conf" "$HTTPD_ETC/exolnet/php.conf"
 sudo_brew_restart httpd
 safe_execute "php_create_phpinfo" "Created phpinfo.php file" "Failed to create phpinfo.php file"
@@ -149,6 +173,16 @@ completion_load
 
 e_header "Installing scripts"
 process_recursive "link_file" "$EXOLNET/bin" "/usr/local/bin"
+
+e_header "Applying migrations"
+create_directory "$STORAGE_MIGRATIONS_DIR"
+MIGRATIONS=$(ls $MIGRATIONS_DIR)
+for migration in $MIGRATIONS; do
+    if [ ! -e "$STORAGE_MIGRATIONS_DIR/$migration" ]; then
+        touch "$STORAGE_MIGRATIONS_DIR/$migration"
+        e_success "Marked migration $migration as already applied"
+    fi
+done
 
 # Display if backups were made
 if [ "$BACKUP" ]; then
