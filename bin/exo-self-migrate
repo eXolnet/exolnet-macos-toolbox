@@ -19,6 +19,11 @@ fi
 . $EXOLNET/lib/header
 . $EXOLNET/lib/utils
 . $EXOLNET/lib/brew
+. $EXOLNET/lib/mysql
+. $EXOLNET/lib/httpd
+. $EXOLNET/lib/php
+. $EXOLNET/lib/node
+. $EXOLNET/lib/completion
 
 #
 # Script checks

@@ -15,6 +15,7 @@ bash -c "$(curl -fsSL https://raw.githubusercontent.com/eXolnet/exolnet-macos-to
 ## Update
 
 Starting v1.4.0:
+
 ```bash
 exo-self-update
 exo-self-migrate
