@@ -78,6 +78,22 @@ function php_remove_xdebug_extension_from_php_ini()
     /usr/bin/sed -i '' '/zend_extension="xdebug.so"/d' $file
 }
 
+function php_configure_timezone()
+{
+    local version=$1
+    local file="$PHP_ETC/$version/php.ini"
+
+    /usr/bin/sed -Ei '' 's/^;?date.timezone =.*$/date.timezone = America\/Toronto/g' $file
+}
+
+function php_configure_upload_max_filesize()
+{
+    local version=$1
+    local file="$PHP_ETC/$version/php.ini"
+
+    /usr/bin/sed -Ei '' 's/^;?upload_max_filesize =.*$/upload_max_filesize = 8M/g' $file
+}
+
 function php_configure_imagick()
 {
     local version=$1

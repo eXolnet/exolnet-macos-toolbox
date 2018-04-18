@@ -105,6 +105,8 @@ pecl_install 5.6 imagick
 pecl_install 5.6 xdebug 2.5.5 # latest version of xdebug do not support php56
 safe_execute "php_remove_imagick_extension_from_php_ini 5.6" "Removed php@5.6 imagick extension from php.ini" "Failed to remove php@5.6 imagick extension from php.ini"
 safe_execute "php_remove_xdebug_extension_from_php_ini 5.6" "Removed php@5.6 xdebug extension from php.ini" "Failed to remove php@5.6 xdebug extension from php.ini"
+safe_execute "php_configure_timezone 5.6" "Configured php@5.6 timezone" "Failed to configure php@5.6 timezone"
+safe_execute "php_configure_upload_max_filesize 5.6" "Configured php@5.6 upload_max_filesize" "Failed to configure php@5.6 upload_max_filesize"
 safe_execute "php_configure_imagick 5.6" "Configured php@5.6 imagick extension" "Failed to configure php@5.6 imagick extension"
 safe_execute "php_configure_xdebug 5.6" "Configured php@5.6 xdebug extension" "Failed to configure php@5.6 xdebug extension"
 brew_unlink php@5.6
@@ -115,6 +117,8 @@ pecl_install 7.0 imagick
 pecl_install 7.0 xdebug
 safe_execute "php_remove_imagick_extension_from_php_ini 7.0" "Removed php@7.0 imagick extension from php.ini" "Failed to remove php@7.0 imagick extension from php.ini"
 safe_execute "php_remove_xdebug_extension_from_php_ini 7.0" "Removed php@7.0 xdebug extension from php.ini" "Failed to remove php@7.0 xdebug extension from php.ini"
+safe_execute "php_configure_timezone 7.0" "Configured php@7.0 timezone" "Failed to configure php@7.0 timezone"
+safe_execute "php_configure_upload_max_filesize 7.0" "Configured php@7.0 upload_max_filesize" "Failed to configure php@7.0 upload_max_filesize"
 safe_execute "php_configure_imagick 7.0" "Configured php@7.0 imagick extension" "Failed to configure php@7.0 imagick extension"
 safe_execute "php_configure_xdebug 7.0" "Configured php@7.0 xdebug extension" "Failed to configure php@7.0 xdebug extension"
 brew_unlink php@7.0
@@ -125,6 +129,8 @@ pecl_install 7.1 imagick
 pecl_install 7.1 xdebug
 safe_execute "php_remove_imagick_extension_from_php_ini 7.1" "Removed php@7.1 imagick extension from php.ini" "Failed to remove php@7.1 imagick extension from php.ini"
 safe_execute "php_remove_xdebug_extension_from_php_ini 7.1" "Removed php@7.1 xdebug extension from php.ini" "Failed to remove php@7.1 xdebug extension from php.ini"
+safe_execute "php_configure_timezone 7.1" "Configured php@7.1 timezone" "Failed to configure php@7.1 timezone"
+safe_execute "php_configure_upload_max_filesize 7.1" "Configured php@7.1 upload_max_filesize" "Failed to configure php@7.1 upload_max_filesize"
 safe_execute "php_configure_imagick 7.1" "Configured php@7.1 imagick extension" "Failed to configure php@7.1 imagick extension"
 safe_execute "php_configure_xdebug 7.1" "Configured php@7.1 xdebug extension" "Failed to configure php@7.1 xdebug extension"
 brew_unlink php@7.1
@@ -135,6 +141,8 @@ pecl_install 7.2 imagick
 pecl_install 7.2 xdebug
 safe_execute "php_remove_imagick_extension_from_php_ini 7.2" "Removed php@7.2 imagick extension from php.ini" "Failed to remove php@7.2 imagick extension from php.ini"
 safe_execute "php_remove_xdebug_extension_from_php_ini 7.2" "Removed php@7.2 xdebug extension from php.ini" "Failed to remove php@7.2 xdebug extension from php.ini"
+safe_execute "php_configure_timezone 7.2" "Configured php@7.2 timezone" "Failed to configure php@7.2 timezone"
+safe_execute "php_configure_upload_max_filesize 7.2" "Configured php@7.2 upload_max_filesize" "Failed to configure php@7.2 upload_max_filesize"
 safe_execute "php_configure_imagick 7.2" "Configured php@7.2 imagick extension" "Failed to configure php@7.2 imagick extension"
 safe_execute "php_configure_xdebug 7.2" "Configured php@7.2 xdebug extension" "Failed to configure php@7.2 xdebug extension"
 brew_unlink php@7.2
