@@ -4,23 +4,23 @@
 # Script setup
 #
 
-# Define eXolnet directory if not set
-if [ -z "$EXOLNET" ]; then
-    EXOLNET="$HOME/.exolnet"
+# Define toolbox directory if not set
+if [ -z "$TOOLBOX" ]; then
+    TOOLBOX="$HOME/.exolnet/toolbox"
 fi
 
-# Check if eXolnet directory exists
-if [ ! -d "$EXOLNET" ]; then
+# Check if toolbox directory exists
+if [ ! -d "$TOOLBOX" ]; then
     echo "Directory ~/.exolnet does not exists, exiting ..."
     exit 1
 fi
 
 # Source helpers
-. $EXOLNET/lib/header
-. $EXOLNET/lib/utils
-. $EXOLNET/lib/brew
-. $EXOLNET/lib/httpd
-. $EXOLNET/lib/php
+. $TOOLBOX/lib/header
+. $TOOLBOX/lib/utils
+. $TOOLBOX/lib/brew
+. $TOOLBOX/lib/httpd
+. $TOOLBOX/lib/php
 
 #
 # Script checks
@@ -51,8 +51,8 @@ create_directory "$HTTPD_ETC/exolnet"
 create_directory "$HTTPD_ETC/exolnet-vhosts"
 safe_execute "httpd_add_include_exolnet" "Added exolnet include directive" "Failed to add exolnet include directive"
 remove_file "$HTTPD_ETC/exolnet/directory.conf" # File was renamed to 000-default.conf
-process_recursive "link_file" "$EXOLNET/conf/httpd" "$HTTPD_ETC/exolnet"
-process_recursive "link_file" "$EXOLNET/conf/httpd_vhosts" "$HTTPD_ETC/exolnet-vhosts"
+process_recursive "link_file" "$TOOLBOX/conf/httpd" "$HTTPD_ETC/exolnet"
+process_recursive "link_file" "$TOOLBOX/conf/httpd_vhosts" "$HTTPD_ETC/exolnet-vhosts"
 safe_execute "httpd_generate_user_conf" "Generated user conf file" "Failed to generate user conf file"
 link_file "$HOME/Sites" "$HTTPD_WWW"
 sudo_brew_restart httpd
@@ -117,7 +117,7 @@ brew_install php-code-sniffer
 brew_install wp-cli
 safe_execute "httpd_disable_php_module" "Disabled php module in httpd" "Failed to disable php module in httpd"
 brew_link_force php@7.1
-link_file "$EXOLNET/conf/httpd_php/php71.conf" "$HTTPD_ETC/exolnet/php.conf"
+link_file "$TOOLBOX/conf/httpd_php/php71.conf" "$HTTPD_ETC/exolnet/php.conf"
 sudo_brew_restart httpd
 safe_execute "php_create_phpinfo" "Created phpinfo.php file" "Failed to create phpinfo.php file"
 

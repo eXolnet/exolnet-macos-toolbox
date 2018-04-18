@@ -2,10 +2,10 @@
 
 function git_fetch()
 {
-    git -C "$EXOLNET" fetch
+    git -C "$TOOLBOX" fetch
 }
 
 function git_merge()
 {
-    git -C "$EXOLNET" merge --ff-only
+    git -C "$TOOLBOX" merge --ff-only
 }
