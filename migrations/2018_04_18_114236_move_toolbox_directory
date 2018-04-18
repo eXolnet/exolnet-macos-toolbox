@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+TOOLBOX_OLD="$HOME/.exolnet"
+TOOLBOX_TMP="$HOME/.exolnet-$(date "+%Y%m%d-%H%M%S")"
+TOOLBOX_NEW="$HOME/.exolnet/toolbox"
+EXOLNET_NEW="$HOME/.exolnet"
+
+e_header "Moving exolnet-macos-toolbox"
+move_file "$TOOLBOX_OLD" "$TOOLBOX_TMP"
+create_directory "$EXOLNET_NEW"
+move_file "$TOOLBOX_TMP" "$TOOLBOX_NEW"
+
+TOOLBOX="$TOOLBOX_NEW"
+MIGRATIONS_DIR="$TOOLBOX/migrations"
+STORAGE_MIGRATIONS_DIR="$TOOLBOX/storage/migrations"
+
+e_header "Installing scripts"
+process_recursive "link_file" "$TOOLBOX/bin" "/usr/local/bin"

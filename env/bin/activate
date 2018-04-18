@@ -33,11 +33,11 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-EXOLNET="$( cd "$( dirname "${BASH_SOURCE[0]}" )/../.." && pwd )"
-export EXOLNET
+TOOLBOX="$( cd "$( dirname "${BASH_SOURCE[0]}" )/../.." && pwd )"
+export TOOLBOX
 
 _OLD_VIRTUAL_PATH="$PATH"
-PATH="$EXOLNET/bin:$PATH"
+PATH="$TOOLBOX/bin:$PATH"
 export PATH
 
 _OLD_VIRTUAL_PS1="$PS1"

@@ -4,23 +4,23 @@
 # Script setup
 #
 
-# Define eXolnet directory if not set
-if [ -z "$EXOLNET" ]; then
-    EXOLNET="$HOME/.exolnet"
+# Define toolbox directory if not set
+if [ -z "$TOOLBOX" ]; then
+    TOOLBOX="$HOME/.exolnet/toolbox"
 fi
 
-# Check if eXolnet directory exists
-if [ ! -d "$EXOLNET" ]; then
+# Check if toolbox directory exists
+if [ ! -d "$TOOLBOX" ]; then
     echo "Directory ~/.exolnet does not exists, exiting ..."
     exit 1
 fi
 
 # Source helpers
-. $EXOLNET/lib/header
-. $EXOLNET/lib/utils
-. $EXOLNET/lib/brew
-. $EXOLNET/lib/httpd
-. $EXOLNET/lib/php
+. $TOOLBOX/lib/header
+. $TOOLBOX/lib/utils
+. $TOOLBOX/lib/brew
+. $TOOLBOX/lib/httpd
+. $TOOLBOX/lib/php
 
 #
 # Script checks
@@ -69,7 +69,7 @@ e_header "Switching php version"
 safe_execute "brew list $brewnewversion" "Found $brewnewversion" "Failed to find $brewnewversion"
 brew_unlink $brewcurrentversion
 brew_link_force $brewnewversion
-link_file "$EXOLNET/conf/httpd_php/$newversion.conf" "$HTTPD_ETC/exolnet/php.conf"
+link_file "$TOOLBOX/conf/httpd_php/$newversion.conf" "$HTTPD_ETC/exolnet/php.conf"
 sudo_brew_restart httpd
 
 e_header "All done!"

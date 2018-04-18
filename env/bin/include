@@ -1,16 +1,16 @@
-# Define eXolnet directory if not set
-if [ -z "$EXOLNET" ]; then
-    EXOLNET="$( cd "$( dirname "${BASH_SOURCE[0]}" )/../.." && pwd )"
+# Define toolbox directory if not set
+if [ -z "$TOOLBOX" ]; then
+    TOOLBOX="$( cd "$( dirname "${BASH_SOURCE[0]}" )/../.." && pwd )"
 fi
 
 # Source helpers
-. $EXOLNET/lib/header
-. $EXOLNET/lib/utils
-. $EXOLNET/lib/brew
-. $EXOLNET/lib/mysql
-. $EXOLNET/lib/httpd
-. $EXOLNET/lib/php
-. $EXOLNET/lib/node
-. $EXOLNET/lib/completion
+. $TOOLBOX/lib/header
+. $TOOLBOX/lib/utils
+. $TOOLBOX/lib/brew
+. $TOOLBOX/lib/mysql
+. $TOOLBOX/lib/httpd
+. $TOOLBOX/lib/php
+. $TOOLBOX/lib/node
+. $TOOLBOX/lib/completion
 
 e_header "All done!"

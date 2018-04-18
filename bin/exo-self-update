@@ -4,21 +4,21 @@
 # Script setup
 #
 
-# Define eXolnet directory if not set
-if [ -z "$EXOLNET" ]; then
-    EXOLNET="$HOME/.exolnet"
+# Define toolbox directory if not set
+if [ -z "$TOOLBOX" ]; then
+    TOOLBOX="$HOME/.exolnet/toolbox"
 fi
 
-# Check if eXolnet directory exists
-if [ ! -d "$EXOLNET" ]; then
+# Check if toolbox directory exists
+if [ ! -d "$TOOLBOX" ]; then
     echo "Directory ~/.exolnet does not exists, exiting ..."
     exit 1
 fi
 
 # Source helpers
-. $EXOLNET/lib/header
-. $EXOLNET/lib/utils
-. $EXOLNET/lib/git
+. $TOOLBOX/lib/header
+. $TOOLBOX/lib/utils
+. $TOOLBOX/lib/git
 
 #
 # Script checks
@@ -37,7 +37,7 @@ fi
 #
 
 # If backups are needed, this is where they'll go
-BACKUP_DIR="$EXOLNET/backups/$(date "+%Y%m%d-%H%M%S")"
+BACKUP_DIR="$TOOLBOX/backups/$(date "+%Y%m%d-%H%M%S")"
 BACKUP=
 
 e_header "Updating exolnet-macos-toolbox"
@@ -45,7 +45,7 @@ safe_execute "git_fetch" "Fetched remote changes" "Failed to fetch remote change
 safe_execute "git_merge" "Fast-forwarded repository" "Failed to fast-forward repository"
 
 e_header "Installing scripts"
-process_recursive "link_file" "$EXOLNET/bin" "/usr/local/bin"
+process_recursive "link_file" "$TOOLBOX/bin" "/usr/local/bin"
 
 # Display if backups were made
 if [ "$BACKUP" ]; then

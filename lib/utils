@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-MIGRATIONS_DIR="$EXOLNET/migrations"
-STORAGE_MIGRATIONS_DIR="$EXOLNET/storage/migrations"
+MIGRATIONS_DIR="$TOOLBOX/migrations"
+STORAGE_MIGRATIONS_DIR="$TOOLBOX/storage/migrations"
 
 function e_header()
 {
@@ -122,6 +122,18 @@ function copy_file()
         e_error "File $dest exists"
     else
         safe_execute "cp $src $dest" "Copied $src -> $dest" "Failed to copy $src -> $dest"
+    fi
+}
+
+function move_file()
+{
+    local src=$1
+    local dest=$2
+
+    if [ -e "$dest" ]; then
+        e_error "File $dest exists"
+    else
+        safe_execute "mv $src $dest" "Moved $src -> $dest" "Failed to move $src -> $dest"
     fi
 }
 

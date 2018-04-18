@@ -4,26 +4,26 @@
 # Script setup
 #
 
-# Define eXolnet directory if not set
-if [ -z "$EXOLNET" ]; then
-    EXOLNET="$HOME/.exolnet"
+# Define toolbox directory if not set
+if [ -z "$TOOLBOX" ]; then
+    TOOLBOX="$HOME/.exolnet/toolbox"
 fi
 
-# Check if eXolnet directory exists
-if [ ! -d "$EXOLNET" ]; then
+# Check if toolbox directory exists
+if [ ! -d "$TOOLBOX" ]; then
     echo "Directory ~/.exolnet does not exists, exiting ..."
     exit 1
 fi
 
 # Source helpers
-. $EXOLNET/lib/header
-. $EXOLNET/lib/utils
-. $EXOLNET/lib/brew
-. $EXOLNET/lib/mysql
-. $EXOLNET/lib/httpd
-. $EXOLNET/lib/php
-. $EXOLNET/lib/node
-. $EXOLNET/lib/completion
+. $TOOLBOX/lib/header
+. $TOOLBOX/lib/utils
+. $TOOLBOX/lib/brew
+. $TOOLBOX/lib/mysql
+. $TOOLBOX/lib/httpd
+. $TOOLBOX/lib/php
+. $TOOLBOX/lib/node
+. $TOOLBOX/lib/completion
 
 #
 # Script checks
@@ -42,7 +42,7 @@ fi
 #
 
 # If backups are needed, this is where they'll go
-BACKUP_DIR="$EXOLNET/backups/$(date "+%Y%m%d-%H%M%S")"
+BACKUP_DIR="$TOOLBOX/backups/$(date "+%Y%m%d-%H%M%S")"
 BACKUP=
 
 MIGRATIONS=$(ls $MIGRATIONS_DIR)
