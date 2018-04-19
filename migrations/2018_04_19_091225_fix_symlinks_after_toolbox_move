@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+e_header "Fixing symlinks"
+process_recursive "link_file" "$TOOLBOX/conf/httpd" "$HTTPD_ETC/exolnet"
+process_recursive "link_file" "$TOOLBOX/conf/httpd_vhosts" "$HTTPD_ETC/exolnet-vhosts"
+currentversion="$(php_get_current_version)"
+link_file "$TOOLBOX/conf/httpd_php/$currentversion.conf" "$HTTPD_ETC/exolnet/php.conf"
