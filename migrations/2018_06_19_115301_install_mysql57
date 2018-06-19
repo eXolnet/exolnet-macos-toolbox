@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+e_header "Removing mysql"
+brew_stop mysql
+waiting_for 10
+backup_copy_file "$MYSQL_DATA"
+brew_uninstall mysql
+
+e_header "Installing mysql 5.7"
+brew_install mysql@5.7
+brew_link_force mysql@5.7
+brew_restart mysql@5.7
+mysql_wait_for_connection

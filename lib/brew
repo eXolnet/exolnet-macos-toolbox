@@ -105,18 +105,25 @@ function brew_untap()
     safe_execute "brew untap $tap" "Untapped $tap" "Failed to untap $tap"
 }
 
+function brew_stop()
+{
+    local service=$1
+
+    safe_execute "brew services stop $service" "Stopped $service" "Failed to stop $service"
+}
+
 function brew_restart()
 {
     local service=$1
 
-    safe_execute "brew services restart $service" "Restarted $service" "Failed to restarted $service"
+    safe_execute "brew services restart $service" "Restarted $service" "Failed to restart $service"
 }
 
 function sudo_brew_restart()
 {
     local service=$1
 
-    safe_execute "sudo brew services restart $service" "Restarted $service" "Failed to restarted $service"
+    safe_execute "sudo brew services restart $service" "Restarted $service" "Failed to restart $service"
 }
 
 function cask_install()
