@@ -66,8 +66,9 @@ brew_install vim
 brew_install wget
 
 e_header "Installing and configuring mysql"
-brew_install mysql
-brew_restart mysql
+brew_install mysql@5.7
+brew_link_force mysql@5.7
+brew_restart mysql@5.7
 mysql_wait_for_connection
 safe_execute "mysql_create_user" "Created user exolnet_dev" "Failed to create user exolnet_dev"
 safe_execute "mysql_grant_user" "Granted user exolnet_dev" "Failed to grant user exolnet_dev"
