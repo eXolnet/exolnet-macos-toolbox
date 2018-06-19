@@ -66,8 +66,9 @@ brew_install vim
 brew_install wget
 
 e_header "Installing and configuring mysql"
-brew_install mysql
-brew_restart mysql
+brew_install mysql@5.7
+brew_link_force mysql@5.7
+brew_restart mysql@5.7
 mysql_wait_for_connection
 safe_execute "mysql_create_user" "Created user exolnet_dev" "Failed to create user exolnet_dev"
 safe_execute "mysql_grant_user" "Granted user exolnet_dev" "Failed to grant user exolnet_dev"
@@ -157,6 +158,8 @@ safe_execute "php_create_phpinfo" "Created phpinfo.php file" "Failed to create p
 
 e_header "Installing and configuring node"
 brew_install node
+brew_install node@8
+brew_link_force node@8
 npm_global_install bower
 npm_global_install gulp-cli
 npm_global_install grunt-cli

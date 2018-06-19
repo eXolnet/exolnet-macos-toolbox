@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+e_header "Installing node 8"
+brew_install node@8
+brew_link_force node@8
