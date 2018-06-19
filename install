@@ -157,6 +157,8 @@ safe_execute "php_create_phpinfo" "Created phpinfo.php file" "Failed to create p
 
 e_header "Installing and configuring node"
 brew_install node
+brew_install node@8
+brew_link_force node@8
 npm_global_install bower
 npm_global_install gulp-cli
 npm_global_install grunt-cli
