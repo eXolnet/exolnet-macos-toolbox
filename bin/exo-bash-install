@@ -55,11 +55,11 @@ brew_install bash
 
 e_header "Installing completions"
 brew_install bash-completion
-# brew_install docker-completion
-# brew_install docker-compose-completion
-# brew_install docker-machine-completion
+brew_install docker-completion
+brew_install docker-compose-completion
+brew_install docker-machine-completion
 brew_install grunt-completion
-# brew_install vagrant-completion
+brew_install vagrant-completion
 safe_execute "completion_add_source_bash_profile" "Added bash-completion source directive" "Failed to add bash-completion source directive"
 completion_load
 
