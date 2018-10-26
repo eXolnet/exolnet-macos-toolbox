@@ -42,6 +42,7 @@ cask_install qlstephen
 
 e_header "Installing applications"
 cask_install atom
+cask_install disk-inventory-x
 cask_install firefox
 cask_install google-chrome
 cask_install imageoptim
