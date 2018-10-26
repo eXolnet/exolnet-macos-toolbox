@@ -42,7 +42,7 @@ brew_install colordiff
 brew_install coreutils
 brew_install curl
 brew_install git
-# brew_install htop # htop cannot be install on macOS High Sierra
+brew_install htop
 brew_install rsync
 brew_install ssh-copy-id
 brew_install trash
