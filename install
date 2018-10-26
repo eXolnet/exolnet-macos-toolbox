@@ -23,7 +23,6 @@ fi
 . $TOOLBOX/lib/httpd
 . $TOOLBOX/lib/php
 . $TOOLBOX/lib/node
-. $TOOLBOX/lib/completion
 
 #
 # Script checks
@@ -51,19 +50,6 @@ BACKUP=
 
 e_header "Installing homebrew"
 install_homebrew
-
-e_header "Installing base utilities"
-brew_install colordiff
-brew_install coreutils
-brew_install curl
-brew_install git
-# brew_install htop # htop cannot be install on macOS High Sierra
-brew_install rsync
-brew_install ssh-copy-id
-brew_install trash
-brew_install tree
-brew_install vim
-brew_install wget
 
 e_header "Installing and configuring mysql"
 brew_install mysql@5.7
@@ -170,17 +156,6 @@ brew_install yarn
 e_header "Installing and configuring redis"
 brew_install redis
 brew_restart redis
-
-e_header "Installing bash-completion"
-brew_install bash
-brew_install bash-completion
-# brew_install docker-completion
-# brew_install docker-compose-completion
-# brew_install docker-machine-completion
-brew_install grunt-completion
-# brew_install vagrant-completion
-safe_execute "completion_add_source_bash_profile" "Added bash-completion source directive" "Failed to add bash-completion source directive"
-completion_load
 
 e_header "Installing scripts"
 process_recursive "link_file" "$TOOLBOX/bin" "/usr/local/bin"
