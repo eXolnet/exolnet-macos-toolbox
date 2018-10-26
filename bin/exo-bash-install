@@ -1,0 +1,66 @@
+#!/usr/bin/env bash
+
+#
+# Script setup
+#
+
+# Define toolbox directory if not set
+if [ -z "$TOOLBOX" ]; then
+    TOOLBOX="$HOME/.exolnet/toolbox"
+fi
+
+# Check if toolbox directory exists
+if [ ! -d "$TOOLBOX" ]; then
+    echo "Directory ~/.exolnet does not exists, exiting ..."
+    exit 1
+fi
+
+# Source helpers
+. $TOOLBOX/lib/header
+. $TOOLBOX/lib/utils
+. $TOOLBOX/lib/brew
+. $TOOLBOX/lib/completion
+
+#
+# Script checks
+#
+
+# Check if command was ran as root.
+if [[ $(id -u) -eq 0 ]]; then
+    echo
+    echo "The command \"`basename \"$0\"`\" should not be executed as root or via sudo directly."
+    echo "When a command requires root access, you will be prompted for a password as needed."
+    exit 1
+fi
+
+#
+# Script execution
+#
+
+e_header "Installing base utilities"
+brew_install colordiff
+brew_install coreutils
+brew_install curl
+brew_install git
+# brew_install htop # htop cannot be install on macOS High Sierra
+brew_install rsync
+brew_install ssh-copy-id
+brew_install trash
+brew_install tree
+brew_install vim
+brew_install wget
+
+e_header "Installing bash"
+brew_install bash
+
+e_header "Installing completions"
+brew_install bash-completion
+# brew_install docker-completion
+# brew_install docker-compose-completion
+# brew_install docker-machine-completion
+brew_install grunt-completion
+# brew_install vagrant-completion
+safe_execute "completion_add_source_bash_profile" "Added bash-completion source directive" "Failed to add bash-completion source directive"
+completion_load
+
+e_header "All done!"
