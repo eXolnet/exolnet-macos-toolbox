@@ -61,7 +61,7 @@ cask_install visual-studio-code
 
 e_header "Installing specific applications"
 
-APPLICATIONS="adobe-creative-cloud virtualbox vagrant"
+APPLICATIONS="adobe-creative-cloud docker virtualbox vagrant"
 
 for application in $APPLICATIONS; do
     ask_yes_no "Install $application?" && cask_install "$application"
