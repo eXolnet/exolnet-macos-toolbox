@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+e_header "Installing htop"
+brew_install htop
