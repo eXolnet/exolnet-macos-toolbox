@@ -1,9 +1,12 @@
 #!/usr/bin/env bash
 
 e_header "Restarting httpd"
+safe_execute "httpd_replace_listen_80" "Changed listen port *:80 -> 127.0.0.1:80" "Failed to change listen port *:80 -> 127.0.0.1:80"
+safe_execute "httpd_replace_listen_443" "Changed listen port *:443 -> 127.0.0.1:443" "Failed to change listen port *:443 -> 127.0.0.1:443"
 sudo_brew_restart httpd
 
 e_header "Caveats"
 e_arrow "You must remove any 'Require ip *' entry from all your custom vhosts and only keep the 'Require local' entry"
 e_arrow "You may remove the '<RequireAny></RequireAny>' tags since there should only be one entry left"
 e_arrow "You can find the vhosts files at this location: /usr/local/etc/httpd/exolnet-vhosts/"
+e_arrow "Run 'sudo brew services restart httpd' when you are done"

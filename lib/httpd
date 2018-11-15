@@ -5,12 +5,12 @@ HTTPD_WWW="/usr/local/var/www"
 
 function httpd_replace_listen_80()
 {
-    /usr/bin/sed -i '' 's/^Listen.*$/Listen 80/g' $HTTPD_ETC/httpd.conf
+    /usr/bin/sed -i '' 's/^Listen.*$/Listen 127.0.0.1:80/g' $HTTPD_ETC/httpd.conf
 }
 
 function httpd_replace_listen_443()
 {
-    /usr/bin/sed -i '' 's/^Listen.*$/Listen 443/g' $HTTPD_ETC/extra/httpd-ssl.conf
+    /usr/bin/sed -i '' 's/^Listen.*$/Listen 127.0.0.1:443/g' $HTTPD_ETC/extra/httpd-ssl.conf
 }
 
 function httpd_add_include_exolnet()
