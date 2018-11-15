@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+e_header "Restarting httpd"
+sudo_brew_restart httpd
+
+e_header "Caveats"
+e_arrow "You must remove any 'Require ip *' entry from all your custom vhosts and only keep the 'Require local' entry"
+e_arrow "You may remove the '<RequireAny></RequireAny>' tags since there should only be one entry left"
+e_arrow "You can find the vhosts files at this location: /usr/local/etc/httpd/exolnet-vhosts/"
