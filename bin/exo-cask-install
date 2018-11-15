@@ -49,6 +49,7 @@ cask_install imageoptim
 cask_install keepassxc
 cask_install microsoft-office
 cask_install mysqlworkbench
+cask_install ngrok
 cask_install opera
 cask_install owncloud
 cask_install phpstorm
