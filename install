@@ -143,7 +143,6 @@ sudo_brew_restart httpd
 safe_execute "php_create_phpinfo" "Created phpinfo.php file" "Failed to create phpinfo.php file"
 
 e_header "Installing and configuring node"
-brew_install node
 brew_install node@8
 brew_link_force node@8
 npm_global_install bower
@@ -151,7 +150,7 @@ npm_global_install gulp-cli
 npm_global_install grunt-cli
 npm_global_install polymer-cli
 npm_global_install lighthouse
-brew_install yarn
+brew_install yarn --without-node
 
 e_header "Installing and configuring redis"
 brew_install redis
