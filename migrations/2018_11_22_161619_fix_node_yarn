@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+e_header "Removing yarn and node"
+brew_uninstall yarn
+brew_uninstall node
+
+e_header "Installing node@8 and yarn"
+brew_install node@8
+brew_link_force node@8
+brew_install yarn --without-node
