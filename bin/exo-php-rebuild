@@ -121,4 +121,9 @@ link_file "$TOOLBOX/conf/httpd_php/php72.conf" "$HTTPD_ETC/exolnet/php.conf"
 sudo_brew_restart httpd
 safe_execute "php_create_phpinfo" "Created phpinfo.php file" "Failed to create phpinfo.php file"
 
+e_header "Reinstalling and reconfiguring node"
+brew_install node@8
+brew_link_force node@8
+brew_install yarn --without-node
+
 e_header "All done!"
