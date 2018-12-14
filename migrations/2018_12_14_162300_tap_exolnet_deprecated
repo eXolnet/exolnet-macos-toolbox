@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+e_header "Tapping exolnet taps"
+brew_tap exolnet/homebrew-deprecated
+
+e_header "Caveats"
+e_arrow "You may run 'brew prune --dry-run' to remove broken stuff"
+e_arrow "You must run 'exo-brew-update' to upgrade all formulae"
+e_arrow "You may run 'brew cleanup --dry-run' to remove old stuff and free space"
+e_arrow "You must run 'exo-self-reinstall' to reinstall php and rebuild extensions"
