@@ -52,6 +52,7 @@ e_header "Installing homebrew"
 install_homebrew
 
 e_header "Tapping exolnet taps"
+brew_tap exolnet/homebrew-cask
 brew_tap exolnet/homebrew-deprecated
 
 e_header "Installing and configuring mysql"
