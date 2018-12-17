@@ -42,6 +42,8 @@ cask_install qlstephen
 
 e_header "Installing applications"
 cask_install atom
+cask_install canon-printer-driver
+cask_install canon-scanner-driver
 cask_install disk-inventory-x
 cask_install firefox
 cask_install google-chrome
@@ -54,6 +56,7 @@ cask_install opera
 cask_install owncloud
 cask_install phpstorm
 cask_install sequel-pro
+cask_install shoretel-connect
 cask_install slack
 cask_install sourcetree
 cask_install sublime-text

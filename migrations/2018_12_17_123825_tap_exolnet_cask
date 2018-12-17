@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+e_header "Tapping exolnet taps"
+brew_tap exolnet/homebrew-cask
