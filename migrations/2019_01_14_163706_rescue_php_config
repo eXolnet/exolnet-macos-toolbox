@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+e_header "Rescue php config"
+brew_is_installed php@5.6 && safe_execute "php_remove_imagick_extension_from_php_ini 5.6" "Removed php@5.6 imagick extension from php.ini" "Failed to remove php@5.6 imagick extension from php.ini"
+brew_is_installed php@5.6 && safe_execute "php_remove_xdebug_extension_from_php_ini 5.6" "Removed php@5.6 xdebug extension from php.ini" "Failed to remove php@5.6 xdebug extension from php.ini"
+brew_is_installed php@7.0 && safe_execute "php_remove_imagick_extension_from_php_ini 7.0" "Removed php@7.0 imagick extension from php.ini" "Failed to remove php@7.0 imagick extension from php.ini"
+brew_is_installed php@7.0 && safe_execute "php_remove_xdebug_extension_from_php_ini 7.0" "Removed php@7.0 xdebug extension from php.ini" "Failed to remove php@7.0 xdebug extension from php.ini"
+brew_is_installed php@7.1 && safe_execute "php_remove_imagick_extension_from_php_ini 7.1" "Removed php@7.1 imagick extension from php.ini" "Failed to remove php@7.1 imagick extension from php.ini"
+brew_is_installed php@7.1 && safe_execute "php_remove_xdebug_extension_from_php_ini 7.1" "Removed php@7.1 xdebug extension from php.ini" "Failed to remove php@7.1 xdebug extension from php.ini"
+brew_is_installed php@7.2 && safe_execute "php_remove_imagick_extension_from_php_ini 7.2" "Removed php@7.2 imagick extension from php.ini" "Failed to remove php@7.2 imagick extension from php.ini"
+brew_is_installed php@7.2 && safe_execute "php_remove_xdebug_extension_from_php_ini 7.2" "Removed php@7.2 xdebug extension from php.ini" "Failed to remove php@7.2 xdebug extension from php.ini"
+brew_is_installed php@7.3 && safe_execute "php_remove_imagick_extension_from_php_ini 7.3" "Removed php@7.3 imagick extension from php.ini" "Failed to remove php@7.3 imagick extension from php.ini"
+brew_is_installed php@7.3 && safe_execute "php_remove_xdebug_extension_from_php_ini 7.3" "Removed php@7.3 xdebug extension from php.ini" "Failed to remove php@7.3 xdebug extension from php.ini"
