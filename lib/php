@@ -94,6 +94,22 @@ function php_configure_upload_max_filesize()
     /usr/bin/sed -Ei '' 's/^;?upload_max_filesize =.*$/upload_max_filesize = 8M/g' $file
 }
 
+function php_remove_imagick_extension_insert()
+{
+    local version=$1
+    local file="$PHP_ETC/$version/conf.d/exolnet-ext-imagick.ini"
+
+    remove_insert_from_file2 $file
+}
+
+function php_remove_xdebug_extension_insert()
+{
+    local version=$1
+    local file="$PHP_ETC/$version/conf.d/exolnet-ext-xdebug.ini"
+
+    remove_insert_from_file2 $file
+}
+
 function php_configure_imagick()
 {
     local version=$1

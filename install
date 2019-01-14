@@ -128,6 +128,8 @@ safe_execute "php_configure_xdebug 7.1" "Configured php@7.1 xdebug extension" "F
 brew_unlink php@7.1
 brew_install php@7.2
 brew_link_force php@7.2
+safe_execute "php_remove_imagick_extension_insert 7.2" "Removed php@7.2 imagick extension insert" "Failed to remove php@7.2 imagick extension insert"
+safe_execute "php_remove_xdebug_extension_insert 7.2" "Removed php@7.2 xdebug extension insert" "Failed to remove php@7.2 xdebug extension insert"
 pecl_update_channels
 pecl_install 7.2 imagick
 pecl_install 7.2 xdebug
@@ -140,6 +142,8 @@ safe_execute "php_configure_xdebug 7.2" "Configured php@7.2 xdebug extension" "F
 brew_unlink php@7.2
 brew_install php@7.3
 brew_link_force php@7.3
+safe_execute "php_remove_imagick_extension_insert 7.3" "Removed php@7.3 imagick extension insert" "Failed to remove php@7.3 imagick extension insert"
+#safe_execute "php_remove_xdebug_extension_insert 7.3" "Removed php@7.3 xdebug extension insert" "Failed to remove php@7.3 xdebug extension insert"
 pecl_update_channels
 pecl_install 7.3 imagick
 #pecl_install 7.3 xdebug
