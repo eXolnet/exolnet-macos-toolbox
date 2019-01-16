@@ -67,6 +67,8 @@ brew_install imagemagick
 brew_install pkg-config
 brew_reinstall php@5.6
 brew_link_force php@5.6
+safe_execute "php_remove_imagick_extension_insert 5.6" "Removed php@5.6 imagick extension insert" "Failed to remove php@5.6 imagick extension insert"
+safe_execute "php_remove_xdebug_extension_insert 5.6" "Removed php@5.6 xdebug extension insert" "Failed to remove php@5.6 xdebug extension insert"
 pecl_update_channels
 pecl_reinstall 5.6 imagick
 pecl_reinstall 5.6 xdebug 2.5.5 # latest version of xdebug do not support php56
@@ -79,6 +81,8 @@ safe_execute "php_configure_xdebug 5.6" "Configured php@5.6 xdebug extension" "F
 brew_unlink php@5.6
 brew_reinstall php@7.0
 brew_link_force php@7.0
+safe_execute "php_remove_imagick_extension_insert 7.0" "Removed php@7.0 imagick extension insert" "Failed to remove php@7.0 imagick extension insert"
+safe_execute "php_remove_xdebug_extension_insert 7.0" "Removed php@7.0 xdebug extension insert" "Failed to remove php@7.0 xdebug extension insert"
 pecl_update_channels
 pecl_reinstall 7.0 imagick
 pecl_reinstall 7.0 xdebug
@@ -91,6 +95,8 @@ safe_execute "php_configure_xdebug 7.0" "Configured php@7.0 xdebug extension" "F
 brew_unlink php@7.0
 brew_reinstall php@7.1
 brew_link_force php@7.1
+safe_execute "php_remove_imagick_extension_insert 7.1" "Removed php@7.1 imagick extension insert" "Failed to remove php@7.1 imagick extension insert"
+safe_execute "php_remove_xdebug_extension_insert 7.1" "Removed php@7.1 xdebug extension insert" "Failed to remove php@7.1 xdebug extension insert"
 pecl_update_channels
 pecl_reinstall 7.1 imagick
 pecl_reinstall 7.1 xdebug
