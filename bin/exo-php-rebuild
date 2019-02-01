@@ -147,6 +147,6 @@ safe_execute "php_create_phpinfo" "Created phpinfo.php file" "Failed to create p
 e_header "Reinstalling and reconfiguring node"
 brew_install node@8
 brew_link_force node@8
-brew_install yarn --without-node
+brew_install yarn --ignore-dependencies
 
 e_header "All done!"
