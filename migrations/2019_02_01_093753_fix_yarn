@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+e_header "Removing yarn"
+brew_uninstall yarn
+
+e_header "Installing yarn"
+brew_install yarn --ignore-dependencies
