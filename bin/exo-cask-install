@@ -47,6 +47,7 @@ cask_install canon-scanner-driver
 cask_install disk-inventory-x
 cask_install firefox
 cask_install google-chrome
+cask_install google-drive-file-stream
 cask_install imageoptim
 cask_install keepassxc
 cask_install microsoft-office

@@ -177,7 +177,7 @@ npm_global_install gulp-cli
 npm_global_install grunt-cli
 npm_global_install polymer-cli
 npm_global_install lighthouse
-brew_install yarn --without-node
+brew_install yarn --ignore-dependencies
 
 e_header "Installing and configuring redis"
 brew_install redis
