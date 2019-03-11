@@ -124,16 +124,16 @@ brew_unlink php@7.2
 brew_reinstall php@7.3
 brew_link_force php@7.3
 safe_execute "php_remove_imagick_extension_insert 7.3" "Removed php@7.3 imagick extension insert" "Failed to remove php@7.3 imagick extension insert"
-#safe_execute "php_remove_xdebug_extension_insert 7.3" "Removed php@7.3 xdebug extension insert" "Failed to remove php@7.3 xdebug extension insert"
+safe_execute "php_remove_xdebug_extension_insert 7.3" "Removed php@7.3 xdebug extension insert" "Failed to remove php@7.3 xdebug extension insert"
 pecl_update_channels
 pecl_reinstall 7.3 imagick
-#pecl_reinstall 7.3 xdebug
+pecl_reinstall 7.3 xdebug
 safe_execute "php_remove_imagick_extension_from_php_ini 7.3" "Removed php@7.3 imagick extension from php.ini" "Failed to remove php@7.3 imagick extension from php.ini"
-#safe_execute "php_remove_xdebug_extension_from_php_ini 7.3" "Removed php@7.3 xdebug extension from php.ini" "Failed to remove php@7.3 xdebug extension from php.ini"
+safe_execute "php_remove_xdebug_extension_from_php_ini 7.3" "Removed php@7.3 xdebug extension from php.ini" "Failed to remove php@7.3 xdebug extension from php.ini"
 safe_execute "php_configure_timezone 7.3" "Configured php@7.3 timezone" "Failed to configure php@7.3 timezone"
 safe_execute "php_configure_upload_max_filesize 7.3" "Configured php@7.3 upload_max_filesize" "Failed to configure php@7.3 upload_max_filesize"
 safe_execute "php_configure_imagick 7.3" "Configured php@7.3 imagick extension" "Failed to configure php@7.3 imagick extension"
-#safe_execute "php_configure_xdebug 7.3" "Configured php@7.3 xdebug extension" "Failed to configure php@7.3 xdebug extension"
+safe_execute "php_configure_xdebug 7.3" "Configured php@7.3 xdebug extension" "Failed to configure php@7.3 xdebug extension"
 brew_unlink php@7.3
 brew_install composer
 brew_install php-code-sniffer
