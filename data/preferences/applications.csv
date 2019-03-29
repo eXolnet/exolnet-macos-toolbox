@@ -1,0 +1,28 @@
+betterzip,BetterZip (Application & QuickLook plugin),on
+qlstephen,QLStephen (QuickLook plugin),on
+adobe-creative-cloud,Adobe Creative Cloud (Application),off
+sourcetree,Atlassian SourceTree (Application),on
+canon-printer-driver,Canon MF Printer Driver & Utilities (Application),on
+canon-scanner-driver,Canon Scanner Driver & Utilities (Application),on
+disk-inventory-x,Disk Inventory X (Application),on
+docker,Docker CE (Application),off
+atom,Github Atom (Application),on
+google-chrome,Google Chrome (Application),on
+google-drive-file-stream,Google Drive File Stream (Application),on
+imageoptim,ImageOptim (Application),on
+phpstorm,JetBrains PhpStorm (Application),on
+keepassxc,KeePassXC (Application),off
+microsoft-office,Microsoft Office (Application),on
+visual-studio-code,Microsoft VS Code (Application),on
+firefox,Mozilla Firefox (Application),on
+mysqlworkbench,MySQL Workbench (Application),on
+ngrok,ngrok (Application),on
+opera,Opera (Application),on
+virtualbox,Oracle VirtualBox (Application),off
+owncloud,ownCloud (Application),on
+sequel-pro,Sequel Pro (Application),on
+shoretel-connect,ShoreTel Connect (Application),on
+slack,Slack (Application),on
+sublime-text,Sublime Text (Application),off
+tunnelblick,Tunnelblick (Application),on
+vagrant,Vagrant (Application),off

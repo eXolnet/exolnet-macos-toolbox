@@ -2,6 +2,7 @@
 
 . $TOOLBOX/lib/header
 . $TOOLBOX/lib/utils
+. $TOOLBOX/lib/preferences
 . $TOOLBOX/lib/git
 . $TOOLBOX/lib/brew
 . $TOOLBOX/lib/mysql

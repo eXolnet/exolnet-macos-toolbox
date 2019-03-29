@@ -1,0 +1,55 @@
+#!/usr/bin/env bash
+
+STORAGE_PREFERENCES_DIR="$TOOLBOX/storage/preferences"
+DATA_PREFERENCES_DIR="$TOOLBOX/data/preferences"
+
+function show_preferences_menu()
+{
+    local menu=$1
+    local input="$DATA_PREFERENCES_DIR/$menu.csv"
+    local output="$STORAGE_PREFERENCES_DIR/$menu"
+    local count=$(cat "$input" | wc -l)
+    local height=32
+    local width=64
+    local array col1 col2 col3 dummy saved_preferences has_saved_preferences preferences status
+
+    if [[ -f "$output" ]]; then
+        saved_preferences=$(cat "$output")
+        has_saved_preferences=true
+    fi
+
+    while IFS=',' read -r col1 col2 col3 dummy; do
+        array+=("$col1")
+        array+=("$col2")
+
+        if [[ "$has_saved_preferences" = true ]]; then
+            if [[ " ${saved_preferences[@]} " =~ " ${col1} " ]]; then
+                array+=("on")
+            else
+                array+=("off")
+            fi
+        else
+            array+=("$col3")
+        fi
+    done < <(cat "$input")
+
+    preferences=$(dialog --keep-tite --no-tags --output-fd 1 --checklist "Choose $menu options:" "$height" "$width" "$count" "${array[@]}")
+    status=$?
+
+    if [[ $status -ne 0 ]]; then
+        e_header "Abort!"
+        exit 1
+    fi
+
+    echo "$preferences" > "$output"
+}
+
+function read_preferences()
+{
+    local menu=$1
+    local preferences="$STORAGE_PREFERENCES_DIR/$menu"
+
+    if [[ -f "$preferences" ]]; then
+        cat "$preferences"
+    fi
+}
