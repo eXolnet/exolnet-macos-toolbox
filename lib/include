@@ -13,4 +13,8 @@ if [[ -z "$TOOLBOX_LIB_INCLUDED" ]]; then
     . $TOOLBOX/lib/completion
 
     TOOLBOX_LIB_INCLUDED=true
+
+    # If backups are needed, this is where they'll go
+    BACKUP_DIR="$TOOLBOX/backups/$(date "+%Y%m%d-%H%M%S")"
+    BACKUP=
 fi

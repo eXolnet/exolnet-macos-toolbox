@@ -34,10 +34,6 @@ fi
 # Script execution
 #
 
-# If backups are needed, this is where they'll go
-BACKUP_DIR="$TOOLBOX/backups/$(date "+%Y%m%d-%H%M%S")"
-BACKUP=
-
 e_header "Updating exolnet-macos-toolbox"
 safe_execute "git_fetch" "Fetched remote changes" "Failed to fetch remote changes"
 safe_execute "git_merge" "Fast-forwarded repository" "Failed to fast-forward repository"

@@ -34,10 +34,6 @@ fi
 # Script execution
 #
 
-# If backups are needed, this is where they'll go
-BACKUP_DIR="$TOOLBOX/backups/$(date "+%Y%m%d-%H%M%S")"
-BACKUP=
-
 MIGRATIONS=$(ls $MIGRATIONS_DIR)
 MIGRATED=
 
