@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+. $TOOLBOX/lib/header
+. $TOOLBOX/lib/utils
+. $TOOLBOX/lib/git
+. $TOOLBOX/lib/brew
+. $TOOLBOX/lib/mysql
+. $TOOLBOX/lib/httpd
+. $TOOLBOX/lib/php
+. $TOOLBOX/lib/node
+. $TOOLBOX/lib/completion

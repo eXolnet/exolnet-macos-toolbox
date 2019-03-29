@@ -16,11 +16,7 @@ if [ ! -d "$TOOLBOX" ]; then
 fi
 
 # Source helpers
-. $TOOLBOX/lib/header
-. $TOOLBOX/lib/utils
-. $TOOLBOX/lib/brew
-. $TOOLBOX/lib/httpd
-. $TOOLBOX/lib/php
+. $TOOLBOX/lib/include
 
 #
 # Script checks
