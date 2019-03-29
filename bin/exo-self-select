@@ -46,5 +46,7 @@ for item in ${MAIN_PREFERENCES[@]}; do
     e_success "Saved $item preferences"
 done
 
-e_header "What's next?"
-e_arrow "Run 'exo-self-install' to install the selected software"
+if [[ -z "$BACKUP_DIR" ]]; then
+    e_header "What's next?"
+    e_arrow "Run 'exo-self-install' to install the selected software"
+fi
