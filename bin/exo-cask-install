@@ -34,40 +34,5 @@ fi
 # Script execution
 #
 
-e_header "Installing Quick Look plugins"
-cask_install betterzip
-cask_install qlstephen
-
-e_header "Installing applications"
-cask_install atom
-cask_install canon-printer-driver
-cask_install canon-scanner-driver
-cask_install disk-inventory-x
-cask_install firefox
-cask_install google-chrome
-cask_install google-drive-file-stream
-cask_install imageoptim
-cask_install keepassxc
-cask_install microsoft-office
-cask_install mysqlworkbench
-cask_install ngrok
-cask_install opera
-cask_install owncloud
-cask_install phpstorm
-cask_install sequel-pro
-cask_install shoretel-connect
-cask_install slack
-cask_install sourcetree
-cask_install sublime-text
-cask_install tunnelblick
-cask_install visual-studio-code
-
-e_header "Installing specific applications"
-
-APPLICATIONS="adobe-creative-cloud docker virtualbox vagrant"
-
-for application in $APPLICATIONS; do
-    ask_yes_no "Install $application?" && cask_install "$application"
-done
-
-e_header "All done!"
+e_header "DEPRECATED!"
+e_error "Use 'exo-self-select' and 'exo-self-install' instead"

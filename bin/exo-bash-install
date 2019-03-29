@@ -34,30 +34,5 @@ fi
 # Script execution
 #
 
-e_header "Installing base utilities"
-brew_install colordiff
-brew_install coreutils
-brew_install curl
-brew_install git
-brew_install htop
-brew_install rsync
-brew_install ssh-copy-id
-brew_install trash
-brew_install tree
-brew_install vim
-brew_install wget
-
-e_header "Installing bash"
-brew_install bash
-
-e_header "Installing completions"
-brew_install bash-completion
-brew_install docker-completion
-brew_install docker-compose-completion
-brew_install docker-machine-completion
-brew_install grunt-completion
-brew_install vagrant-completion
-safe_execute "completion_add_source_bash_profile" "Added bash-completion source directive" "Failed to add bash-completion source directive"
-completion_load
-
-e_header "All done!"
+e_header "DEPRECATED!"
+e_error "Use 'exo-self-select' and 'exo-self-install' instead"
