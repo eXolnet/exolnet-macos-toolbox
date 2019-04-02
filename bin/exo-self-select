@@ -34,6 +34,11 @@ fi
 # Script execution
 #
 
+if [ ! -d "$STORAGE_PREFERENCES_DIR" ]; then
+    e_header "Warming up"
+    create_directory "$STORAGE_PREFERENCES_DIR"
+fi
+
 e_header "Displaying preference menus"
 
 show_preferences_menu main
