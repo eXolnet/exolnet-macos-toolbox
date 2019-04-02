@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+e_header "Cleaning-up broken links"
+remove_file /usr/local/bin/exo-bash-install
+remove_file /usr/local/bin/exo-cask-install
+remove_file /usr/local/bin/exo-self-reinstall
