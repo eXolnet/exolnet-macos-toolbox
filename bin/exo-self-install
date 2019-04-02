@@ -38,6 +38,11 @@ fi
 shopt -s dotglob
 shopt -s nullglob
 
+e_header "Tapping additional taps"
+brew_tap homebrew/cask-fonts
+brew_tap exolnet/homebrew-cask
+brew_tap exolnet/homebrew-deprecated
+
 # Read preferences
 MAIN_PREFERENCES=$(read_preferences main)
 APPLICATIONS_PREFERENCES=$(read_preferences applications)
