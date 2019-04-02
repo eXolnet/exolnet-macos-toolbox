@@ -56,36 +56,31 @@ if [ "$MIGRATIONS" ]; then
     done
 fi
 
-MIGRATIONS=$(ls $MIGRATIONS_DIR)
+MIGRATIONS=$(ls $MIGRATIONS_DIR 2> /dev/null)
 MIGRATED=
 for migration in $MIGRATIONS; do
     if [ ! -e "$STORAGE_MIGRATIONS_DIR/$migration" ]; then
-        if [ "$MIGRATED" ]; then
-            echo
-            ask_yes_no "Continue with other migrations?" || break
-        fi
-
-        echo -e "\n\033[32mMigrating:\033[0m $migration"
+        echo -e "\n\033[33mMigrating:\033[0m $migration"
 
         INDENT="   "
         . $MIGRATIONS_DIR/$migration
         INDENT=
+
+        echo -e "\n\033[32mMigrated:\033[0m  $migration"
 
         touch "$STORAGE_MIGRATIONS_DIR/$migration"
         MIGRATED=true
     fi
 done
 
-if [ "$MIGRATED" ]; then
-    # Display if backups were made
-    if [ "$BACKUP" ]; then
-        e_header "Backups"
-        e_arrow "Existing files were moved to $BACKUP_DIR"
-    fi
+# Display if backups were made
+if [ "$BACKUP" ]; then
+    e_header "Backups"
+    e_arrow "Existing files were moved to $BACKUP_DIR"
+fi
 
+if [ "$MIGRATED" ]; then
     e_header "All done!"
 else
     e_header "Nothing to migrate."
 fi
-
-

@@ -53,8 +53,8 @@ e_header "Creating storage directories"
 create_directory "$STORAGE_PREFERENCES_DIR"
 create_directory "$STORAGE_MIGRATIONS_DIR"
 
-e_header "Applying migrations"
-MIGRATIONS=$(ls $MIGRATIONS_DIR)
+e_header "Skipping migrations"
+MIGRATIONS=$(ls $MIGRATIONS_DIR 2> /dev/null)
 for migration in $MIGRATIONS; do
     if [ ! -e "$STORAGE_MIGRATIONS_DIR/$migration" ]; then
         touch "$STORAGE_MIGRATIONS_DIR/$migration"
