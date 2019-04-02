@@ -39,7 +39,8 @@ MAIN_INSTALL_SCRIPT=true
 
 # Command Line Tools and Homebrew are installed in bootstrap script
 
-e_header "Tapping exolnet taps"
+e_header "Tapping additional taps"
+brew_tap homebrew/cask-fonts
 brew_tap exolnet/homebrew-cask
 brew_tap exolnet/homebrew-deprecated
 
