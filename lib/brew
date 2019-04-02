@@ -128,7 +128,40 @@ function sudo_brew_restart()
 
 function cask_install()
 {
-    local formula=$@
+    HOMEBREW_NO_AUTO_UPDATE=1 _cask_install "$@"
+}
 
-    safe_execute "brew cask install $formula" "Installed cask $formula" "Failed to install cask $formula"
+function _cask_install()
+{
+    local formula=$1
+    local force=$2
+    local cmd="brew cask install $force $formula"
+    local success="Installed cask $formula"
+    local failure="Failed to install cask $formula"
+    local output status
+
+    output="$($cmd 2>&1)"
+    status=$?
+
+    if [[ $status -eq 0 ]]; then
+        e_success "$success"
+    elif [[ "$output" =~ "Error: It seems there is already" ]]; then
+        e_error "$failure, it seems this application was installed manually"
+        echo
+
+        ask_yes_no "Force install $formula?"
+        status=$?
+
+        if [[ $status -eq 0 ]]; then
+            echo
+            _cask_install "$formula" "--force"
+        else
+            e_header "Abort!"
+            exit 1
+        fi
+    else
+        e_error "$failure"
+        echo "$output"
+        exit 1
+    fi
 }
