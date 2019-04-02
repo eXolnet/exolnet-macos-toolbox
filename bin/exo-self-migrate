@@ -34,14 +34,30 @@ fi
 # Script execution
 #
 
-MIGRATIONS=$(ls $MIGRATIONS_DIR)
-MIGRATED=
-
 if [ ! -d "$STORAGE_MIGRATIONS_DIR" ]; then
     e_header "Warming up"
     create_directory "$STORAGE_MIGRATIONS_DIR"
 fi
 
+# Skip previous migrations so that everyone starts at the same place
+MIGRATIONS=$(ls $MIGRATIONS_DIR/2018* $MIGRATIONS_DIR/2019_0[12]* 2> /dev/null)
+MIGRATED=
+if [ "$MIGRATIONS" ]; then
+    for migration in $MIGRATIONS; do
+        migration=$(basename "$migration")
+        if [ ! -e "$STORAGE_MIGRATIONS_DIR/$migration" ]; then
+            if [ ! "$MIGRATED" ]; then
+                e_header "Skipping migrations"
+            fi
+            touch "$STORAGE_MIGRATIONS_DIR/$migration"
+            e_success "Marked migration $migration as already applied"
+            MIGRATED=true
+        fi
+    done
+fi
+
+MIGRATIONS=$(ls $MIGRATIONS_DIR)
+MIGRATED=
 for migration in $MIGRATIONS; do
     if [ ! -e "$STORAGE_MIGRATIONS_DIR/$migration" ]; then
         if [ "$MIGRATED" ]; then
