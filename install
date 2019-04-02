@@ -37,8 +37,7 @@ fi
 # Mark that we were here
 MAIN_INSTALL_SCRIPT=true
 
-e_header "Installing homebrew"
-install_homebrew
+# Command Line Tools and Homebrew are installed in bootstrap script
 
 e_header "Tapping exolnet taps"
 brew_tap exolnet/homebrew-cask
