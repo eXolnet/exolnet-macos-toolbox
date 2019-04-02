@@ -22,7 +22,7 @@ function show_preferences_menu()
         array+=("$col1")
         array+=("$col2")
 
-        if [[ "$has_saved_preferences" = true ]]; then
+        if [[ "$has_saved_preferences" == true ]]; then
             if [[ " ${saved_preferences[@]} " =~ " ${col1} " ]]; then
                 array+=("on")
             else

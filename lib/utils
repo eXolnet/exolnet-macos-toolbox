@@ -75,7 +75,7 @@ function backup_file()
     local file=$1
 
     # Set backup flag, so a nice message can be shown at the end
-    BACKUP=1
+    BACKUP=true
     # Create backup dir if it doesn't already exist
     [[ -e "$BACKUP_DIR" ]] || safe_execute "mkdir -p $BACKUP_DIR" "Created $BACKUP_DIR directory" "Failed to create $BACKUP_DIR directory" "e_arrow"
 
@@ -87,7 +87,7 @@ function backup_copy_file()
     local file=$1
 
     # Set backup flag, so a nice message can be shown at the end
-    BACKUP=1
+    BACKUP=true
     # Create backup dir if it doesn't already exist
     [[ -e "$BACKUP_DIR" ]] || safe_execute "mkdir -p $BACKUP_DIR" "Created $BACKUP_DIR directory" "Failed to create $BACKUP_DIR directory" "e_arrow"
 

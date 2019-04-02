@@ -42,7 +42,7 @@ e_header "Installing scripts"
 process_recursive "link_file" "$TOOLBOX/bin" "/usr/local/bin"
 
 # Display if backups were made
-if [[ "$BACKUP" ]]; then
+if [[ "$BACKUP" == true ]]; then
     e_header "Backups"
     e_arrow "Existing files were moved to $BACKUP_DIR"
 fi
