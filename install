@@ -58,5 +58,5 @@ for migration in $MIGRATIONS; do
     fi
 done
 
-. $TOOLBOX/bin/exo-self-select
-. $TOOLBOX/bin/exo-self-install
+. $TOOLBOX/bin/exo-software-select
+. $TOOLBOX/bin/exo-software-install
