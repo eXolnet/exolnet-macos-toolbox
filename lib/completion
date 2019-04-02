@@ -2,7 +2,7 @@
 
 function completion_add_source_bash_profile()
 {
-    [ -e $HOME/.bash_profile ] || touch $HOME/.bash_profile
+    [[ -e $HOME/.bash_profile ]] || touch $HOME/.bash_profile
 
     if ! grep -q "/usr/local/etc/bash_completion" $HOME/.bash_profile; then
 cat >> $HOME/.bash_profile <<EOL

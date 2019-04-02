@@ -5,12 +5,12 @@
 #
 
 # Define toolbox directory if not set
-if [ -z "$TOOLBOX" ]; then
+if [[ -z "$TOOLBOX" ]]; then
     TOOLBOX="$HOME/.exolnet/toolbox"
 fi
 
 # Check if toolbox directory exists
-if [ ! -d "$TOOLBOX" ]; then
+if [[ ! -d "$TOOLBOX" ]]; then
     echo "Directory ~/.exolnet does not exists, exiting ..."
     exit 1
 fi
@@ -34,7 +34,7 @@ fi
 # Script execution
 #
 
-if [ ! -d "$STORAGE_MIGRATIONS_DIR" ]; then
+if [[ ! -d "$STORAGE_MIGRATIONS_DIR" ]]; then
     e_header "Warming up"
     create_directory "$STORAGE_MIGRATIONS_DIR"
 fi
@@ -42,11 +42,11 @@ fi
 # Skip previous migrations so that everyone starts at the same place
 MIGRATIONS=$(ls $MIGRATIONS_DIR/2018* $MIGRATIONS_DIR/2019_0[12]* 2> /dev/null)
 MIGRATED=
-if [ "$MIGRATIONS" ]; then
+if [[ "$MIGRATIONS" ]]; then
     for migration in $MIGRATIONS; do
         migration=$(basename "$migration")
-        if [ ! -e "$STORAGE_MIGRATIONS_DIR/$migration" ]; then
-            if [ ! "$MIGRATED" ]; then
+        if [[ ! -e "$STORAGE_MIGRATIONS_DIR/$migration" ]]; then
+            if [[ ! "$MIGRATED" ]]; then
                 e_header "Skipping migrations"
             fi
             touch "$STORAGE_MIGRATIONS_DIR/$migration"
@@ -59,7 +59,7 @@ fi
 MIGRATIONS=$(ls $MIGRATIONS_DIR 2> /dev/null)
 MIGRATED=
 for migration in $MIGRATIONS; do
-    if [ ! -e "$STORAGE_MIGRATIONS_DIR/$migration" ]; then
+    if [[ ! -e "$STORAGE_MIGRATIONS_DIR/$migration" ]]; then
         echo -e "\n\033[33mMigrating:\033[0m $migration"
 
         INDENT="   "
@@ -74,12 +74,12 @@ for migration in $MIGRATIONS; do
 done
 
 # Display if backups were made
-if [ "$BACKUP" ]; then
+if [[ "$BACKUP" ]]; then
     e_header "Backups"
     e_arrow "Existing files were moved to $BACKUP_DIR"
 fi
 
-if [ "$MIGRATED" ]; then
+if [[ "$MIGRATED" ]]; then
     e_header "All done!"
 else
     e_header "Nothing to migrate."

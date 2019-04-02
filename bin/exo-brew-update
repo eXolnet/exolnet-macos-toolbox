@@ -5,12 +5,12 @@
 #
 
 # Define toolbox directory if not set
-if [ -z "$TOOLBOX" ]; then
+if [[ -z "$TOOLBOX" ]]; then
     TOOLBOX="$HOME/.exolnet/toolbox"
 fi
 
 # Check if toolbox directory exists
-if [ ! -d "$TOOLBOX" ]; then
+if [[ ! -d "$TOOLBOX" ]]; then
     echo "Directory ~/.exolnet does not exists, exiting ..."
     exit 1
 fi
@@ -41,7 +41,7 @@ outdated=$(brew outdated --quiet)
 httpd=0
 php=0
 
-if [ -z "$outdated" ]; then
+if [[ -z "$outdated" ]]; then
     e_header "Nothing to upgrade!"
     exit
 fi
