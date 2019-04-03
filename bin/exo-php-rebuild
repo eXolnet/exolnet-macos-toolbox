@@ -59,7 +59,7 @@ if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " apache " ]]; then
 fi
 
 if [[ "${DEVELOPMENT_PREFERENCES[@]}" =~ "php" ]]; then
-    e_header "Reinstalling and reconfiguring php"
+    e_header "Preparing php reinstallation and reconfiguration"
     brew_is_installed php@5.6 && brew_unlink php@5.6
     brew_is_installed php@7.0 && brew_unlink php@7.0
     brew_is_installed php@7.1 && brew_unlink php@7.1
@@ -70,6 +70,7 @@ if [[ "${DEVELOPMENT_PREFERENCES[@]}" =~ "php" ]]; then
 fi
 
 if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " php56 " ]]; then
+    e_header "Reinstalling and reconfiguring php 5.6"
     brew_reinstall php@5.6
     brew_link_force php@5.6
     safe_execute "php_remove_imagick_extension_insert 5.6" "Removed php@5.6 imagick extension insert" "Failed to remove php@5.6 imagick extension insert"
@@ -87,6 +88,7 @@ if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " php56 " ]]; then
 fi
 
 if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " php70 " ]]; then
+    e_header "Reinstalling and reconfiguring php 7.0"
     brew_reinstall php@7.0
     brew_link_force php@7.0
     safe_execute "php_remove_imagick_extension_insert 7.0" "Removed php@7.0 imagick extension insert" "Failed to remove php@7.0 imagick extension insert"
@@ -104,6 +106,7 @@ if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " php70 " ]]; then
 fi
 
 if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " php71 " ]]; then
+    e_header "Reinstalling and reconfiguring php 7.1"
     brew_reinstall php@7.1
     brew_link_force php@7.1
     safe_execute "php_remove_imagick_extension_insert 7.1" "Removed php@7.1 imagick extension insert" "Failed to remove php@7.1 imagick extension insert"
@@ -121,6 +124,7 @@ if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " php71 " ]]; then
 fi
 
 if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " php72 " ]]; then
+    e_header "Reinstalling and reconfiguring php 7.2"
     brew_reinstall php@7.2
     brew_link_force php@7.2
     safe_execute "php_remove_imagick_extension_insert 7.2" "Removed php@7.2 imagick extension insert" "Failed to remove php@7.2 imagick extension insert"
@@ -138,6 +142,7 @@ if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " php72 " ]]; then
 fi
 
 if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " php73 " ]]; then
+    e_header "Reinstalling and reconfiguring php 7.3"
     brew_reinstall php@7.3
     brew_link_force php@7.3
     safe_execute "php_remove_imagick_extension_insert 7.3" "Removed php@7.3 imagick extension insert" "Failed to remove php@7.3 imagick extension insert"
@@ -155,6 +160,7 @@ if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " php73 " ]]; then
 fi
 
 if [[ "${DEVELOPMENT_PREFERENCES[@]}" =~ "php" ]]; then
+    e_header "Finishing php reinstallation and reconfiguration"
     brew_install composer
     brew_install php-code-sniffer
     brew_install wp-cli

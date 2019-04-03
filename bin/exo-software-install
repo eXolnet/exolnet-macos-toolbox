@@ -103,7 +103,7 @@ if [[ " ${MAIN_PREFERENCES[@]} " =~ " development " ]]; then
     fi
 
     if [[ "${DEVELOPMENT_PREFERENCES[@]}" =~ "php" ]]; then
-        e_header "Preparing php installation and installing dependencies"
+        e_header "Preparing php installation and configuration"
         brew_is_installed php@5.6 && brew_unlink php@5.6
         brew_is_installed php@7.0 && brew_unlink php@7.0
         brew_is_installed php@7.1 && brew_unlink php@7.1
@@ -204,7 +204,7 @@ if [[ " ${MAIN_PREFERENCES[@]} " =~ " development " ]]; then
     fi
 
     if [[ "${DEVELOPMENT_PREFERENCES[@]}" =~ "php" ]]; then
-        e_header "Installing other php components and finishing installation"
+        e_header "Finishing php installation and configuration"
         brew_install composer
         brew_install php-code-sniffer
         brew_install wp-cli
