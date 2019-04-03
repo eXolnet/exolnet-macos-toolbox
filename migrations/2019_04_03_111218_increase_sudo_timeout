@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+e_header "Configuring sudo"
+safe_execute "increase_sudo_timeout" "Increased sudo timeout to 60 minutes" "Failed to increase sudo timeout to 60 minutes"
