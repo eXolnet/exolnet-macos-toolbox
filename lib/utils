@@ -201,3 +201,8 @@ function waiting_for()
     done
     echo -e "\r$INDENT \033[1;32m✔\033[0m "
 }
+
+function increase_sudo_timeout
+{
+    echo 'Defaults	timestamp_timeout=60' | (sudo EDITOR=tee visudo -f /private/etc/sudoers.d/increase_sudo_timeout)
+}

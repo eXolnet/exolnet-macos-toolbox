@@ -45,6 +45,9 @@ brew_install dialog
 e_header "Installing scripts"
 process_recursive "link_file" "$TOOLBOX/bin" "/usr/local/bin"
 
+e_header "Configuring sudo"
+safe_execute "increase_sudo_timeout" "Increased sudo timeout to 60 minutes" "Failed to increase sudo timeout to 60 minutes"
+
 e_header "Creating storage directories"
 create_directory "$STORAGE_PREFERENCES_DIR"
 create_directory "$STORAGE_MIGRATIONS_DIR"
