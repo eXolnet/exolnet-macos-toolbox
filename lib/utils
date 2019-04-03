@@ -113,6 +113,18 @@ function create_directory()
     fi
 }
 
+function sudo_create_directory()
+{
+    local directory=$1
+
+    if [[ -e "$directory" && ! -d "$directory" ]]; then
+        e_error "File $directory exists but is not a directory, exiting ..."
+        exit 1
+    else
+        safe_execute "sudo mkdir -p $directory" "Created $directory directory" "Failed to create $directory directory"
+    fi
+}
+
 function link_file()
 {
     local src=$1

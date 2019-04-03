@@ -7,6 +7,7 @@ if [[ -z "$TOOLBOX_LIB_INCLUDED" ]]; then
     . $TOOLBOX/lib/git
     . $TOOLBOX/lib/brew
     . $TOOLBOX/lib/mysql
+    . $TOOLBOX/lib/dnsmasq
     . $TOOLBOX/lib/httpd
     . $TOOLBOX/lib/php
     . $TOOLBOX/lib/node

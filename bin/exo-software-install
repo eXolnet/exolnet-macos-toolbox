@@ -81,6 +81,17 @@ if [[ " ${MAIN_PREFERENCES[@]} " =~ " development " ]]; then
         safe_execute "mysql_grant_user" "Granted user exolnet_dev" "Failed to grant user exolnet_dev"
     fi
 
+    if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " dnsmasq " ]]; then
+        e_header "Installing and configuring dnsmasq"
+        brew_install dnsmasq
+        safe_execute "dnsmasq_replace_listen_address" "Replaced listen address" "Failed to replace listen address"
+        safe_execute "dnsmasq_enable_conf_dir" "Enabled conf directory" "Failed to enable conf directory"
+        safe_execute "dnsmasq_generate_localhost_conf" "Generated dnsmasq localhost conf file" "Failed to generate dnsmasq localhost conf file"
+        sudo_create_directory "$RESOLVER_DIR"
+        safe_execute "resolver_generate_localhost_conf" "Generated resolver localhost conf file" "Failed to generate resolver localhost conf file"
+        sudo_brew_restart dnsmasq
+    fi
+
     if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " apache " ]]; then
         e_header "Installing and configuring apache"
         safe_execute "sudo apachectl stop" "Stopped built-in apache" "Failed to stop built-in apache"
