@@ -53,5 +53,5 @@ done
 
 if [[ -z "$MAIN_INSTALL_SCRIPT" ]]; then
     e_header "What's next?"
-    e_arrow "Run 'exo-self-install' to install the selected software"
+    e_arrow "Run 'exo-software-install' to install the selected software"
 fi
