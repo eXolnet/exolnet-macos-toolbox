@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+e_header "Installing dependencies"
+brew_install dialog

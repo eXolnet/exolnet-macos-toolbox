@@ -21,7 +21,7 @@ function pecl_install()
     local extra=${3:+-${3}} # if $3 is define, return "-$3"
     local file=${package}.so
 
-    if [ -f "$(php_get_extension_path $version)/$file" ]; then
+    if [[ -f "$(php_get_extension_path $version)/$file" ]]; then
         e_success "Installed $package"
     else
         pecl_reinstall $@
@@ -99,7 +99,7 @@ function php_remove_imagick_extension_insert()
     local version=$1
     local file="$PHP_ETC/$version/conf.d/exolnet-ext-imagick.ini"
 
-    if [ -f "$file" ]; then
+    if [[ -f "$file" ]]; then
         remove_insert_from_file2 $file
     fi
 }
@@ -109,7 +109,7 @@ function php_remove_xdebug_extension_insert()
     local version=$1
     local file="$PHP_ETC/$version/conf.d/exolnet-ext-xdebug.ini"
 
-    if [ -f "$file" ]; then
+    if [[ -f "$file" ]]; then
         remove_insert_from_file2 $file
     fi
 }

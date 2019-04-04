@@ -16,13 +16,7 @@ if [ ! -d "$TOOLBOX" ]; then
 fi
 
 # Source helpers
-. $TOOLBOX/lib/header
-. $TOOLBOX/lib/utils
-. $TOOLBOX/lib/brew
-. $TOOLBOX/lib/mysql
-. $TOOLBOX/lib/httpd
-. $TOOLBOX/lib/php
-. $TOOLBOX/lib/node
+. $TOOLBOX/lib/include
 
 #
 # Script checks
@@ -40,155 +34,26 @@ fi
 # Script execution
 #
 
-# Tweak file globbing
-shopt -s dotglob
-shopt -s nullglob
+# Mark that we were here
+MAIN_INSTALL_SCRIPT=true
 
-# If backups are needed, this is where they'll go
-BACKUP_DIR="$TOOLBOX/backups/$(date "+%Y%m%d-%H%M%S")"
-BACKUP=
+# Command Line Tools and Homebrew are installed in bootstrap script
 
-e_header "Installing homebrew"
-install_homebrew
-
-e_header "Tapping exolnet taps"
-brew_tap exolnet/homebrew-cask
-brew_tap exolnet/homebrew-deprecated
-
-e_header "Installing and configuring mysql"
-brew_install mysql@5.7
-brew_link_force mysql@5.7
-brew_restart mysql@5.7
-mysql_wait_for_connection
-safe_execute "mysql_create_user" "Created user exolnet_dev" "Failed to create user exolnet_dev"
-safe_execute "mysql_grant_user" "Granted user exolnet_dev" "Failed to grant user exolnet_dev"
-
-e_header "Installing and configuring apache"
-safe_execute "sudo apachectl stop" "Stopped built-in apache" "Failed to stop built-in apache"
-safe_execute "sudo launchctl unload -w /System/Library/LaunchDaemons/org.apache.httpd.plist" "Disabled built-in apache" "Failed to disable built-in apache"
-create_directory "$HOME/Sites"
-brew_install httpd
-safe_execute "httpd_replace_listen_80" "Changed listen port 8080 -> 80" "Failed to change listen port 8080 -> 80"
-safe_execute "httpd_replace_listen_443" "Changed listen port 8443 -> 443" "Failed to change listen port 8443 -> 443"
-safe_execute "httpd_disable_mpm_event_module" "Disabled mpm event module in httpd" "Failed to disable mpm event module in httpd"
-safe_execute "httpd_enable_mpm_prefork_module" "Enabled mpm prefork module in httpd" "Failed to enable mpm prefork module in httpd"
-create_directory "$HTTPD_ETC/exolnet"
-create_directory "$HTTPD_ETC/exolnet-vhosts"
-safe_execute "httpd_add_include_exolnet" "Added exolnet include directive" "Failed to add exolnet include directive"
-remove_file "$HTTPD_ETC/exolnet/directory.conf" # File was renamed to 000-default.conf
-process_recursive "link_file" "$TOOLBOX/conf/httpd" "$HTTPD_ETC/exolnet"
-process_recursive "link_file" "$TOOLBOX/conf/httpd_vhosts" "$HTTPD_ETC/exolnet-vhosts"
-safe_execute "httpd_generate_user_conf" "Generated user conf file" "Failed to generate user conf file"
-link_file "$HOME/Sites" "$HTTPD_WWW"
-sudo_brew_restart httpd
-
-e_header "Installing and configuring php"
-brew_is_installed php@5.6 && brew_unlink php@5.6
-brew_is_installed php@7.0 && brew_unlink php@7.0
-brew_is_installed php@7.1 && brew_unlink php@7.1
-brew_is_installed php@7.2 && brew_unlink php@7.2
-brew_is_installed php@7.3 && brew_unlink php@7.3
-brew_install imagemagick
-brew_install pkg-config
-brew_install php@5.6
-brew_link_force php@5.6
-safe_execute "php_remove_imagick_extension_insert 5.6" "Removed php@5.6 imagick extension insert" "Failed to remove php@5.6 imagick extension insert"
-safe_execute "php_remove_xdebug_extension_insert 5.6" "Removed php@5.6 xdebug extension insert" "Failed to remove php@5.6 xdebug extension insert"
-pecl_update_channels
-pecl_install 5.6 imagick
-pecl_install 5.6 xdebug 2.5.5 # latest version of xdebug do not support php56
-safe_execute "php_remove_imagick_extension_from_php_ini 5.6" "Removed php@5.6 imagick extension from php.ini" "Failed to remove php@5.6 imagick extension from php.ini"
-safe_execute "php_remove_xdebug_extension_from_php_ini 5.6" "Removed php@5.6 xdebug extension from php.ini" "Failed to remove php@5.6 xdebug extension from php.ini"
-safe_execute "php_configure_timezone 5.6" "Configured php@5.6 timezone" "Failed to configure php@5.6 timezone"
-safe_execute "php_configure_upload_max_filesize 5.6" "Configured php@5.6 upload_max_filesize" "Failed to configure php@5.6 upload_max_filesize"
-safe_execute "php_configure_imagick 5.6" "Configured php@5.6 imagick extension" "Failed to configure php@5.6 imagick extension"
-safe_execute "php_configure_xdebug 5.6" "Configured php@5.6 xdebug extension" "Failed to configure php@5.6 xdebug extension"
-brew_unlink php@5.6
-brew_install php@7.0
-brew_link_force php@7.0
-safe_execute "php_remove_imagick_extension_insert 7.0" "Removed php@7.0 imagick extension insert" "Failed to remove php@7.0 imagick extension insert"
-safe_execute "php_remove_xdebug_extension_insert 7.0" "Removed php@7.0 xdebug extension insert" "Failed to remove php@7.0 xdebug extension insert"
-pecl_update_channels
-pecl_install 7.0 imagick
-pecl_install 7.0 xdebug
-safe_execute "php_remove_imagick_extension_from_php_ini 7.0" "Removed php@7.0 imagick extension from php.ini" "Failed to remove php@7.0 imagick extension from php.ini"
-safe_execute "php_remove_xdebug_extension_from_php_ini 7.0" "Removed php@7.0 xdebug extension from php.ini" "Failed to remove php@7.0 xdebug extension from php.ini"
-safe_execute "php_configure_timezone 7.0" "Configured php@7.0 timezone" "Failed to configure php@7.0 timezone"
-safe_execute "php_configure_upload_max_filesize 7.0" "Configured php@7.0 upload_max_filesize" "Failed to configure php@7.0 upload_max_filesize"
-safe_execute "php_configure_imagick 7.0" "Configured php@7.0 imagick extension" "Failed to configure php@7.0 imagick extension"
-safe_execute "php_configure_xdebug 7.0" "Configured php@7.0 xdebug extension" "Failed to configure php@7.0 xdebug extension"
-brew_unlink php@7.0
-brew_install php@7.1
-brew_link_force php@7.1
-safe_execute "php_remove_imagick_extension_insert 7.1" "Removed php@7.1 imagick extension insert" "Failed to remove php@7.1 imagick extension insert"
-safe_execute "php_remove_xdebug_extension_insert 7.1" "Removed php@7.1 xdebug extension insert" "Failed to remove php@7.1 xdebug extension insert"
-pecl_update_channels
-pecl_install 7.1 imagick
-pecl_install 7.1 xdebug
-safe_execute "php_remove_imagick_extension_from_php_ini 7.1" "Removed php@7.1 imagick extension from php.ini" "Failed to remove php@7.1 imagick extension from php.ini"
-safe_execute "php_remove_xdebug_extension_from_php_ini 7.1" "Removed php@7.1 xdebug extension from php.ini" "Failed to remove php@7.1 xdebug extension from php.ini"
-safe_execute "php_configure_timezone 7.1" "Configured php@7.1 timezone" "Failed to configure php@7.1 timezone"
-safe_execute "php_configure_upload_max_filesize 7.1" "Configured php@7.1 upload_max_filesize" "Failed to configure php@7.1 upload_max_filesize"
-safe_execute "php_configure_imagick 7.1" "Configured php@7.1 imagick extension" "Failed to configure php@7.1 imagick extension"
-safe_execute "php_configure_xdebug 7.1" "Configured php@7.1 xdebug extension" "Failed to configure php@7.1 xdebug extension"
-brew_unlink php@7.1
-brew_install php@7.2
-brew_link_force php@7.2
-safe_execute "php_remove_imagick_extension_insert 7.2" "Removed php@7.2 imagick extension insert" "Failed to remove php@7.2 imagick extension insert"
-safe_execute "php_remove_xdebug_extension_insert 7.2" "Removed php@7.2 xdebug extension insert" "Failed to remove php@7.2 xdebug extension insert"
-pecl_update_channels
-pecl_install 7.2 imagick
-pecl_install 7.2 xdebug
-safe_execute "php_remove_imagick_extension_from_php_ini 7.2" "Removed php@7.2 imagick extension from php.ini" "Failed to remove php@7.2 imagick extension from php.ini"
-safe_execute "php_remove_xdebug_extension_from_php_ini 7.2" "Removed php@7.2 xdebug extension from php.ini" "Failed to remove php@7.2 xdebug extension from php.ini"
-safe_execute "php_configure_timezone 7.2" "Configured php@7.2 timezone" "Failed to configure php@7.2 timezone"
-safe_execute "php_configure_upload_max_filesize 7.2" "Configured php@7.2 upload_max_filesize" "Failed to configure php@7.2 upload_max_filesize"
-safe_execute "php_configure_imagick 7.2" "Configured php@7.2 imagick extension" "Failed to configure php@7.2 imagick extension"
-safe_execute "php_configure_xdebug 7.2" "Configured php@7.2 xdebug extension" "Failed to configure php@7.2 xdebug extension"
-brew_unlink php@7.2
-brew_install php@7.3
-brew_link_force php@7.3
-safe_execute "php_remove_imagick_extension_insert 7.3" "Removed php@7.3 imagick extension insert" "Failed to remove php@7.3 imagick extension insert"
-safe_execute "php_remove_xdebug_extension_insert 7.3" "Removed php@7.3 xdebug extension insert" "Failed to remove php@7.3 xdebug extension insert"
-pecl_update_channels
-pecl_install 7.3 imagick
-pecl_install 7.3 xdebug
-safe_execute "php_remove_imagick_extension_from_php_ini 7.3" "Removed php@7.3 imagick extension from php.ini" "Failed to remove php@7.3 imagick extension from php.ini"
-safe_execute "php_remove_xdebug_extension_from_php_ini 7.3" "Removed php@7.3 xdebug extension from php.ini" "Failed to remove php@7.3 xdebug extension from php.ini"
-safe_execute "php_configure_timezone 7.3" "Configured php@7.3 timezone" "Failed to configure php@7.3 timezone"
-safe_execute "php_configure_upload_max_filesize 7.3" "Configured php@7.3 upload_max_filesize" "Failed to configure php@7.3 upload_max_filesize"
-safe_execute "php_configure_imagick 7.3" "Configured php@7.3 imagick extension" "Failed to configure php@7.3 imagick extension"
-safe_execute "php_configure_xdebug 7.3" "Configured php@7.3 xdebug extension" "Failed to configure php@7.3 xdebug extension"
-brew_unlink php@7.3
-brew_install composer
-brew_install php-code-sniffer
-brew_install wp-cli
-safe_execute "httpd_disable_php_module" "Disabled php module in httpd" "Failed to disable php module in httpd"
-brew_link_force php@7.2
-link_file "$TOOLBOX/conf/httpd_php/php72.conf" "$HTTPD_ETC/exolnet/php.conf"
-sudo_brew_restart httpd
-safe_execute "php_create_phpinfo" "Created phpinfo.php file" "Failed to create phpinfo.php file"
-
-e_header "Installing and configuring node"
-brew_install node@8
-brew_link_force node@8
-npm_global_install bower
-npm_global_install gulp-cli
-npm_global_install grunt-cli
-npm_global_install polymer-cli
-npm_global_install lighthouse
-brew_install yarn --ignore-dependencies
-
-e_header "Installing and configuring redis"
-brew_install redis
-brew_restart redis
+e_header "Installing dependencies"
+brew_install dialog
 
 e_header "Installing scripts"
 process_recursive "link_file" "$TOOLBOX/bin" "/usr/local/bin"
 
-e_header "Applying migrations"
+e_header "Configuring sudo"
+safe_execute "increase_sudo_timeout" "Increased sudo timeout to 60 minutes" "Failed to increase sudo timeout to 60 minutes"
+
+e_header "Creating storage directories"
+create_directory "$STORAGE_PREFERENCES_DIR"
 create_directory "$STORAGE_MIGRATIONS_DIR"
-MIGRATIONS=$(ls $MIGRATIONS_DIR)
+
+e_header "Skipping migrations"
+MIGRATIONS=$(ls $MIGRATIONS_DIR 2> /dev/null)
 for migration in $MIGRATIONS; do
     if [ ! -e "$STORAGE_MIGRATIONS_DIR/$migration" ]; then
         touch "$STORAGE_MIGRATIONS_DIR/$migration"
@@ -196,10 +61,5 @@ for migration in $MIGRATIONS; do
     fi
 done
 
-# Display if backups were made
-if [ "$BACKUP" ]; then
-    e_header "Backups"
-    e_arrow "Existing files were moved to $BACKUP_DIR"
-fi
-
-e_header "All done!"
+. $TOOLBOX/bin/exo-software-select
+. $TOOLBOX/bin/exo-software-install

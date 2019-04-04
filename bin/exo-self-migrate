@@ -5,25 +5,18 @@
 #
 
 # Define toolbox directory if not set
-if [ -z "$TOOLBOX" ]; then
+if [[ -z "$TOOLBOX" ]]; then
     TOOLBOX="$HOME/.exolnet/toolbox"
 fi
 
 # Check if toolbox directory exists
-if [ ! -d "$TOOLBOX" ]; then
+if [[ ! -d "$TOOLBOX" ]]; then
     echo "Directory ~/.exolnet does not exists, exiting ..."
     exit 1
 fi
 
 # Source helpers
-. $TOOLBOX/lib/header
-. $TOOLBOX/lib/utils
-. $TOOLBOX/lib/brew
-. $TOOLBOX/lib/mysql
-. $TOOLBOX/lib/httpd
-. $TOOLBOX/lib/php
-. $TOOLBOX/lib/node
-. $TOOLBOX/lib/completion
+. $TOOLBOX/lib/include
 
 #
 # Script checks
@@ -41,46 +34,53 @@ fi
 # Script execution
 #
 
-# If backups are needed, this is where they'll go
-BACKUP_DIR="$TOOLBOX/backups/$(date "+%Y%m%d-%H%M%S")"
-BACKUP=
-
-MIGRATIONS=$(ls $MIGRATIONS_DIR)
-MIGRATED=
-
-if [ ! -d "$STORAGE_MIGRATIONS_DIR" ]; then
+if [[ ! -d "$STORAGE_MIGRATIONS_DIR" ]]; then
     e_header "Warming up"
     create_directory "$STORAGE_MIGRATIONS_DIR"
 fi
 
-for migration in $MIGRATIONS; do
-    if [ ! -e "$STORAGE_MIGRATIONS_DIR/$migration" ]; then
-        if [ "$MIGRATED" ]; then
-            echo
-            ask_yes_no "Continue with other migrations?" || break
+# Skip previous migrations so that everyone starts at the same place
+MIGRATIONS=$(ls $MIGRATIONS_DIR/2018* $MIGRATIONS_DIR/2019_0[12]* 2> /dev/null)
+MIGRATED=
+if [[ "$MIGRATIONS" ]]; then
+    for migration in $MIGRATIONS; do
+        migration=$(basename "$migration")
+        if [[ ! -e "$STORAGE_MIGRATIONS_DIR/$migration" ]]; then
+            if [[ ! "$MIGRATED" ]]; then
+                e_header "Skipping migrations"
+            fi
+            touch "$STORAGE_MIGRATIONS_DIR/$migration"
+            e_success "Marked migration $migration as already applied"
+            MIGRATED=true
         fi
+    done
+fi
 
-        echo -e "\n\033[32mMigrating:\033[0m $migration"
+MIGRATIONS=$(ls $MIGRATIONS_DIR 2> /dev/null)
+MIGRATED=
+for migration in $MIGRATIONS; do
+    if [[ ! -e "$STORAGE_MIGRATIONS_DIR/$migration" ]]; then
+        echo -e "\n\033[33mMigrating:\033[0m $migration"
 
         INDENT="   "
         . $MIGRATIONS_DIR/$migration
         INDENT=
+
+        echo -e "\n\033[32mMigrated:\033[0m  $migration"
 
         touch "$STORAGE_MIGRATIONS_DIR/$migration"
         MIGRATED=true
     fi
 done
 
-if [ "$MIGRATED" ]; then
-    # Display if backups were made
-    if [ "$BACKUP" ]; then
-        e_header "Backups"
-        e_arrow "Existing files were moved to $BACKUP_DIR"
-    fi
+# Display if backups were made
+if [[ "$BACKUP" == true ]]; then
+    e_header "Backups"
+    e_arrow "Existing files were moved to $BACKUP_DIR"
+fi
 
+if [[ "$MIGRATED" == true ]]; then
     e_header "All done!"
 else
     e_header "Nothing to migrate."
 fi
-
-

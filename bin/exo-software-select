@@ -34,17 +34,24 @@ fi
 # Script execution
 #
 
-e_header "Updating exolnet-macos-toolbox"
-safe_execute "git_fetch" "Fetched remote changes" "Failed to fetch remote changes"
-safe_execute "git_merge" "Fast-forwarded repository" "Failed to fast-forward repository"
-
-e_header "Installing scripts"
-process_recursive "link_file" "$TOOLBOX/bin" "/usr/local/bin"
-
-# Display if backups were made
-if [[ "$BACKUP" == true ]]; then
-    e_header "Backups"
-    e_arrow "Existing files were moved to $BACKUP_DIR"
+if [[ ! -d "$STORAGE_PREFERENCES_DIR" ]]; then
+    e_header "Warming up"
+    create_directory "$STORAGE_PREFERENCES_DIR"
 fi
 
-e_header "All done!"
+e_header "Displaying preference menus"
+
+show_preferences_menu main
+e_success "Saved main preferences"
+
+MAIN_PREFERENCES=$(read_preferences main)
+
+for item in ${MAIN_PREFERENCES[@]}; do
+    show_preferences_menu "$item"
+    e_success "Saved $item preferences"
+done
+
+if [[ -z "$MAIN_INSTALL_SCRIPT" ]]; then
+    e_header "What's next?"
+    e_arrow "Run 'exo-software-install' to install the selected software"
+fi

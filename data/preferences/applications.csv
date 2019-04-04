@@ -1,0 +1,46 @@
+betterzip,BetterZip (Application & QuickLook plugin),on
+qlcolorcode,QLColorCode (QuickLook plugin),on
+qlmarkdown,QLMarkdown (QuickLook plugin),on
+qlstephen,QLStephen (QuickLook plugin),on
+suspicious-package,Suspicious Package (Application & QuickLook plugin),off
+colorpicker-skalacolor,Skala Color (Colorpicker),on
+font-dejavu-sans,DejaVu (Font),off
+1password,1Password (Application),off
+adobe-creative-cloud,Adobe Creative Cloud (Application),off
+airserver,AirServer (Application),off
+android-studio,Android Studio (Application),off
+sourcetree,Atlassian SourceTree (Application),on
+canon-printer-driver,Canon MF Printer Driver & Utilities (Application),on
+canon-scanner-driver,Canon Scanner Driver & Utilities (Application),on
+coconutbattery,coconutBattery (Application),off
+disk-inventory-x,Disk Inventory X (Application),on
+diskmaker-x,DiskMaker X (Application),off
+docker,Docker CE (Application),off
+etcher,Etcher (Application),off
+atom,Github Atom (Application),on
+google-chrome,Google Chrome (Application),on
+google-drive-file-stream,Google Drive File Stream (Application),on
+imageoptim,ImageOptim (Application),on
+iina,IINA (Application),off
+phpstorm,JetBrains PhpStorm (Application),on
+jetbrains-toolbox,JetBrains Toolbox (Application),off
+karabiner-elements,Karabiner Elements (Application),off
+keepassxc,KeePassXC (Application),off
+microsoft-office,Microsoft Office (Application),on
+visual-studio-code,Microsoft VS Code (Application),on
+firefox,Mozilla Firefox (Application),on
+mysqlworkbench,MySQL Workbench (Application),on
+ngrok,ngrok (Application),on
+opera,Opera (Application),on
+virtualbox,Oracle VirtualBox (Application),off
+owncloud,ownCloud (Application),on
+sequel-pro,Sequel Pro (Application),on
+shoretel-connect,ShoreTel Connect (Application),on
+skype,Skype (Application),off
+slack,Slack (Application),on
+sublime-text,Sublime Text (Application),off
+tunnelblick,Tunnelblick (Application),on
+unetbootin,UNetbootin (Application),off
+vagrant,Vagrant (Application),off
+vlc,VLC media player (Application),off
+wireshark,Wireshark (Application),off

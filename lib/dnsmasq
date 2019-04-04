@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+
+DNSMASQ_CONF="/usr/local/etc/dnsmasq.conf"
+DNSMASQ_DIR="/usr/local/etc/dnsmasq.d"
+RESOLVER_DIR="/private/etc/resolver"
+
+function dnsmasq_replace_listen_address()
+{
+    /usr/bin/sed -Ei '' 's/^#?listen-address=.*$/listen-address=127.0.0.1/g' $DNSMASQ_CONF
+}
+
+function dnsmasq_enable_conf_dir()
+{
+    /usr/bin/sed -i '' 's|^#\(conf-dir=/usr/local/etc/dnsmasq.d\)$|\1|g' $DNSMASQ_CONF
+}
+
+function dnsmasq_generate_localhost_conf()
+{
+    remove_insert_from_file $DNSMASQ_DIR/localhost
+
+cat >> $DNSMASQ_DIR/localhost <<EOL
+# EXOLNET-MACOS-TOOLBOX BEGIN
+address=/localhost/127.0.0.1
+# EXOLNET-MACOS-TOOLBOX END
+EOL
+}
+
+function resolver_generate_localhost_conf()
+{
+    remove_insert_from_file $RESOLVER_DIR/localhost
+
+sudo tee $RESOLVER_DIR/localhost <<EOF
+# EXOLNET-MACOS-TOOLBOX BEGIN
+nameserver 127.0.0.1
+# EXOLNET-MACOS-TOOLBOX END
+EOF
+}

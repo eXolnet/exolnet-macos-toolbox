@@ -5,22 +5,18 @@
 #
 
 # Define toolbox directory if not set
-if [ -z "$TOOLBOX" ]; then
+if [[ -z "$TOOLBOX" ]]; then
     TOOLBOX="$HOME/.exolnet/toolbox"
 fi
 
 # Check if toolbox directory exists
-if [ ! -d "$TOOLBOX" ]; then
+if [[ ! -d "$TOOLBOX" ]]; then
     echo "Directory ~/.exolnet does not exists, exiting ..."
     exit 1
 fi
 
 # Source helpers
-. $TOOLBOX/lib/header
-. $TOOLBOX/lib/utils
-. $TOOLBOX/lib/brew
-. $TOOLBOX/lib/httpd
-. $TOOLBOX/lib/php
+. $TOOLBOX/lib/include
 
 #
 # Script checks
@@ -35,7 +31,7 @@ if [[ $(id -u) -eq 0 ]]; then
 fi
 
 # Usage
-if [ $# -ne 1 ]; then
+if [[ $# -ne 1 ]]; then
     first=true
 
     brew list | egrep '^php(@[0-9.]{3,})?$' | sed 's/^php$/php@7.3/g' | sort | grep -o -E '[0-9.]+' | while read -r line ; do

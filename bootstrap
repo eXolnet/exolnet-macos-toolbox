@@ -3,6 +3,15 @@
 # Define toolbox directory
 TOOLBOX="$HOME/.exolnet/toolbox"
 
+echo "Installing homebrew ..."
+echo
+
+if [[ -z $(command -v brew) ]]; then
+    # Homebrew will install the Command Line Tools, no need to run `xcode-select --install` beforehand
+    /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+    echo
+fi
+
 echo "Cloning exolnet-macos-toolbox ..."
 echo
 
