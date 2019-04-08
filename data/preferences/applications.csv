@@ -31,11 +31,13 @@ visual-studio-code,Microsoft VS Code (Application),on
 firefox,Mozilla Firefox (Application),on
 mysqlworkbench,MySQL Workbench (Application),on
 ngrok,ngrok (Application),on
+omnifocus,OmniFocus (Application),off
 opera,Opera (Application),on
 virtualbox,Oracle VirtualBox (Application),off
 owncloud,ownCloud (Application),on
 sequel-pro,Sequel Pro (Application),on
 shoretel-connect,ShoreTel Connect (Application),on
+sketch,Sketch (Application),off
 skype,Skype (Application),off
 slack,Slack (Application),on
 sublime-text,Sublime Text (Application),off
