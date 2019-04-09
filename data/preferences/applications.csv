@@ -5,11 +5,14 @@ qlstephen,QLStephen (QuickLook plugin),on
 suspicious-package,Suspicious Package (Application & QuickLook plugin),off
 colorpicker-skalacolor,Skala Color (Colorpicker),on
 font-dejavu-sans,DejaVu (Font),off
+0xed,0xED (Application),off
 1password,1Password (Application),off
 adobe-creative-cloud,Adobe Creative Cloud (Application),off
 airserver,AirServer (Application),off
+alfred,Alfred (Application),off
 android-studio,Android Studio (Application),off
 sourcetree,Atlassian SourceTree (Application),on
+caffeine,Caffeine (Application),off
 canon-printer-driver,Canon MF Printer Driver & Utilities (Application),on
 canon-scanner-driver,Canon Scanner Driver & Utilities (Application),on
 coconutbattery,coconutBattery (Application),off
@@ -20,10 +23,15 @@ etcher,Etcher (Application),off
 atom,Github Atom (Application),on
 google-chrome,Google Chrome (Application),on
 google-drive-file-stream,Google Drive File Stream (Application),on
+handbrake,HandBrake (Application),off
 imageoptim,ImageOptim (Application),on
+insomnia,Insomnia (Application),off
 iina,IINA (Application),off
 phpstorm,JetBrains PhpStorm (Application),on
+pycharm,JetBrains PyCharm (Application),off
+rubymine,JetBrains RubyMine (Application),off
 jetbrains-toolbox,JetBrains Toolbox (Application),off
+kap,Kap (Application),on
 karabiner-elements,Karabiner Elements (Application),off
 keepassxc,KeePassXC (Application),off
 microsoft-office,Microsoft Office (Application),on
@@ -35,6 +43,8 @@ omnifocus,OmniFocus (Application),off
 opera,Opera (Application),on
 virtualbox,Oracle VirtualBox (Application),off
 owncloud,ownCloud (Application),on
+poedit,Poedit (Application),on
+postman,Postman (Application),off
 sequel-pro,Sequel Pro (Application),on
 shoretel-connect,ShoreTel Connect (Application),on
 sketch,Sketch (Application),off
