@@ -3,6 +3,11 @@ coreutils,coreutils,on
 curl,curl,on
 git,git,on
 htop,htop,on
+jq,jq,on
+nmap,nmap,off
+pv,pv,on
+pwgen,pwgen,on
+python,python,off
 rsync,rsync,on
 ssh-copy-id,ssh-copy-id,on
 trash,trash,on
@@ -11,8 +16,15 @@ vim,vim,on
 wget,wget,on
 bash,bash,on
 bash-completion,bash-completion,on
+bundler-completion,bundler-completion,off
 docker-completion,docker-completion,on
 docker-compose-completion,docker-compose-completion,on
 docker-machine-completion,docker-machine-completion,on
+gem-completion,gem-completion,off
 grunt-completion,grunt-completion,on
+launchctl-completion,launchctl-completion,on
+pip-completion,pip-completion,off
+rails-completion,rails-completion,off
+rake-completion,rake-completion,off
+ruby-completion,ruby-completion,off
 vagrant-completion,vagrant-completion,on
