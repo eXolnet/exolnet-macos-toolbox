@@ -12,6 +12,7 @@ if [[ -z "$TOOLBOX_LIB_INCLUDED" ]]; then
     . $TOOLBOX/lib/php
     . $TOOLBOX/lib/node
     . $TOOLBOX/lib/completion
+    . $TOOLBOX/lib/macos
 
     TOOLBOX_LIB_INCLUDED=true
 

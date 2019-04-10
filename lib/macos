@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+function increase_sudo_timeout()
+{
+    echo 'Defaults	timestamp_timeout=60' | (sudo EDITOR=tee visudo -f /private/etc/sudoers.d/increase_sudo_timeout)
+}
+
+function enable_require_password()
+{
+    defaults write com.apple.screensaver askForPassword -int 1
+}
+
+function set_require_password_to_immediately()
+{
+    defaults write com.apple.screensaver askForPasswordDelay -int 0
+}
+
+function enable_full_keyboard_access()
+{
+    defaults write NSGlobalDomain AppleKeyboardUIMode -int 2
+}
+
+function enable_show_all_file_name_extensions()
+{
+    defaults write NSGlobalDomain AppleShowAllExtensions -bool true
+}
