@@ -38,6 +38,7 @@ visual-studio-code,Microsoft VS Code (Application),on
 firefox,Mozilla Firefox (Application),on
 mysqlworkbench,MySQL Workbench (Application),on
 ngrok,ngrok (Application),on
+openemu,OpenEmu (Application),off
 opera,Opera (Application),on
 virtualbox,Oracle VirtualBox (Application),off
 owncloud,ownCloud (Application),on
@@ -49,7 +50,9 @@ sketch,Sketch (Application),off
 skype,Skype (Application),off
 slack,Slack (Application),on
 sublime-text,Sublime Text (Application),off
+teamviewer,TeamViewer (Application),off
 tunnelblick,Tunnelblick (Application),on
+ukelele,Ukelele (Application),off
 unetbootin,UNetbootin (Application),off
 vagrant,Vagrant (Application),off
 vlc,VLC media player (Application),off
