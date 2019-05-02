@@ -14,5 +14,6 @@ fi
 . $TOOLBOX/lib/php
 . $TOOLBOX/lib/node
 . $TOOLBOX/lib/completion
+. $TOOLBOX/lib/macos
 
 e_header "All done!"
