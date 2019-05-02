@@ -110,6 +110,18 @@ if [[ " ${MAIN_PREFERENCES[@]} " =~ " development " ]]; then
         process_recursive "link_file" "$TOOLBOX/conf/httpd_vhosts" "$HTTPD_ETC/exolnet-vhosts"
         safe_execute "httpd_generate_user_conf" "Generated user conf file" "Failed to generate user conf file"
         link_file "$HOME/Sites" "$HTTPD_WWW"
+
+        if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " ssl " ]]; then
+            e_header "Installing and configuring ssl"
+            brew_install mkcert
+            brew_install nss
+            create_directory "$HTTPD_SSL/localhost"
+            safe_execute "mkcert_install_local_ca" "Installed local certificate authority" "Failed to install local certificate authority"
+            safe_execute "mkcert_generate_ssl_certificate" "Generated localhost ssl certificate" "Failed to generate localhost ssl certificate"
+            process_recursive "link_file" "$TOOLBOX/conf/httpd_ssl" "$HTTPD_ETC/exolnet"
+            process_recursive "link_file" "$TOOLBOX/conf/httpd_vhosts_ssl" "$HTTPD_ETC/exolnet-vhosts"
+        fi
+
         sudo_brew_restart httpd
     fi
 
