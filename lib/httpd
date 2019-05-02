@@ -2,6 +2,7 @@
 
 HTTPD_ETC="/usr/local/etc/httpd"
 HTTPD_WWW="/usr/local/var/www"
+HTTPD_SSL="$HTTPD_ETC/exolnet-ssl"
 
 function httpd_replace_listen_80()
 {
@@ -52,4 +53,14 @@ function httpd_enable_mpm_prefork_module()
 function httpd_disable_php_module()
 {
     /usr/bin/sed -i '' 's/^\(LoadModule php[57]_module .*\)$/#\1/g' $HTTPD_ETC/httpd.conf
+}
+
+function mkcert_install_local_ca()
+{
+    mkcert -install
+}
+
+function mkcert_generate_ssl_certificate()
+{
+    mkcert -cert-file "$HTTPD_SSL/localhost/fullchain.pem" -key-file "$HTTPD_SSL/localhost/privkey.pem" localhost ssl.localhost "*.ssl.localhost"
 }
