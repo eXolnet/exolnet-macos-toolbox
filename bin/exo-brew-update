@@ -49,6 +49,13 @@ if [[ -z "$outdated" ]]; then
     exit
 fi
 
+if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " apache " ]]; then
+    e_header "Prepare apache"
+    sudo_brew_stop httpd
+    safe_execute "httpd_chown_cellar_path" "Changed ownership of httpd cellar directory" "Failed to change ownership of httpd cellar directory"
+    remove_file "$HTTPD_WWW"
+fi
+
 if [[ "${DEVELOPMENT_PREFERENCES[@]}" =~ "php" ]]; then
     e_header "Unlinking php"
     brew_is_installed php@5.6 && brew_unlink php@5.6
@@ -75,12 +82,16 @@ if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " apache " ]]; then
     safe_execute "httpd_add_include_exolnet" "Added exolnet include directive" "Failed to add exolnet include directive"
     safe_execute "httpd_generate_user_conf" "Generated user conf file" "Failed to generate user conf file"
     safe_execute "httpd_disable_php_module" "Disabled php module in httpd" "Failed to disable php module in httpd"
+    link_file "$HOME/Sites" "$HTTPD_WWW"
 fi
 
 if [[ "${DEVELOPMENT_PREFERENCES[@]}" =~ "php" ]]; then
     e_header "Reconfiguring php"
     brew_link php@7.2
     link_file "$TOOLBOX/conf/httpd_php/php72.conf" "$HTTPD_ETC/exolnet/php.conf"
+fi
+
+if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " apache " ]]; then
     sudo_brew_restart httpd
 fi
 

@@ -112,6 +112,13 @@ function brew_stop()
     safe_execute "brew services stop $service" "Stopped $service" "Failed to stop $service"
 }
 
+function sudo_brew_stop()
+{
+    local service=$1
+
+    safe_execute "sudo brew services stop $service" "Stopped $service" "Failed to stop $service"
+}
+
 function brew_restart()
 {
     local service=$1

@@ -55,6 +55,11 @@ function httpd_disable_php_module()
     /usr/bin/sed -i '' 's/^\(LoadModule php[57]_module .*\)$/#\1/g' $HTTPD_ETC/httpd.conf
 }
 
+function httpd_chown_cellar_path()
+{
+    sudo chown -R $(whoami):staff $(brew --cellar httpd)
+}
+
 function mkcert_install_local_ca()
 {
     mkcert -install
