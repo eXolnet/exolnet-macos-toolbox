@@ -125,6 +125,18 @@ function sudo_create_directory()
     fi
 }
 
+function create_file()
+{
+    local file=$1
+
+    if [[ -e "$file" && ! -f "$file" ]]; then
+        e_error "File $file exists but is not a file, exiting ..."
+        exit 1
+    else
+        safe_execute "touch $file" "Created $file file" "Failed to create $file file"
+    fi
+}
+
 function link_file()
 {
     local src=$1

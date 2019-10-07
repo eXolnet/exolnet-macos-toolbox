@@ -44,10 +44,12 @@ outdated=$(brew outdated --quiet)
 httpd=0
 php=0
 
-if [[ -z "$outdated" ]]; then
+if [[ -z "$outdated" ]] && [[ ! -f $TOOLBOX/.updating ]]; then
     e_header "Nothing to upgrade!"
     exit
 fi
+
+create_file $TOOLBOX/.updating
 
 if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " apache " ]]; then
     e_header "Prepare apache"
@@ -99,5 +101,8 @@ if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " node " ]]; then
     e_header "Reconfiguring node"
     brew_link_force node@8
 fi
+
+e_header "Cleaning up"
+remove_file $TOOLBOX/.updating
 
 e_header "All done!"
