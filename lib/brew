@@ -105,6 +105,26 @@ function brew_untap()
     safe_execute "brew untap $tap" "Untapped $tap" "Failed to untap $tap"
 }
 
+function brew_is_status()
+{
+    local service=$1
+    local status=$2
+
+    sudo brew services list | grep "^$1" | tr -s ' ' | cut -d ' ' -f 2 | grep -q "$2"
+
+    return $?
+}
+
+function sudo_brew_is_status()
+{
+    local service=$1
+    local status=$2
+
+    sudo brew services list | grep "^$1" | tr -s ' ' | cut -d ' ' -f 2 | grep -q "$2"
+
+    return $?
+}
+
 function brew_stop()
 {
     local service=$1
