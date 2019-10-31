@@ -232,8 +232,8 @@ if [[ " ${MAIN_PREFERENCES[@]} " =~ " development " ]]; then
         brew_install php-code-sniffer
         brew_install wp-cli
         safe_execute "httpd_disable_php_module" "Disabled php module in httpd" "Failed to disable php module in httpd"
-        brew_link_force php@7.2
-        link_file "$TOOLBOX/conf/httpd_php/php72.conf" "$HTTPD_ETC/exolnet/php.conf"
+        brew_link_force php@7.3
+        link_file "$TOOLBOX/conf/httpd_php/php73.conf" "$HTTPD_ETC/exolnet/php.conf"
         sudo_brew_restart httpd
         safe_execute "php_create_phpinfo" "Created phpinfo.php file" "Failed to create phpinfo.php file"
     fi

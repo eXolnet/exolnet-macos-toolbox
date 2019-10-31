@@ -89,8 +89,8 @@ fi
 
 if [[ "${DEVELOPMENT_PREFERENCES[@]}" =~ "php" ]]; then
     e_header "Reconfiguring php"
-    brew_link php@7.2
-    link_file "$TOOLBOX/conf/httpd_php/php72.conf" "$HTTPD_ETC/exolnet/php.conf"
+    brew_link_force php@7.3
+    link_file "$TOOLBOX/conf/httpd_php/php73.conf" "$HTTPD_ETC/exolnet/php.conf"
 fi
 
 if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " apache " ]]; then
