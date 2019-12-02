@@ -65,6 +65,7 @@ if [[ "${DEVELOPMENT_PREFERENCES[@]}" =~ "php" ]]; then
     brew_is_installed php@7.1 && brew_unlink php@7.1
     brew_is_installed php@7.2 && brew_unlink php@7.2
     brew_is_installed php@7.3 && brew_unlink php@7.3
+    brew_is_installed php@7.4 && brew_unlink php@7.4
     brew_install imagemagick
     brew_install pkg-config
 fi
