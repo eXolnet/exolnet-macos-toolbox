@@ -60,11 +60,7 @@ fi
 
 if [[ "${DEVELOPMENT_PREFERENCES[@]}" =~ "php" ]]; then
     e_header "Unlinking php"
-    brew_is_installed php@5.6 && brew_unlink php@5.6
-    brew_is_installed php@7.0 && brew_unlink php@7.0
-    brew_is_installed php@7.1 && brew_unlink php@7.1
-    brew_is_installed php@7.2 && brew_unlink php@7.2
-    brew_is_installed php@7.3 && brew_unlink php@7.3
+    brew_unlink_all_php
 fi
 
 if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " node " ]]; then
