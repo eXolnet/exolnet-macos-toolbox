@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+# Read preferences
+DEVELOPMENT_PREFERENCES=$(read_preferences development)
+
+if [[ "${DEVELOPMENT_PREFERENCES[@]}" =~ "php" ]]; then
+    e_header "Installing php@7.3"
+    brew_update
+    brew_install php@7.3
+fi
