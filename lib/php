@@ -183,6 +183,10 @@ function php_convert_version_to_homebrew()
             echo 'php@7.3'
             ;;
 
+        php74)
+            echo 'php@7.4'
+            ;;
+
         *)
             echo 'phpinvalid'
 
