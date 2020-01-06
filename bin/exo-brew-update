@@ -41,8 +41,6 @@ e_header "Warming up"
 brew_update
 
 outdated=$(brew outdated --quiet)
-httpd=0
-php=0
 
 if [[ -z "$outdated" ]] && [[ ! -f $TOOLBOX/.updating ]]; then
     e_header "Nothing to upgrade!"
@@ -65,7 +63,8 @@ fi
 
 if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " node " ]]; then
     e_header "Unlinking node"
-    brew_is_installed node@8 && brew_unlink node@8
+    brew_is_installed node@8 && brew_unlink node@8 # TODO: Remove this when node@8 will be uninstalled
+    brew_is_installed node@12 && brew_unlink node@12
 fi
 
 e_header "Upgrading formulae"
@@ -95,7 +94,7 @@ fi
 
 if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " node " ]]; then
     e_header "Reconfiguring node"
-    brew_link_force node@8
+    brew_link_force node@12
 fi
 
 e_header "Cleaning up"
