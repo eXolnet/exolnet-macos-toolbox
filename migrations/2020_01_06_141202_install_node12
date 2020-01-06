@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+# Read preferences
+DEVELOPMENT_PREFERENCES=$(read_preferences development)
+
+if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " node " ]]; then
+    e_header "Installing node@12"
+    brew_is_installed node@8 && brew_unlink node@8
+    brew_install node@12
+    brew_link_force node@12
+fi
