@@ -256,8 +256,8 @@ if [[ " ${MAIN_PREFERENCES[@]} " =~ " development " ]]; then
         e_header "Installing and configuring node"
         brew_install yarn
         brew_is_installed node && brew_unlink node
-        brew_install node@8
-        brew_link_force node@8
+        brew_install node@12
+        brew_link_force node@12
         npm_global_install bower
         npm_global_install gulp-cli
         npm_global_install grunt-cli
