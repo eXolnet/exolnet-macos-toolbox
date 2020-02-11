@@ -158,7 +158,7 @@ if [[ " ${MAIN_PREFERENCES[@]} " =~ " development " ]]; then
         safe_execute "php_remove_xdebug_extension_insert 7.0" "Removed php@7.0 xdebug extension insert" "Failed to remove php@7.0 xdebug extension insert"
         pecl_update_channels
         pecl_install 7.0 imagick
-        pecl_install 7.0 xdebug
+        pecl_install 7.0 xdebug 2.9.0 # latest version of xdebug do not support php70
         safe_execute "php_remove_imagick_extension_from_php_ini 7.0" "Removed php@7.0 imagick extension from php.ini" "Failed to remove php@7.0 imagick extension from php.ini"
         safe_execute "php_remove_xdebug_extension_from_php_ini 7.0" "Removed php@7.0 xdebug extension from php.ini" "Failed to remove php@7.0 xdebug extension from php.ini"
         safe_execute "php_configure_timezone 7.0" "Configured php@7.0 timezone" "Failed to configure php@7.0 timezone"
