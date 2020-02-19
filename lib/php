@@ -70,6 +70,14 @@ function php_remove_imagick_extension_from_php_ini()
     /usr/bin/sed -i '' '/extension="imagick.so"/d' $file
 }
 
+function php_remove_redis_extension_from_php_ini()
+{
+    local version=$1
+    local file="$PHP_ETC/$version/php.ini"
+
+    /usr/bin/sed -i '' '/extension="redis.so"/d' $file
+}
+
 function php_remove_xdebug_extension_from_php_ini()
 {
     local version=$1
@@ -104,6 +112,16 @@ function php_remove_imagick_extension_insert()
     fi
 }
 
+function php_remove_redis_extension_insert()
+{
+    local version=$1
+    local file="$PHP_ETC/$version/conf.d/exolnet-ext-redis.ini"
+
+    if [[ -f "$file" ]]; then
+        remove_insert_from_file2 $file
+    fi
+}
+
 function php_remove_xdebug_extension_insert()
 {
     local version=$1
@@ -125,6 +143,21 @@ cat >> $file <<EOL
 ; EXOLNET-MACOS-TOOLBOX BEGIN
 [imagick]
 extension="$(php_get_extension_path $version)/imagick.so"
+; EXOLNET-MACOS-TOOLBOX END
+EOL
+}
+
+function php_configure_redis()
+{
+    local version=$1
+    local file="$PHP_ETC/$version/conf.d/exolnet-ext-redis.ini"
+
+    remove_insert_from_file2 $file
+
+cat >> $file <<EOL
+; EXOLNET-MACOS-TOOLBOX BEGIN
+[redis]
+extension="$(php_get_extension_path $version)/redis.so"
 ; EXOLNET-MACOS-TOOLBOX END
 EOL
 }

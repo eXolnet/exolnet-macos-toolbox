@@ -62,6 +62,12 @@ if [[ " ${MAIN_PREFERENCES[@]} " =~ " bash " ]]; then
 
     for item in ${BASH_PREFERENCES[@]}; do
         brew_install "$item"
+
+        if [[ "$item" == "python" ]]; then
+            pip3_upgrade pip
+            pip3_upgrade setuptools
+            pip3_upgrade wheel
+        fi
     done
 
     e_header "Loading completions"
@@ -137,15 +143,19 @@ if [[ " ${MAIN_PREFERENCES[@]} " =~ " development " ]]; then
         brew_install php@5.6
         brew_link_force php@5.6
         safe_execute "php_remove_imagick_extension_insert 5.6" "Removed php@5.6 imagick extension insert" "Failed to remove php@5.6 imagick extension insert"
+        safe_execute "php_remove_redis_extension_insert 5.6" "Removed php@5.6 redis extension insert" "Failed to remove php@5.6 redis extension insert"
         safe_execute "php_remove_xdebug_extension_insert 5.6" "Removed php@5.6 xdebug extension insert" "Failed to remove php@5.6 xdebug extension insert"
         pecl_update_channels
         pecl_install 5.6 imagick
+        pecl_install 5.6 redis 4.3.0 # latest version of redis do not support php56
         pecl_install 5.6 xdebug 2.5.5 # latest version of xdebug do not support php56
         safe_execute "php_remove_imagick_extension_from_php_ini 5.6" "Removed php@5.6 imagick extension from php.ini" "Failed to remove php@5.6 imagick extension from php.ini"
+        safe_execute "php_remove_redis_extension_from_php_ini 5.6" "Removed php@5.6 redis extension from php.ini" "Failed to remove php@5.6 redis extension from php.ini"
         safe_execute "php_remove_xdebug_extension_from_php_ini 5.6" "Removed php@5.6 xdebug extension from php.ini" "Failed to remove php@5.6 xdebug extension from php.ini"
         safe_execute "php_configure_timezone 5.6" "Configured php@5.6 timezone" "Failed to configure php@5.6 timezone"
         safe_execute "php_configure_upload_max_filesize 5.6" "Configured php@5.6 upload_max_filesize" "Failed to configure php@5.6 upload_max_filesize"
         safe_execute "php_configure_imagick 5.6" "Configured php@5.6 imagick extension" "Failed to configure php@5.6 imagick extension"
+        safe_execute "php_configure_redis 5.6" "Configured php@5.6 redis extension" "Failed to configure php@5.6 redis extension"
         safe_execute "php_configure_xdebug 5.6" "Configured php@5.6 xdebug extension" "Failed to configure php@5.6 xdebug extension"
         brew_unlink php@5.6
     fi
@@ -155,15 +165,19 @@ if [[ " ${MAIN_PREFERENCES[@]} " =~ " development " ]]; then
         brew_install php@7.0
         brew_link_force php@7.0
         safe_execute "php_remove_imagick_extension_insert 7.0" "Removed php@7.0 imagick extension insert" "Failed to remove php@7.0 imagick extension insert"
+        safe_execute "php_remove_redis_extension_insert 7.0" "Removed php@7.0 redis extension insert" "Failed to remove php@7.0 redis extension insert"
         safe_execute "php_remove_xdebug_extension_insert 7.0" "Removed php@7.0 xdebug extension insert" "Failed to remove php@7.0 xdebug extension insert"
         pecl_update_channels
         pecl_install 7.0 imagick
+        pecl_install 7.0 redis
         pecl_install 7.0 xdebug 2.9.0 # latest version of xdebug do not support php70
         safe_execute "php_remove_imagick_extension_from_php_ini 7.0" "Removed php@7.0 imagick extension from php.ini" "Failed to remove php@7.0 imagick extension from php.ini"
+        safe_execute "php_remove_redis_extension_from_php_ini 7.0" "Removed php@7.0 redis extension from php.ini" "Failed to remove php@7.0 redis extension from php.ini"
         safe_execute "php_remove_xdebug_extension_from_php_ini 7.0" "Removed php@7.0 xdebug extension from php.ini" "Failed to remove php@7.0 xdebug extension from php.ini"
         safe_execute "php_configure_timezone 7.0" "Configured php@7.0 timezone" "Failed to configure php@7.0 timezone"
         safe_execute "php_configure_upload_max_filesize 7.0" "Configured php@7.0 upload_max_filesize" "Failed to configure php@7.0 upload_max_filesize"
         safe_execute "php_configure_imagick 7.0" "Configured php@7.0 imagick extension" "Failed to configure php@7.0 imagick extension"
+        safe_execute "php_configure_redis 7.0" "Configured php@7.0 redis extension" "Failed to configure php@7.0 redis extension"
         safe_execute "php_configure_xdebug 7.0" "Configured php@7.0 xdebug extension" "Failed to configure php@7.0 xdebug extension"
         brew_unlink php@7.0
     fi
@@ -173,15 +187,19 @@ if [[ " ${MAIN_PREFERENCES[@]} " =~ " development " ]]; then
         brew_install php@7.1
         brew_link_force php@7.1
         safe_execute "php_remove_imagick_extension_insert 7.1" "Removed php@7.1 imagick extension insert" "Failed to remove php@7.1 imagick extension insert"
+        safe_execute "php_remove_redis_extension_insert 7.1" "Removed php@7.1 redis extension insert" "Failed to remove php@7.1 redis extension insert"
         safe_execute "php_remove_xdebug_extension_insert 7.1" "Removed php@7.1 xdebug extension insert" "Failed to remove php@7.1 xdebug extension insert"
         pecl_update_channels
         pecl_install 7.1 imagick
+        pecl_install 7.1 redis
         pecl_install 7.1 xdebug
         safe_execute "php_remove_imagick_extension_from_php_ini 7.1" "Removed php@7.1 imagick extension from php.ini" "Failed to remove php@7.1 imagick extension from php.ini"
+        safe_execute "php_remove_redis_extension_from_php_ini 7.1" "Removed php@7.1 redis extension from php.ini" "Failed to remove php@7.1 redis extension from php.ini"
         safe_execute "php_remove_xdebug_extension_from_php_ini 7.1" "Removed php@7.1 xdebug extension from php.ini" "Failed to remove php@7.1 xdebug extension from php.ini"
         safe_execute "php_configure_timezone 7.1" "Configured php@7.1 timezone" "Failed to configure php@7.1 timezone"
         safe_execute "php_configure_upload_max_filesize 7.1" "Configured php@7.1 upload_max_filesize" "Failed to configure php@7.1 upload_max_filesize"
         safe_execute "php_configure_imagick 7.1" "Configured php@7.1 imagick extension" "Failed to configure php@7.1 imagick extension"
+        safe_execute "php_configure_redis 7.1" "Configured php@7.1 redis extension" "Failed to configure php@7.1 redis extension"
         safe_execute "php_configure_xdebug 7.1" "Configured php@7.1 xdebug extension" "Failed to configure php@7.1 xdebug extension"
         brew_unlink php@7.1
     fi
@@ -191,15 +209,19 @@ if [[ " ${MAIN_PREFERENCES[@]} " =~ " development " ]]; then
         brew_install php@7.2
         brew_link_force php@7.2
         safe_execute "php_remove_imagick_extension_insert 7.2" "Removed php@7.2 imagick extension insert" "Failed to remove php@7.2 imagick extension insert"
+        safe_execute "php_remove_redis_extension_insert 7.2" "Removed php@7.2 redis extension insert" "Failed to remove php@7.2 redis extension insert"
         safe_execute "php_remove_xdebug_extension_insert 7.2" "Removed php@7.2 xdebug extension insert" "Failed to remove php@7.2 xdebug extension insert"
         pecl_update_channels
         pecl_install 7.2 imagick
+        pecl_install 7.2 redis
         pecl_install 7.2 xdebug
         safe_execute "php_remove_imagick_extension_from_php_ini 7.2" "Removed php@7.2 imagick extension from php.ini" "Failed to remove php@7.2 imagick extension from php.ini"
+        safe_execute "php_remove_redis_extension_from_php_ini 7.2" "Removed php@7.2 redis extension from php.ini" "Failed to remove php@7.2 redis extension from php.ini"
         safe_execute "php_remove_xdebug_extension_from_php_ini 7.2" "Removed php@7.2 xdebug extension from php.ini" "Failed to remove php@7.2 xdebug extension from php.ini"
         safe_execute "php_configure_timezone 7.2" "Configured php@7.2 timezone" "Failed to configure php@7.2 timezone"
         safe_execute "php_configure_upload_max_filesize 7.2" "Configured php@7.2 upload_max_filesize" "Failed to configure php@7.2 upload_max_filesize"
         safe_execute "php_configure_imagick 7.2" "Configured php@7.2 imagick extension" "Failed to configure php@7.2 imagick extension"
+        safe_execute "php_configure_redis 7.2" "Configured php@7.2 redis extension" "Failed to configure php@7.2 redis extension"
         safe_execute "php_configure_xdebug 7.2" "Configured php@7.2 xdebug extension" "Failed to configure php@7.2 xdebug extension"
         brew_unlink php@7.2
     fi
@@ -209,15 +231,19 @@ if [[ " ${MAIN_PREFERENCES[@]} " =~ " development " ]]; then
         brew_install php@7.3
         brew_link_force php@7.3
         safe_execute "php_remove_imagick_extension_insert 7.3" "Removed php@7.3 imagick extension insert" "Failed to remove php@7.3 imagick extension insert"
+        safe_execute "php_remove_redis_extension_insert 7.3" "Removed php@7.3 redis extension insert" "Failed to remove php@7.3 redis extension insert"
         safe_execute "php_remove_xdebug_extension_insert 7.3" "Removed php@7.3 xdebug extension insert" "Failed to remove php@7.3 xdebug extension insert"
         pecl_update_channels
         pecl_install 7.3 imagick
+        pecl_install 7.3 redis
         pecl_install 7.3 xdebug
         safe_execute "php_remove_imagick_extension_from_php_ini 7.3" "Removed php@7.3 imagick extension from php.ini" "Failed to remove php@7.3 imagick extension from php.ini"
+        safe_execute "php_remove_redis_extension_from_php_ini 7.3" "Removed php@7.3 redis extension from php.ini" "Failed to remove php@7.3 redis extension from php.ini"
         safe_execute "php_remove_xdebug_extension_from_php_ini 7.3" "Removed php@7.3 xdebug extension from php.ini" "Failed to remove php@7.3 xdebug extension from php.ini"
         safe_execute "php_configure_timezone 7.3" "Configured php@7.3 timezone" "Failed to configure php@7.3 timezone"
         safe_execute "php_configure_upload_max_filesize 7.3" "Configured php@7.3 upload_max_filesize" "Failed to configure php@7.3 upload_max_filesize"
         safe_execute "php_configure_imagick 7.3" "Configured php@7.3 imagick extension" "Failed to configure php@7.3 imagick extension"
+        safe_execute "php_configure_redis 7.3" "Configured php@7.3 redis extension" "Failed to configure php@7.3 redis extension"
         safe_execute "php_configure_xdebug 7.3" "Configured php@7.3 xdebug extension" "Failed to configure php@7.3 xdebug extension"
         brew_unlink php@7.3
     fi
@@ -227,15 +253,19 @@ if [[ " ${MAIN_PREFERENCES[@]} " =~ " development " ]]; then
         brew_install php@7.4
         brew_link_force php@7.4
         safe_execute "php_remove_imagick_extension_insert 7.4" "Removed php@7.4 imagick extension insert" "Failed to remove php@7.4 imagick extension insert"
+        safe_execute "php_remove_redis_extension_insert 7.4" "Removed php@7.4 redis extension insert" "Failed to remove php@7.4 redis extension insert"
         safe_execute "php_remove_xdebug_extension_insert 7.4" "Removed php@7.4 xdebug extension insert" "Failed to remove php@7.4 xdebug extension insert"
         pecl_update_channels
         pecl_install 7.4 imagick
+        pecl_install 7.4 redis
         pecl_install 7.4 xdebug
         safe_execute "php_remove_imagick_extension_from_php_ini 7.4" "Removed php@7.4 imagick extension from php.ini" "Failed to remove php@7.4 imagick extension from php.ini"
+        safe_execute "php_remove_redis_extension_from_php_ini 7.4" "Removed php@7.4 redis extension from php.ini" "Failed to remove php@7.4 redis extension from php.ini"
         safe_execute "php_remove_xdebug_extension_from_php_ini 7.4" "Removed php@7.4 xdebug extension from php.ini" "Failed to remove php@7.4 xdebug extension from php.ini"
         safe_execute "php_configure_timezone 7.4" "Configured php@7.4 timezone" "Failed to configure php@7.4 timezone"
         safe_execute "php_configure_upload_max_filesize 7.4" "Configured php@7.4 upload_max_filesize" "Failed to configure php@7.4 upload_max_filesize"
         safe_execute "php_configure_imagick 7.4" "Configured php@7.4 imagick extension" "Failed to configure php@7.4 imagick extension"
+        safe_execute "php_configure_redis 7.4" "Configured php@7.4 redis extension" "Failed to configure php@7.4 redis extension"
         safe_execute "php_configure_xdebug 7.4" "Configured php@7.4 xdebug extension" "Failed to configure php@7.4 xdebug extension"
         brew_unlink php@7.4
     fi
@@ -267,6 +297,26 @@ if [[ " ${MAIN_PREFERENCES[@]} " =~ " development " ]]; then
         e_header "Installing and configuring redis"
         brew_install redis
         brew_restart redis
+    fi
+
+    if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " mailcatcher " ]]; then
+        e_header "Installing and configuring mailcatcher"
+        gem_install mailcatcher
+    fi
+
+    if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " awscli " ]]; then
+        e_header "Installing awscli and dependencies"
+        pip3_install awscli
+        gem_install aws_runas
+    fi
+
+    if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " ansible " ]]; then
+        e_header "Installing ansible and dependencies"
+        pip3_install ansible
+        pip3_install cryptography
+        pip3_install jmespath
+        pip3_install passlib
+        pip_install_system_boto
     fi
 
 fi
