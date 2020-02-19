@@ -4,5 +4,5 @@ function gem_install()
 {
     local gem=$@
 
-    safe_execute "gem install -n /usr/local/bin $gem" "Installed $gem" "Failed to install $gem"
+    safe_execute "sudo gem install -n /usr/local/bin $gem" "Installed $gem" "Failed to install $gem"
 }
