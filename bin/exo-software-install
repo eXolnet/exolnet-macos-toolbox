@@ -310,6 +310,15 @@ if [[ " ${MAIN_PREFERENCES[@]} " =~ " development " ]]; then
         gem_install aws_runas
     fi
 
+    if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " ansible " ]]; then
+        e_header "Installing ansible and dependencies"
+        pip3_install ansible
+        pip3_install cryptography
+        pip3_install jmespath
+        pip3_install passlib
+        pip_install_system_boto
+    fi
+
 fi
 
 # Display if backups were made
