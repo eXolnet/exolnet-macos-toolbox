@@ -293,6 +293,11 @@ if [[ " ${MAIN_PREFERENCES[@]} " =~ " development " ]]; then
         brew_restart redis
     fi
 
+    if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " mailcatcher " ]]; then
+        e_header "Installing and configuring mailcatcher"
+        gem_install mailcatcher
+    fi
+
 fi
 
 # Display if backups were made

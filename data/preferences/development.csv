@@ -10,3 +10,4 @@ php73,PHP 7.3,on
 php74,PHP 7.4,on
 node,Node,on
 redis,Redis,on
+mailcatcher,MailCatcher,on
