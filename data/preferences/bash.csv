@@ -7,7 +7,7 @@ jq,jq,on
 nmap,nmap,off
 pv,pv,on
 pwgen,pwgen,on
-python,python,off
+python,python,on
 rsync,rsync,on
 ssh-copy-id,ssh-copy-id,on
 trash,trash,on

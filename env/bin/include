@@ -9,6 +9,7 @@ fi
 . $TOOLBOX/lib/preferences
 . $TOOLBOX/lib/git
 . $TOOLBOX/lib/brew
+. $TOOLBOX/lib/pip
 . $TOOLBOX/lib/gem
 . $TOOLBOX/lib/mysql
 . $TOOLBOX/lib/httpd

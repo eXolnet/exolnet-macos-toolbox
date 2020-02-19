@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+function pip3_upgrade()
+{
+    local package=$@
+
+    safe_execute "pip3 install --upgrade $package" "Upgraded $package" "Failed to upgrade $package"
+}

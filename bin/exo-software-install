@@ -62,6 +62,12 @@ if [[ " ${MAIN_PREFERENCES[@]} " =~ " bash " ]]; then
 
     for item in ${BASH_PREFERENCES[@]}; do
         brew_install "$item"
+
+        if [[ "$item" == "python" ]]; then
+            pip3_upgrade pip
+            pip3_upgrade setuptools
+            pip3_upgrade wheel
+        fi
     done
 
     e_header "Loading completions"
