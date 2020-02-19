@@ -1,5 +1,12 @@
 #!/usr/bin/env bash
 
+function pip3_install()
+{
+    local package=$@
+
+    safe_execute "pip3 install $package" "Installed $package" "Failed to install $package"
+}
+
 function pip3_upgrade()
 {
     local package=$@

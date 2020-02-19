@@ -304,6 +304,12 @@ if [[ " ${MAIN_PREFERENCES[@]} " =~ " development " ]]; then
         gem_install mailcatcher
     fi
 
+    if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " awscli " ]]; then
+        e_header "Installing awscli and dependencies"
+        pip3_install awscli
+        gem_install aws_runas
+    fi
+
 fi
 
 # Display if backups were made
