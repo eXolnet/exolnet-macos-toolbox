@@ -67,6 +67,7 @@ if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " node " ]]; then
 fi
 
 e_header "Upgrading formulae"
+brew_outdated
 brew_upgrade_all
 
 if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " apache " ]]; then

@@ -19,6 +19,15 @@ function brew_update()
     safe_execute "brew update" "Updated brew" "Failed to update brew"
 }
 
+function brew_outdated()
+{
+    local outdated=$(brew outdated --verbose)
+
+    while IFS= read -r line; do
+        e_arrow "$line"
+    done <<< "$outdated"
+}
+
 function brew_upgrade_all()
 {
     HOMEBREW_NO_AUTO_UPDATE=1 safe_execute "brew upgrade" "Upgraded all formulae" "Failed to upgrade all formulae"
