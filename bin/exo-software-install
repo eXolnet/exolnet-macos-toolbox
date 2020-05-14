@@ -126,6 +126,11 @@ if [[ " ${MAIN_PREFERENCES[@]} " =~ " development " ]]; then
             safe_execute "mkcert_generate_ssl_certificate" "Generated localhost ssl certificate" "Failed to generate localhost ssl certificate"
             process_recursive "link_file" "$TOOLBOX/conf/httpd_ssl" "$HTTPD_ETC/exolnet"
             process_recursive "link_file" "$TOOLBOX/conf/httpd_vhosts_ssl" "$HTTPD_ETC/exolnet-vhosts"
+
+            if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " force-ssl " ]]; then
+                e_header "Enforcing HTTPS (redirect HTTP to HTTPS)"
+                process_recursive "link_file" "$TOOLBOX/conf/httpd_vhosts_ssl_enforced" "$HTTPD_ETC/exolnet-vhosts"
+            fi
         fi
 
         sudo_brew_restart httpd

@@ -2,6 +2,7 @@ mysql,MySQL,on
 dnsmasq,Dnsmasq,on
 apache,Apache,on
 ssl,SSL (HTTPS for Apache),on
+force-ssl,Enforce HTTPS (redirect HTTP -> HTTPS),on
 php56,PHP 5.6,off
 php70,PHP 7.0,off
 php71,PHP 7.1,off
