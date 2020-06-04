@@ -100,7 +100,7 @@ if [[ " ${MAIN_PREFERENCES[@]} " =~ " development " ]]; then
             brew_unlink mysql@5.7
         fi
 
-        e_header "Installing and configuring mysql"
+        e_header "Installing and configuring mysql 8.0"
         brew_install mysql@8.0
         brew_link_force mysql@8.0
         mysql_move_data_dir 8.0
