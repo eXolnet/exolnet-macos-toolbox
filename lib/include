@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 
 if [[ -z "$TOOLBOX_LIB_INCLUDED" ]]; then
-    . $TOOLBOX/lib/header
+    if [[ ! "$TOOLBOX_NO_HEADER" ]]; then
+        . $TOOLBOX/lib/header
+    fi
     . $TOOLBOX/lib/utils
     . $TOOLBOX/lib/preferences
     . $TOOLBOX/lib/git
