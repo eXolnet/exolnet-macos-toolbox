@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+function mysql_rename_preference()
+{
+    /usr/bin/sed -Ei '' 's/mysql( |$)/mysql57 /g' "$STORAGE_PREFERENCES_DIR/development"
+}
+
+# Read preferences
+DEVELOPMENT_PREFERENCES=$(read_preferences development)
+
+if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " mysql " ]]; then
+    e_header "Renaming mysql"
+    safe_execute "mysql_rename_preference" "Renamed preference mysql to mysql57" "Failed to rename preference mysql to mysql57"
+    brew_is_installed mysql@5.7 && brew_is_status mysql@5.7 stopped || brew_stop mysql@5.7
+    mysql_move_data_dir 5.7
+    brew_start_mysql 5.7
+    mysql_wait_for_connection 5.7
+
+    e_header "Caveats"
+    e_arrow "To use the mysql client cli, you need to invoke 'exo-mysql-cli 5.7'"
+    e_arrow "If you ever stop mysql@5.7 with 'brew services stop mysql@5.7', you need to start if with 'exo-mysql-start 5.7'"
+fi
