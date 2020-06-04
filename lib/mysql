@@ -90,7 +90,7 @@ function brew_start_mysql()
 function brew_stop_all_mysql()
 {
     brew_is_installed mysql@5.7 && brew_is_status mysql@5.7 stopped || brew_stop mysql@5.7
-    brew_is_installed mysql@8.0 && brew_is_status mysql@8.0 stopped || brew_stop mysql@8.0
+    brew_is_installed mysql@8.0 && brew_is_status mysql stopped || brew_stop mysql@8.0
 }
 
 function brew_unlink_all_mysql()
