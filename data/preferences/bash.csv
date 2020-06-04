@@ -1,6 +1,7 @@
 colordiff,colordiff,on
 coreutils,coreutils,on
 curl,curl,on
+gettext,gettext,on
 git,git,on
 htop,htop,on
 jq,jq,on
