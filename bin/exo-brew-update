@@ -56,7 +56,7 @@ if [[ "${DEVELOPMENT_PREFERENCES[@]}" =~ "mysql" ]]; then
 fi
 
 if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " apache " ]]; then
-    e_header "Prepare apache"
+    e_header "Preparing apache"
     sudo_brew_is_status httpd stopped || sudo_brew_stop httpd
     safe_execute "httpd_chown_cellar_path" "Changed ownership of httpd cellar directory" "Failed to change ownership of httpd cellar directory"
     remove_file "$HTTPD_WWW"
