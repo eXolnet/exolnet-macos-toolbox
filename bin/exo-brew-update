@@ -79,10 +79,10 @@ brew_upgrade_all
 if [[ "${DEVELOPMENT_PREFERENCES[@]}" =~ "mysql" ]]; then
     e_header "Reconfiguring mysql"
 
-    if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " mysql57 " ]]; then
-        brew_link_force mysql@5.7
-    elif [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " mysql80 " ]]; then
+    if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " mysql80 " ]]; then
         brew_link_force mysql@8.0
+    elif [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " mysql57 " ]]; then
+        brew_link_force mysql@5.7
     fi
 fi
 
