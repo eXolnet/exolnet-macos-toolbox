@@ -134,6 +134,22 @@ function sudo_brew_is_status()
     return $?
 }
 
+function brew_start()
+{
+    local service=$1
+    local plist=$2
+
+    safe_execute "brew services start $service $plist" "Started $service" "Failed to start $service"
+}
+
+function sudo_brew_start()
+{
+    local service=$1
+    local plist=$2
+
+    safe_execute "sudo brew services start $service $plist" "Started $service" "Failed to start $service"
+}
+
 function brew_stop()
 {
     local service=$1
