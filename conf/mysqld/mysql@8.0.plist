@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>KeepAlive</key>
+  <true/>
+  <key>Label</key>
+  <string>homebrew.mxcl.mysql</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/usr/local/opt/mysql/bin/mysqld_safe</string>
+    <string>--datadir=/usr/local/var/mysql@8.0</string>
+    <string>--socket=/tmp/mysql@8.0.sock</string>
+    <string>--port=3308</string>
+  </array>
+  <key>RunAtLoad</key>
+  <true/>
+  <key>WorkingDirectory</key>
+  <string>/usr/local/var/mysql@8.0</string>
+</dict>
+</plist>

@@ -49,8 +49,14 @@ fi
 
 create_file $TOOLBOX/.updating
 
+if [[ "${DEVELOPMENT_PREFERENCES[@]}" =~ "mysql" ]]; then
+    e_header "Preparing mysql"
+    brew_stop_all_mysql
+    brew_unlink_all_mysql
+fi
+
 if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " apache " ]]; then
-    e_header "Prepare apache"
+    e_header "Preparing apache"
     sudo_brew_is_status httpd stopped || sudo_brew_stop httpd
     safe_execute "httpd_chown_cellar_path" "Changed ownership of httpd cellar directory" "Failed to change ownership of httpd cellar directory"
     remove_file "$HTTPD_WWW"
@@ -69,6 +75,26 @@ fi
 e_header "Upgrading formulae"
 brew_outdated
 brew_upgrade_all
+
+if [[ "${DEVELOPMENT_PREFERENCES[@]}" =~ "mysql" ]]; then
+    e_header "Reconfiguring mysql"
+
+    if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " mysql80 " ]]; then
+        brew_link_force mysql@8.0
+    elif [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " mysql57 " ]]; then
+        brew_link_force mysql@5.7
+    fi
+fi
+
+if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " mysql57 " ]]; then
+    brew_start_mysql 5.7
+    mysql_wait_for_connection 5.7
+fi
+
+if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " mysql80 " ]]; then
+    brew_start_mysql 8.0
+    mysql_wait_for_connection 8.0
+fi
 
 if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " apache " ]]; then
     e_header "Reconfiguring apache"

@@ -34,10 +34,10 @@ fi
 if [[ $# -ne 1 ]]; then
     first=true
 
-    brew list | egrep '^php(@[0-9.]{3,})?$' | sed 's/^php$/php@7.4/g' | sort | grep -o -E '[0-9.]+' | while read -r line ; do
+    brew list | egrep '^mysql(@[0-9.]{3,})?$' | sed 's/^mysql$/mysql@8.0/g' | sort | grep -o -E '[0-9.]+' | while read -r line ; do
         if [ "$first" = true ]; then
             echo
-            echo -n "Usage: exo-php-switch ("
+            echo -n "Usage: exo-mysql-start ("
         else
             echo -n "|"
         fi
@@ -54,18 +54,15 @@ fi
 # Script execution
 #
 
-currentversion="$(php_get_current_version)"
-newversion="php$(echo $1 | tr -cd [:digit:])"
+version="mysql$(echo $1 | tr -cd [:digit:])"
+brewversion="$(mysql_convert_version_to_homebrew $version)"
+plist="$(mysql_get_plist_path $brewversion)"
 
-brewcurrentversion="$(php_convert_version_to_homebrew $currentversion)"
-brewnewversion="$(php_convert_version_to_homebrew $newversion)"
+e_header "Starting mysqld"
 
-e_header "Switching php version"
+if [[ ! -a "/usr/local/opt/$brewversion" ]]; then
+    e_error "Failed to find $brewversion"
+    exit 1
+fi
 
-safe_execute "brew list $brewnewversion" "Found $brewnewversion" "Failed to find $brewnewversion"
-brew_unlink $brewcurrentversion
-brew_link_force $brewnewversion
-link_file "$TOOLBOX/conf/httpd_php/$newversion.conf" "$HTTPD_ETC/exolnet/php.conf"
-sudo_brew_restart httpd
-
-e_header "All done!"
+brew_start $brewversion $plist

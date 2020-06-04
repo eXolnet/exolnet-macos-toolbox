@@ -119,7 +119,7 @@ function brew_is_status()
     local service=$1
     local status=$2
 
-    sudo brew services list | grep "^$1" | tr -s ' ' | cut -d ' ' -f 2 | grep -q "$2"
+    brew services list | grep "^$1 " | tr -s ' ' | cut -d ' ' -f 2 | grep -q "$2"
 
     return $?
 }
@@ -129,9 +129,25 @@ function sudo_brew_is_status()
     local service=$1
     local status=$2
 
-    sudo brew services list | grep "^$1" | tr -s ' ' | cut -d ' ' -f 2 | grep -q "$2"
+    sudo brew services list | grep "^$1 " | tr -s ' ' | cut -d ' ' -f 2 | grep -q "$2"
 
     return $?
+}
+
+function brew_start()
+{
+    local service=$1
+    local plist=$2
+
+    safe_execute "brew services start $service $plist" "Started $service" "Failed to start $service"
+}
+
+function sudo_brew_start()
+{
+    local service=$1
+    local plist=$2
+
+    safe_execute "sudo brew services start $service $plist" "Started $service" "Failed to start $service"
 }
 
 function brew_stop()

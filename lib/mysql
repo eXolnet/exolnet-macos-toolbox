@@ -2,21 +2,103 @@
 
 MYSQL_DATA="/usr/local/var/mysql"
 
+function mysql_get_cli_command()
+{
+    local version=$1
+
+    echo "mysql --user=root --socket=/tmp/${version}.sock"
+}
+
+function mysql_get_plist_path()
+{
+    local version=$1
+
+    echo "$TOOLBOX/conf/mysqld/${version}.plist"
+}
+
+function mysql_get_data_dir()
+{
+    local version=$1
+
+    echo "$TOOLBOX/conf/mysqld/${version}.plist"
+}
+
+function mysql_move_data_dir()
+{
+    local version="mysql@${1}"
+    local src="$MYSQL_DATA"
+    local dest="/usr/local/var/$version"
+
+    if [[ ! -d "$dest" ]]; then
+        move_file "$src" "$dest"
+    fi
+}
+
 function mysql_create_user()
 {
-    mysql -v -u root -e 'CREATE USER IF NOT EXISTS "exolnet_dev"@"localhost"'
+    local version="mysql@${1}"
+    local mysql="$(mysql_get_cli_command $version)"
+
+    $mysql -e 'CREATE USER IF NOT EXISTS "exolnet_dev"@"localhost" IDENTIFIED WITH mysql_native_password'
 }
 
 function mysql_grant_user()
 {
-    mysql -v -u root -e 'GRANT ALL PRIVILEGES ON `%\_dev`.* to "exolnet_dev"@"localhost"'
+    local version="mysql@${1}"
+    local mysql="$(mysql_get_cli_command $version)"
+
+    $mysql -e 'GRANT ALL PRIVILEGES ON `%\_dev`.* to "exolnet_dev"@"localhost"'
 }
 
 function mysql_wait_for_connection()
 {
+    local version="mysql@${1}"
+    local mysql="$(mysql_get_cli_command $version)"
+
     echo -n -e "$INDENT \033[1m?\033[0m Waiting for mysql to be online "
-    while ! mysql -u root -e 'SELECT USER()' &> /dev/null ; do
+    while ! $mysql -e 'SELECT USER()' &> /dev/null ; do
         echo -n '.' && sleep 1
     done
     echo -e "\r$INDENT \033[1;32m✔\033[0m Connected to mysql                                        "
+}
+
+function mysql_convert_version_to_homebrew()
+{
+    case "$1" in
+        mysql57)
+            echo 'mysql@5.7'
+            ;;
+
+        mysql80)
+            echo 'mysql@8.0'
+            ;;
+
+        *)
+            echo 'mysql_invalid'
+
+    esac
+}
+
+function brew_start_mysql()
+{
+    local version="mysql@${1}"
+    local plist="$(mysql_get_plist_path $version)"
+
+    brew_start $version $plist
+}
+
+function brew_stop_all_mysql()
+{
+    if brew_is_installed mysql@5.7 ; then
+        brew_is_status mysql@5.7 stopped || brew_stop mysql@5.7
+    fi
+    if brew_is_installed mysql@8.0 ; then
+        brew_is_status mysql stopped || brew_stop mysql@8.0
+    fi
+}
+
+function brew_unlink_all_mysql()
+{
+    brew_is_installed mysql@5.7 && brew_unlink mysql@5.7
+    brew_is_installed mysql@8.0 && brew_unlink mysql@8.0
 }

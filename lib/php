@@ -221,7 +221,7 @@ function php_convert_version_to_homebrew()
             ;;
 
         *)
-            echo 'phpinvalid'
+            echo 'php_invalid'
 
     esac
 }

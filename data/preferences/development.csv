@@ -1,4 +1,5 @@
-mysql,MySQL,on
+mysql57,MySQL 5.7,on
+mysql80,MySQL 8.0,on
 dnsmasq,Dnsmasq,on
 apache,Apache,on
 ssl,SSL (HTTPS for Apache),on
