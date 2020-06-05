@@ -191,7 +191,13 @@ EOL
 
 function php_get_current_version()
 {
-    php -r "error_reporting(0); echo 'php'.str_replace('.', '', substr(phpversion(), 0, 3));"
+    local php_path="$(dirname "$(which php)")"
+
+    if [[ "$php_path" != "/usr/local/bin" ]]; then
+        return 1
+    fi
+
+    php -r "error_reporting(0); echo 'php'.str_replace('.', '', substr(phpversion(), 0, 3));" 2> /dev/null
 }
 
 function php_convert_version_to_homebrew()
