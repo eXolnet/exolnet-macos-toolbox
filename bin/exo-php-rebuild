@@ -60,6 +60,8 @@ fi
 
 if [[ "${DEVELOPMENT_PREFERENCES[@]}" =~ "php" ]]; then
     e_header "Preparing php reinstallation and reconfiguration"
+    PHP_CURRENT_VERSION="$(php_get_current_version || echo $PHP_DEFAULT_VERSION)"
+    PHP_BREW_CURRENT_VERSION="$(php_convert_version_to_homebrew $PHP_CURRENT_VERSION)"
     brew_unlink_all_php
     brew_install imagemagick
     brew_install pkg-config
@@ -203,8 +205,8 @@ if [[ "${DEVELOPMENT_PREFERENCES[@]}" =~ "php" ]]; then
     brew_install php-code-sniffer
     brew_install wp-cli
     safe_execute "httpd_disable_php_module" "Disabled php module in httpd" "Failed to disable php module in httpd"
-    brew_link_force php@7.3
-    link_file "$TOOLBOX/conf/httpd_php/php73.conf" "$HTTPD_ETC/exolnet/php.conf"
+    brew_link_force $PHP_BREW_CURRENT_VERSION
+    link_file "$TOOLBOX/conf/httpd_php/$PHP_CURRENT_VERSION.conf" "$HTTPD_ETC/exolnet/php.conf"
     sudo_brew_restart httpd
     safe_execute "php_create_phpinfo" "Created phpinfo.php file" "Failed to create phpinfo.php file"
 fi
