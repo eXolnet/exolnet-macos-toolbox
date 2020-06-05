@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 PHP_ETC="/usr/local/etc/php"
+PHP_DEFAULT_VERSION="php74"
 
 function pecl_update_channels()
 {

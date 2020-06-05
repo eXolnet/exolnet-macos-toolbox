@@ -64,6 +64,8 @@ fi
 
 if [[ "${DEVELOPMENT_PREFERENCES[@]}" =~ "php" ]]; then
     e_header "Unlinking php"
+    PHP_CURRENT_VERSION="$(php_get_current_version || echo $PHP_DEFAULT_VERSION)"
+    PHP_BREW_CURRENT_VERSION="$(php_convert_version_to_homebrew $PHP_CURRENT_VERSION)"
     brew_unlink_all_php
 fi
 
@@ -110,8 +112,8 @@ fi
 
 if [[ "${DEVELOPMENT_PREFERENCES[@]}" =~ "php" ]]; then
     e_header "Reconfiguring php"
-    brew_link_force php@7.3
-    link_file "$TOOLBOX/conf/httpd_php/php73.conf" "$HTTPD_ETC/exolnet/php.conf"
+    brew_link_force $PHP_BREW_CURRENT_VERSION
+    link_file "$TOOLBOX/conf/httpd_php/$PHP_CURRENT_VERSION.conf" "$HTTPD_ETC/exolnet/php.conf"
 fi
 
 if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " apache " ]]; then
