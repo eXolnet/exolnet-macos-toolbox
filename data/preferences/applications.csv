@@ -19,6 +19,7 @@ disk-inventory-x,Disk Inventory X (Application),on
 diskmaker-x,DiskMaker X (Application),off
 docker,Docker CE (Application),off
 etcher,Etcher (Application),off
+forticlient-offline,FortiClient (Application),on
 atom,Github Atom (Application),on
 google-chrome,Google Chrome (Application),on
 google-drive-file-stream,Google Drive File Stream (Application),on
