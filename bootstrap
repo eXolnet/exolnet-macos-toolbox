@@ -8,7 +8,7 @@ echo
 
 if [[ -z $(command -v brew) ]]; then
     # Homebrew will install the Command Line Tools, no need to run `xcode-select --install` beforehand
-    /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
     echo
 fi
 
