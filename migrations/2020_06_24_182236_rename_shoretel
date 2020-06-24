@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+function shoretel_rename_preference()
+{
+    /usr/bin/sed -i '' 's/shoretel-connect/mitel-connect/g' "$STORAGE_PREFERENCES_DIR/applications"
+}
+
+# Read preferences
+APPLICATIONS_PREFERENCES=$(read_preferences applications)
+
+if [[ " ${APPLICATIONS_PREFERENCES[@]} " =~ " shoretel-connect " ]]; then
+    e_header "Renaming shoretel"
+    safe_execute "shoretel_rename_preference" "Renamed preference shoretel-connect to mitel-connect" "Failed to rename preference shoretel-connect to mitel-connect"
+
+    e_header "Caveats"
+    e_arrow "If you still have ShoreTel Connect installed, delete the app and then run 'brew cask install mitel-connect'"
+fi
