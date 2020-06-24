@@ -36,6 +36,7 @@ karabiner-elements,Karabiner Elements (Application),off
 keepassxc,KeePassXC (Application),off
 microsoft-office,Microsoft Office (Application),on
 visual-studio-code,Microsoft VS Code (Application),on
+mitel-connect,Mitel Connect (Application),on
 firefox,Mozilla Firefox (Application),on
 mysqlworkbench,MySQL Workbench (Application),on
 ngrok,ngrok (Application),on
@@ -45,7 +46,6 @@ virtualbox,Oracle VirtualBox (Application),off
 poedit,Poedit (Application),on
 postman,Postman (Application),on
 sequel-pro,Sequel Pro (Application),off
-shoretel-connect,ShoreTel Connect (Application),on
 sketch,Sketch (Application),on
 skype,Skype (Application),off
 slack,Slack (Application),on
