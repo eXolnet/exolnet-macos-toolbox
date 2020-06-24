@@ -62,6 +62,22 @@ function mysql_wait_for_connection()
     echo -e "\r$INDENT \033[1;32m✔\033[0m Connected to mysql                                        "
 }
 
+function mysql_configure_mysqldump()
+{
+    local file="$HOME/.my.cnf"
+
+    touch $file
+
+    remove_insert_from_file $file
+
+cat >> $file <<EOL
+# EXOLNET-MACOS-TOOLBOX BEGIN
+[mysqldump]
+column-statistics = 0
+# EXOLNET-MACOS-TOOLBOX END
+EOL
+}
+
 function mysql_convert_version_to_homebrew()
 {
     case "$1" in

@@ -106,6 +106,7 @@ if [[ " ${MAIN_PREFERENCES[@]} " =~ " development " ]]; then
         mysql_move_data_dir 8.0
         brew_start_mysql 8.0
         mysql_wait_for_connection 8.0
+        safe_execute "mysql_configure_mysqldump" "Configured mysqldump for mysql@5.7 compatibility" "Failed to Configure mysqldump for mysql@5.7 compatibility"
         safe_execute "mysql_create_user 8.0" "Created user exolnet_dev" "Failed to create user exolnet_dev"
         safe_execute "mysql_grant_user 8.0" "Granted user exolnet_dev" "Failed to grant user exolnet_dev"
     fi

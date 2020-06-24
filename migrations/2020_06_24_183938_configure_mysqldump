@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+# Read preferences
+DEVELOPMENT_PREFERENCES=$(read_preferences development)
+
+if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " mysql80 " ]]; then
+    e_header "Configuring mysql 8.0"
+    safe_execute "mysql_configure_mysqldump" "Configured mysqldump for mysql@5.7 compatibility" "Failed to Configure mysqldump for mysql@5.7 compatibility"
+fi
