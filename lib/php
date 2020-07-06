@@ -197,7 +197,7 @@ function php_get_current_version()
         return 1
     fi
 
-    php -r "error_reporting(0); echo 'php'.str_replace('.', '', substr(phpversion(), 0, 3));" 2> /dev/null
+    php -d display_errors=0 -r "echo 'php'.str_replace('.', '', substr(phpversion(), 0, 3));" 2> /dev/null
 }
 
 function php_convert_version_to_homebrew()
