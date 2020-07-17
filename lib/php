@@ -71,6 +71,14 @@ function php_remove_imagick_extension_from_php_ini()
     /usr/bin/sed -i '' '/extension="imagick.so"/d' $file
 }
 
+function php_remove_pcov_extension_from_php_ini()
+{
+    local version=$1
+    local file="$PHP_ETC/$version/php.ini"
+
+    /usr/bin/sed -i '' '/extension="pcov.so"/d' $file
+}
+
 function php_remove_redis_extension_from_php_ini()
 {
     local version=$1
@@ -113,6 +121,16 @@ function php_remove_imagick_extension_insert()
     fi
 }
 
+function php_remove_pcov_extension_insert()
+{
+    local version=$1
+    local file="$PHP_ETC/$version/conf.d/exolnet-ext-pcov.ini"
+
+    if [[ -f "$file" ]]; then
+        remove_insert_from_file2 $file
+    fi
+}
+
 function php_remove_redis_extension_insert()
 {
     local version=$1
@@ -144,6 +162,21 @@ cat >> $file <<EOL
 ; EXOLNET-MACOS-TOOLBOX BEGIN
 [imagick]
 extension="$(php_get_extension_path $version)/imagick.so"
+; EXOLNET-MACOS-TOOLBOX END
+EOL
+}
+
+function php_configure_pcov()
+{
+    local version=$1
+    local file="$PHP_ETC/$version/conf.d/exolnet-ext-pcov.ini"
+
+    remove_insert_from_file2 $file
+
+cat >> $file <<EOL
+; EXOLNET-MACOS-TOOLBOX BEGIN
+[pcov]
+extension="$(php_get_extension_path $version)/pcov.so"
 ; EXOLNET-MACOS-TOOLBOX END
 EOL
 }
@@ -203,18 +236,6 @@ function php_get_current_version()
 function php_convert_version_to_homebrew()
 {
     case "$1" in
-        php56)
-            echo 'php@5.6'
-            ;;
-
-        php70)
-            echo 'php@7.0'
-            ;;
-
-        php71)
-            echo 'php@7.1'
-            ;;
-
         php72)
             echo 'php@7.2'
             ;;
