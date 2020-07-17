@@ -203,18 +203,6 @@ function php_get_current_version()
 function php_convert_version_to_homebrew()
 {
     case "$1" in
-        php56)
-            echo 'php@5.6'
-            ;;
-
-        php70)
-            echo 'php@7.0'
-            ;;
-
-        php71)
-            echo 'php@7.1'
-            ;;
-
         php72)
             echo 'php@7.2'
             ;;
