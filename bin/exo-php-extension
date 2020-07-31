@@ -1,0 +1,156 @@
+#!/usr/bin/env bash
+
+#
+# Script setup
+#
+
+# Define toolbox directory if not set
+if [[ -z "$TOOLBOX" ]]; then
+    TOOLBOX="$HOME/.exolnet/toolbox"
+fi
+
+# Check if toolbox directory exists
+if [[ ! -d "$TOOLBOX" ]]; then
+    echo "Directory ~/.exolnet does not exists, exiting ..."
+    exit 1
+fi
+
+# Source helpers
+. $TOOLBOX/lib/include
+
+#
+# Script checks
+#
+
+# Check if command was ran as root.
+if [[ $(id -u) -eq 0 ]]; then
+    echo
+    echo "The command \"`basename \"$0\"`\" should not be executed as root or via sudo directly."
+    echo "When a command requires root access, you will be prompted for a password as needed."
+    exit 1
+fi
+
+#
+# Script functions
+#
+
+function _extension_status()
+{
+    currentversion="$(php_get_current_version)"
+    dotcurrentversion="$(php_convert_version_to_dot_version $currentversion)"
+    brewcurrentversion="$(php_convert_version_to_homebrew $currentversion)"
+    confdir="$PHP_ETC/$dotcurrentversion/conf.d"
+
+    if [[ ! -d "$confdir" ]]; then
+        echo
+        echo "Config directory for current php version is missing."
+        exit 1
+    fi
+
+    status="\033[1m"
+    status+="Extension"
+    status+="\033[0m "
+    status+="\033[1m"
+    status+="Status"
+    status+="\033[0m\n"
+
+    for file in "$confdir"/exolnet-ext-*.ini* ; do
+        filename="$(basename $file)"
+        extension="$(echo $filename | sed 's/^exolnet-ext-\(.*\)\.ini\(.*\)*$/\1/')"
+
+        status+="\033[0m"
+        status+="$extension"
+        status+="\033[0m "
+
+        if echo $filename | egrep -q '^exolnet-ext-(.*)\.ini$' ; then
+            status+="\033[32m"
+            status+="enabled"
+            status+="\033[0m"
+        else
+            status+="\033[31m"
+            status+="disabled"
+            status+="\033[0m"
+        fi
+
+        status+="\n"
+    done
+
+    echo
+    column -t <(echo -ne "$status")
+
+    echo
+    echo "Extensions status for $brewcurrentversion"
+}
+
+function _extension_toggle()
+{
+    extension="$1"
+    currentversion="$(php_get_current_version)"
+    dotcurrentversion="$(php_convert_version_to_dot_version $currentversion)"
+    brewcurrentversion="$(php_convert_version_to_homebrew $currentversion)"
+    file="$PHP_ETC/$dotcurrentversion/conf.d/exolnet-ext-$extension.ini"
+
+    e_header "Toggling php extension"
+
+    if [[ -f "$file" ]] ; then
+        safe_execute "mv $file $file.disabled" "Disabled $extension for $brewcurrentversion" "Failed to disabled $extension for $brewcurrentversion"
+    elif [[ -f "$file.disabled" ]] ; then
+        safe_execute "mv $file.disabled $file" "Enabled $extension for $brewcurrentversion" "Failed to enabled $extension for $brewcurrentversion"
+    else
+        e_error "Cannot find extension $extension for $brewcurrentversion"
+        exit 1
+    fi
+
+    sudo_brew_restart httpd
+
+    e_header "All done!"
+}
+
+function _extension_set()
+{
+    extension="$1"
+    action="$2"
+    currentversion="$(php_get_current_version)"
+    dotcurrentversion="$(php_convert_version_to_dot_version $currentversion)"
+    brewcurrentversion="$(php_convert_version_to_homebrew $currentversion)"
+    file="$PHP_ETC/$dotcurrentversion/conf.d/exolnet-ext-$extension.ini"
+
+    e_header "Toggling php extension"
+
+    if [[ "$action" != "enable" && "$action" != "disable" ]]; then
+        e_error "Invalid action $action"
+        exit 1
+    fi
+
+    if [[ -f "$file" && "$action" == "disable" ]] ; then
+        safe_execute "mv $file $file.disabled" "Disabled $extension for $brewcurrentversion" "Failed to disabled $extension for $brewcurrentversion"
+    elif [[ -f "$file.disabled" && "$action" == "enable" ]] ; then
+        safe_execute "mv $file.disabled $file" "Enabled $extension for $brewcurrentversion" "Failed to enabled $extension for $brewcurrentversion"
+    else
+        e_error "Cannot $action extension $extension for $brewcurrentversion"
+        exit 1
+    fi
+
+    sudo_brew_restart httpd
+
+    e_header "All done!"
+}
+
+#
+# Script execution
+#
+
+if [[ $# -eq 0 ]]; then
+    _extension_status
+    exit 0
+elif [[ $# -eq 1 ]]; then
+    _extension_toggle "$1"
+    exit 0
+elif [[ $# -eq 2 ]]; then
+    _extension_set "$1" "$2"
+    exit 0
+else
+    echo
+    echo "Usage: exo-php-extension [name] [enable|disable]"
+    exit 1
+fi
