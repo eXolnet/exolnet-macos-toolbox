@@ -233,25 +233,30 @@ function php_get_current_version()
     php -d display_errors=0 -r "echo 'php'.str_replace('.', '', substr(phpversion(), 0, 3));" 2> /dev/null
 }
 
-function php_convert_version_to_homebrew()
+function php_convert_version_to_dot_version()
 {
     case "$1" in
         php72)
-            echo 'php@7.2'
+            echo '7.2'
             ;;
 
         php73)
-            echo 'php@7.3'
+            echo '7.3'
             ;;
 
         php74)
-            echo 'php@7.4'
+            echo '7.4'
             ;;
 
         *)
-            echo 'php_invalid'
+            echo 'invalid'
 
     esac
+}
+
+function php_convert_version_to_homebrew()
+{
+    echo "php@$(php_convert_version_to_dot_version $1)"
 }
 
 function brew_unlink_all_php()
