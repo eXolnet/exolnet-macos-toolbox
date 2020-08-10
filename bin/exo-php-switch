@@ -56,7 +56,6 @@ fi
 
 currentversion="$(php_get_current_version)"
 newversion="php$(echo $1 | tr -cd [:digit:])"
-
 brewcurrentversion="$(php_convert_version_to_homebrew $currentversion)"
 brewnewversion="$(php_convert_version_to_homebrew $newversion)"
 
@@ -67,5 +66,7 @@ brew_unlink $brewcurrentversion
 brew_link_force $brewnewversion
 link_file "$TOOLBOX/conf/httpd_php/$newversion.conf" "$HTTPD_ETC/exolnet/php.conf"
 sudo_brew_restart httpd
+
+php_display_extension_status
 
 e_header "All done!"

@@ -37,46 +37,9 @@ fi
 function _extension_status()
 {
     currentversion="$(php_get_current_version)"
-    dotcurrentversion="$(php_convert_version_to_dot_version $currentversion)"
     brewcurrentversion="$(php_convert_version_to_homebrew $currentversion)"
-    confdir="$PHP_ETC/$dotcurrentversion/conf.d"
 
-    if [[ ! -d "$confdir" ]]; then
-        echo
-        echo "Config directory for current php version is missing."
-        exit 1
-    fi
-
-    status="\033[1m"
-    status+="Extension"
-    status+="\033[0m "
-    status+="\033[1m"
-    status+="Status"
-    status+="\033[0m\n"
-
-    for file in "$confdir"/exolnet-ext-*.ini* ; do
-        filename="$(basename $file)"
-        extension="$(echo $filename | sed 's/^exolnet-ext-\(.*\)\.ini\(.*\)*$/\1/')"
-
-        status+="\033[0m"
-        status+="$extension"
-        status+="\033[0m "
-
-        if echo $filename | egrep -q '^exolnet-ext-(.*)\.ini$' ; then
-            status+="\033[32m"
-            status+="enabled"
-            status+="\033[0m"
-        else
-            status+="\033[31m"
-            status+="disabled"
-            status+="\033[0m"
-        fi
-
-        status+="\n"
-    done
-
-    echo
-    column -t <(echo -ne "$status")
+    php_display_extension_status
 
     echo
     echo "Extensions status for $brewcurrentversion"
