@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+
+function mailcatcher_rename_preference()
+{
+    /usr/bin/sed -i '' 's/mailcatcher/mailhog/g' "$STORAGE_PREFERENCES_DIR/development"
+}
+
+# Read preferences
+DEVELOPMENT_PREFERENCES=$(read_preferences development)
+
+if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " mailcatcher " ]]; then
+    e_header "Uninstalling mailcatcher"
+    gem_uninstall mailcatcher
+
+    e_header "Renaming mailcatcher to mailhog"
+    safe_execute "mailcatcher_rename_preference" "Renamed preference mailcatcher to mailhog" "Failed to rename preference mailcatcher to mailhog"
+
+    e_header "Installing and configuring mailhog"
+    brew_install mailhog
+
+    if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " apache " ]]; then
+        if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " ssl " ]]; then
+            link_file "$TOOLBOX/conf/httpd_vhosts_extra/003-mailhog.conf" "$HTTPD_ETC/exolnet-vhosts/003-mailhog.conf"
+            create_directory "$HOME/Sites/mailhog"
+            sudo_brew_restart httpd
+        fi
+    fi
+fi
