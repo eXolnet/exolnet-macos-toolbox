@@ -279,6 +279,7 @@ if [[ " ${MAIN_PREFERENCES[@]} " =~ " development " ]]; then
     if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " mailhog " ]]; then
         e_header "Installing and configuring mailhog"
         brew_install mailhog
+        brew_restart mailhog
 
         if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " apache " ]]; then
             if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " ssl " ]]; then

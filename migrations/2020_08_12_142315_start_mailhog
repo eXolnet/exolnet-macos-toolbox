@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+# Read preferences
+DEVELOPMENT_PREFERENCES=$(read_preferences development)
+
+if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " mailhog " ]]; then
+    e_header "Starting mailhog"
+    brew_restart mailhog
+fi
