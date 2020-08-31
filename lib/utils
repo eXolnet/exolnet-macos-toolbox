@@ -73,25 +73,35 @@ function safe_execute()
 function backup_file()
 {
     local file=$1
+    local dest
 
     # Set backup flag, so a nice message can be shown at the end
     BACKUP=true
     # Create backup dir if it doesn't already exist
     [[ -e "$BACKUP_DIR" ]] || safe_execute "mkdir -p $BACKUP_DIR" "Created $BACKUP_DIR directory" "Failed to create $BACKUP_DIR directory" "e_arrow"
+    # Avoid collision if we backup twice the same file
+    dest="$BACKUP_DIR/$(date "+%H%M%S")"
+    # Create sub backup dir if it doesn't already exist
+    [[ -e "$dest" ]] || safe_execute "mkdir -p $dest" "Created $dest directory" "Failed to create $dest directory" "e_arrow"
 
-    safe_execute "mv $file $BACKUP_DIR" "Backed up $file" "Failed to backup $file" "e_arrow"
+    safe_execute "mv $file $dest" "Backed up $file" "Failed to backup $file" "e_arrow"
 }
 
 function backup_copy_file()
 {
     local file=$1
+    local dest
 
     # Set backup flag, so a nice message can be shown at the end
     BACKUP=true
     # Create backup dir if it doesn't already exist
     [[ -e "$BACKUP_DIR" ]] || safe_execute "mkdir -p $BACKUP_DIR" "Created $BACKUP_DIR directory" "Failed to create $BACKUP_DIR directory" "e_arrow"
+    # Avoid collision if we backup twice the same file
+    dest="$BACKUP_DIR/$(date "+%H%M%S")"
+    # Create sub backup dir if it doesn't already exist
+    [[ -e "$dest" ]] || safe_execute "mkdir -p $dest" "Created $dest directory" "Failed to create $dest directory" "e_arrow"
 
-    safe_execute "cp -a $file $BACKUP_DIR" "Backed up $file" "Failed to backup $file" "e_arrow"
+    safe_execute "cp -a $file $dest" "Backed up $file" "Failed to backup $file" "e_arrow"
 }
 
 function backup_file_if_exists()
