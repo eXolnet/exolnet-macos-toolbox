@@ -15,7 +15,6 @@ caffeine,Caffeine (Application),off
 canon-printer-driver,Canon MF Printer Driver & Utilities (Application),on
 canon-scanner-driver,Canon Scanner Driver & Utilities (Application),on
 coconutbattery,coconutBattery (Application),off
-disk-inventory-x,Disk Inventory X (Application),on
 diskmaker-x,DiskMaker X (Application),off
 docker,Docker CE (Application),off
 etcher,Etcher (Application),off
@@ -23,6 +22,7 @@ forticlient-offline,FortiClient (Application),on
 atom,Github Atom (Application),on
 google-chrome,Google Chrome (Application),on
 google-drive-file-stream,Google Drive File Stream (Application),on
+grandperspective,GrandPerspective (Application),on
 handbrake,HandBrake (Application),off
 imageoptim,ImageOptim (Application),on
 insomnia,Insomnia (Application),on
