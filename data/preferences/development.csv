@@ -10,5 +10,6 @@ php74,PHP 7.4,on
 node,Node,on
 redis,Redis,on
 mailhog,MailHog,on
+gh,GitHub CLI,on
 awscli,AWS CLI,off
 ansible,Ansible,off
