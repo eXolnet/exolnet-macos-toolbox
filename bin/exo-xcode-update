@@ -1,0 +1,73 @@
+#!/usr/bin/env bash
+
+# This script logic and code was taken from https://github.com/Homebrew/install/blob/master/install.sh
+
+#
+# Script setup
+#
+
+# Define toolbox directory if not set
+if [[ -z "$TOOLBOX" ]]; then
+    TOOLBOX="$HOME/.exolnet/toolbox"
+fi
+
+# Check if toolbox directory exists
+if [[ ! -d "$TOOLBOX" ]]; then
+    echo "Directory ~/.exolnet does not exists, exiting ..."
+    exit 1
+fi
+
+# Source helpers
+. $TOOLBOX/lib/include
+
+# See https://perldoc.perl.org/functions/chomp
+function chomp()
+{
+    printf "%s" "${1/"$'\n'"/}"
+}
+
+function sudo_softwareupdate()
+{
+    sudo /usr/sbin/softwareupdate -i "$*"
+}
+
+#
+# Script checks
+#
+
+# Check if command was ran as root.
+if [[ $(id -u) -eq 0 ]]; then
+    echo
+    echo "The command \"`basename \"$0\"`\" should not be executed as root or via sudo directly."
+    echo "When a command requires root access, you will be prompted for a password as needed."
+    exit 1
+fi
+
+#
+# Script execution
+#
+
+# This temporary file prompts the 'softwareupdate' utility to list the Command Line Tools
+clt_placeholder="/tmp/.com.apple.dt.CommandLineTools.installondemand.in-progress"
+clt_path="/Library/Developer/CommandLineTools"
+
+e_header "Searching latest CommandLineTools"
+safe_execute "sudo touch $clt_placeholder" "Created empty file $clt_placeholder" "Failed to create empty file $clt_placeholder"
+
+clt_label_command="/usr/sbin/softwareupdate -l | grep -B 1 -E 'Command Line Tools' | awk -F'*' '/^ *\\*/ {print \$2}' | sed -e 's/^ *Label: //' -e 's/^ *//' | sort -V | tail -n1"
+clt_label="$(chomp "$(/bin/bash -c "$clt_label_command")")"
+
+if [[ -n "$clt_label" ]]; then
+    e_success "CommandLineTools found!"
+
+    e_header "Installing latest CommandLineTools"
+    safe_execute "sudo_softwareupdate $clt_label" "Installed $clt_label" "Failed to install $clt_label"
+    safe_execute "sudo /usr/bin/xcode-select --switch $clt_path" "Set the active developer directory to $clt_path" "Failed to set the active developer directory to $clt_label"
+else
+    e_error "No CommandLineTools was found"
+fi
+
+e_header "Cleanup"
+safe_execute "sudo rm -f $clt_placeholder" "Removed $clt_placeholder" "Failed to remove $clt_placeholder"
+
+e_header "All done!"
