@@ -207,7 +207,7 @@ cat >> $file <<EOL
 ; EXOLNET-MACOS-TOOLBOX BEGIN
 [xdebug]
 zend_extension="$(php_get_extension_path $version)/xdebug.so"
-xdebug.remote_enable=1
+xdebug.mode=debug
 xdebug.idekey=PHPSTORM
 ; EXOLNET-MACOS-TOOLBOX END
 EOL
