@@ -181,7 +181,7 @@ if [[ " ${MAIN_PREFERENCES[@]} " =~ " development " ]]; then
         pecl_install 7.2 imagick
         pecl_install 7.2 pcov
         pecl_install 7.2 redis
-        pecl_install 7.2 xdebug
+        pecl_install 7.2 xdebug 2.9.8
         safe_execute "php_remove_imagick_extension_from_php_ini 7.2" "Removed php@7.2 imagick extension from php.ini" "Failed to remove php@7.2 imagick extension from php.ini"
         safe_execute "php_remove_pcov_extension_from_php_ini 7.2" "Removed php@7.2 pcov extension from php.ini" "Failed to remove php@7.2 pcov extension from php.ini"
         safe_execute "php_remove_redis_extension_from_php_ini 7.2" "Removed php@7.2 redis extension from php.ini" "Failed to remove php@7.2 redis extension from php.ini"
@@ -207,7 +207,7 @@ if [[ " ${MAIN_PREFERENCES[@]} " =~ " development " ]]; then
         pecl_install 7.3 imagick
         pecl_install 7.3 pcov
         pecl_install 7.3 redis
-        pecl_install 7.3 xdebug
+        pecl_install 7.3 xdebug 2.9.8
         safe_execute "php_remove_imagick_extension_from_php_ini 7.3" "Removed php@7.3 imagick extension from php.ini" "Failed to remove php@7.3 imagick extension from php.ini"
         safe_execute "php_remove_pcov_extension_from_php_ini 7.3" "Removed php@7.3 pcov extension from php.ini" "Failed to remove php@7.3 pcov extension from php.ini"
         safe_execute "php_remove_redis_extension_from_php_ini 7.3" "Removed php@7.3 redis extension from php.ini" "Failed to remove php@7.3 redis extension from php.ini"
@@ -233,7 +233,7 @@ if [[ " ${MAIN_PREFERENCES[@]} " =~ " development " ]]; then
         pecl_install 7.4 imagick
         pecl_install 7.4 pcov
         pecl_install 7.4 redis
-        pecl_install 7.4 xdebug
+        pecl_install 7.4 xdebug 2.9.8
         safe_execute "php_remove_imagick_extension_from_php_ini 7.4" "Removed php@7.4 imagick extension from php.ini" "Failed to remove php@7.4 imagick extension from php.ini"
         safe_execute "php_remove_pcov_extension_from_php_ini 7.4" "Removed php@7.4 pcov extension from php.ini" "Failed to remove php@7.4 pcov extension from php.ini"
         safe_execute "php_remove_redis_extension_from_php_ini 7.4" "Removed php@7.4 redis extension from php.ini" "Failed to remove php@7.4 redis extension from php.ini"
