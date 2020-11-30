@@ -207,6 +207,7 @@ cat >> $file <<EOL
 ; EXOLNET-MACOS-TOOLBOX BEGIN
 [xdebug]
 zend_extension="$(php_get_extension_path $version)/xdebug.so"
+xdebug.mode=debug
 xdebug.remote_enable=1
 xdebug.idekey=PHPSTORM
 ; EXOLNET-MACOS-TOOLBOX END
@@ -292,6 +293,10 @@ function php_convert_version_to_dot_version()
             echo '7.4'
             ;;
 
+        php80)
+            echo '8.0'
+            ;;
+
         *)
             echo 'invalid'
 
@@ -311,4 +316,5 @@ function brew_unlink_all_php()
     brew_is_installed php@7.2 && brew_unlink php@7.2
     brew_is_installed php@7.3 && brew_unlink php@7.3
     brew_is_installed php@7.4 && brew_unlink php@7.4
+    brew_is_installed php@8.0 && brew_unlink php@8.0
 }
