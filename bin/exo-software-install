@@ -247,6 +247,32 @@ if [[ " ${MAIN_PREFERENCES[@]} " =~ " development " ]]; then
         brew_unlink php@7.4
     fi
 
+    if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " php80 " ]]; then
+        e_header "Installing and configuring php 8.0"
+        brew_install php@8.0
+        brew_link_force php@8.0
+        #safe_execute "php_remove_imagick_extension_insert 8.0" "Removed php@8.0 imagick extension insert" "Failed to remove php@8.0 imagick extension insert"
+        safe_execute "php_remove_pcov_extension_insert 8.0" "Removed php@8.0 pcov extension insert" "Failed to remove php@8.0 pcov extension insert"
+        safe_execute "php_remove_redis_extension_insert 8.0" "Removed php@8.0 redis extension insert" "Failed to remove php@8.0 redis extension insert"
+        safe_execute "php_remove_xdebug_extension_insert 8.0" "Removed php@8.0 xdebug extension insert" "Failed to remove php@8.0 xdebug extension insert"
+        pecl_update_channels
+        #pecl_install 8.0 imagick
+        pecl_install 8.0 pcov
+        pecl_install 8.0 redis
+        pecl_install 8.0 xdebug
+        #safe_execute "php_remove_imagick_extension_from_php_ini 8.0" "Removed php@8.0 imagick extension from php.ini" "Failed to remove php@8.0 imagick extension from php.ini"
+        safe_execute "php_remove_pcov_extension_from_php_ini 8.0" "Removed php@8.0 pcov extension from php.ini" "Failed to remove php@8.0 pcov extension from php.ini"
+        safe_execute "php_remove_redis_extension_from_php_ini 8.0" "Removed php@8.0 redis extension from php.ini" "Failed to remove php@8.0 redis extension from php.ini"
+        safe_execute "php_remove_xdebug_extension_from_php_ini 8.0" "Removed php@8.0 xdebug extension from php.ini" "Failed to remove php@8.0 xdebug extension from php.ini"
+        safe_execute "php_configure_timezone 8.0" "Configured php@8.0 timezone" "Failed to configure php@8.0 timezone"
+        safe_execute "php_configure_upload_max_filesize 8.0" "Configured php@8.0 upload_max_filesize" "Failed to configure php@8.0 upload_max_filesize"
+        #safe_execute "php_configure_imagick 8.0" "Configured php@8.0 imagick extension" "Failed to configure php@8.0 imagick extension"
+        safe_execute "php_configure_pcov 8.0" "Configured php@8.0 pcov extension" "Failed to configure php@8.0 pcov extension"
+        safe_execute "php_configure_redis 8.0" "Configured php@8.0 redis extension" "Failed to configure php@8.0 redis extension"
+        safe_execute "php_configure_xdebug 8.0" "Configured php@8.0 xdebug extension" "Failed to configure php@8.0 xdebug extension"
+        brew_unlink php@8.0
+    fi
+
     if [[ "${DEVELOPMENT_PREFERENCES[@]}" =~ "php" ]]; then
         e_header "Finishing php installation and configuration"
         brew_install composer
