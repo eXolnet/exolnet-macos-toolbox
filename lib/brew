@@ -187,7 +187,7 @@ function _cask_install()
 {
     local formula=$1
     local force=$2
-    local cmd="brew cask install $force $formula"
+    local cmd="brew --cask install $force $formula"
     local success="Installed cask $formula"
     local failure="Failed to install cask $formula"
     local output status
