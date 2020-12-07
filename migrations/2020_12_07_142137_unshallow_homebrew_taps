@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+e_header "Unshallow homebrew-core tap (might take some time...)"
+git -C "$(brew --repository)/Library/Taps/homebrew/homebrew-core" fetch --unshallow
+
+e_header "Unshallow homebrew-cask tap (might take some time...)"
+git -C "$(brew --repository)/Library/Taps/homebrew/homebrew-cask" fetch --unshallow
+
+e_header "Optimize homebrew-core tap (might take some time...)"
+git -C "$(brew --repository)/Library/Taps/homebrew/homebrew-core" gc --aggressive
+
+e_header "Optimize homebrew-cask tap (might take some time...)"
+git -C "$(brew --repository)/Library/Taps/homebrew/homebrew-cask" gc --aggressive
