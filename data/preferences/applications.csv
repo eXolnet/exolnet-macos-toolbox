@@ -21,6 +21,7 @@ discord,Discord (Application),off
 diskmaker-x,DiskMaker X (Application),off
 docker,Docker CE (Application),off
 etcher,Etcher (Application),off
+figma,Figma (Application),off
 forticlient-offline,FortiClient (Application),on
 atom,Github Atom (Application),on
 google-chrome,Google Chrome (Application),on
