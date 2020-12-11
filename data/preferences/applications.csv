@@ -6,6 +6,8 @@ suspicious-package,Suspicious Package (Application & QuickLook plugin),off
 colorpicker-skalacolor,Skala Color (Colorpicker),on
 font-dejavu-sans,DejaVu (Font),off
 0xed,0xED (Application),off
+1password,1Password (Application),off
+adobe-acrobat-reader,Adobe Acrobat Reader DC (Application),off
 adobe-creative-cloud,Adobe Creative Cloud (Application),off
 airserver,AirServer (Application),off
 alfred,Alfred (Application),off
@@ -15,9 +17,11 @@ caffeine,Caffeine (Application),off
 canon-printer-driver,Canon MF Printer Driver & Utilities (Application),on
 canon-scanner-driver,Canon Scanner Driver & Utilities (Application),on
 coconutbattery,coconutBattery (Application),off
+discord,Discord (Application),off
 diskmaker-x,DiskMaker X (Application),off
 docker,Docker CE (Application),off
 etcher,Etcher (Application),off
+figma,Figma (Application),off
 forticlient-offline,FortiClient (Application),on
 atom,Github Atom (Application),on
 google-chrome,Google Chrome (Application),on
@@ -35,6 +39,7 @@ kap,Kap (Application),on
 karabiner-elements,Karabiner Elements (Application),off
 keepassxc,KeePassXC (Application),off
 microsoft-office,Microsoft Office (Application),on
+microsoft-teams,Microsoft Teams (Application),off
 visual-studio-code,Microsoft VS Code (Application),on
 mitel-connect,Mitel Connect (Application),on
 firefox,Mozilla Firefox (Application),on
