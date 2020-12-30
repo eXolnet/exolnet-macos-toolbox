@@ -4,7 +4,12 @@ qlmarkdown,QLMarkdown (QuickLook plugin),on
 qlstephen,QLStephen (QuickLook plugin),on
 suspicious-package,Suspicious Package (Application & QuickLook plugin),off
 colorpicker-skalacolor,Skala Color (Colorpicker),on
-font-dejavu-sans,DejaVu (Font),off
+font-dejavu,DejaVu (Font),off
+font-jetbrains-mono,JetBrains Mono (Font),off
+font-noto-sans,Noto Sans (Font),off
+font-noto-serif,Noto Serif (Font),off
+font-roboto,Roboto (Font),off
+font-roboto-mono,Roboto Mono (Font),off
 0xed,0xED (Application),off
 1password,1Password (Application),off
 adobe-acrobat-reader,Adobe Acrobat Reader DC (Application),off
@@ -20,7 +25,7 @@ coconutbattery,coconutBattery (Application),off
 discord,Discord (Application),off
 diskmaker-x,DiskMaker X (Application),off
 docker,Docker CE (Application),off
-etcher,Etcher (Application),off
+balenaetcher,Etcher (Application),off
 figma,Figma (Application),off
 forticlient-offline,FortiClient (Application),on
 atom,Github Atom (Application),on
