@@ -4,7 +4,7 @@ function mysql57_list_all_databases()
 {
     local list="$1"
 
-    mysql --user=root --socket=/tmp/mysql@5.7.sock -sN -e "SHOW DATABASES" | egrep -v "information_schema|performance_schema|mysql|sys" > "$list"
+    mysql --user=root --socket=/tmp/mysql@5.7.sock -sN -e "SHOW DATABASES" | egrep -v "^information_schema|performance_schema|mysql|sys$" > "$list"
 }
 
 function mysql57_dump_all_databases()
