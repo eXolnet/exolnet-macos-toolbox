@@ -11,7 +11,7 @@
     <string>/usr/local/opt/mysql/bin/mysqld_safe</string>
     <string>--datadir=/usr/local/var/mysql@8.0</string>
     <string>--socket=/tmp/mysql@8.0.sock</string>
-    <string>--port=3308</string>
+    <string>--port=3306</string>
   </array>
   <key>RunAtLoad</key>
   <true/>
