@@ -55,6 +55,25 @@ if [[ " ${MAIN_PREFERENCES[@]} " =~ " applications " ]]; then
     for item in ${APPLICATIONS_PREFERENCES[@]}; do
         cask_install "$item"
     done
+
+    QUICKLOOK_REGEX=" (qlcolorcode|qlmarkdown|qlstephen) "
+
+    if [[ " ${APPLICATIONS_PREFERENCES[@]} " =~ $QUICKLOOK_REGEX ]]; then
+        e_header "Configuring quicklook plugins"
+
+        if [[ " ${APPLICATIONS_PREFERENCES[@]} " =~ " qlcolorcode " ]]; then
+            plugin="${HOME}/Library/QuickLook/QLColorCode.qlgenerator"
+            safe_execute "clear_extended_attributes $plugin" "Cleared extended attributes of $plugin" "Failed to clear extended attributes of $plugin"
+        fi
+        if [[ " ${APPLICATIONS_PREFERENCES[@]} " =~ " qlmarkdown " ]]; then
+            plugin="${HOME}/Library/QuickLook/QLMarkdown.qlgenerator"
+            safe_execute "clear_extended_attributes $plugin" "Cleared extended attributes of $plugin" "Failed to clear extended attributes of $plugin"
+        fi
+        if [[ " ${APPLICATIONS_PREFERENCES[@]} " =~ " qlstephen " ]]; then
+            plugin="${HOME}/Library/QuickLook/QLStephen.qlgenerator"
+            safe_execute "clear_extended_attributes $plugin" "Cleared extended attributes of $plugin" "Failed to clear extended attributes of $plugin"
+        fi
+    fi
 fi
 
 if [[ " ${MAIN_PREFERENCES[@]} " =~ " bash " ]]; then
