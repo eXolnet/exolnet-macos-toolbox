@@ -235,3 +235,10 @@ function waiting_for()
     done
     echo -e "\r$INDENT \033[1;32m✔\033[0m "
 }
+
+function clear_extended_attributes()
+{
+    local file=$1
+
+    xattr -cr "$file"
+}

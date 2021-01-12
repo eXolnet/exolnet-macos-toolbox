@@ -45,6 +45,15 @@ function show_preferences_menu()
     echo "$preferences" > "$output"
 }
 
+function save_preferences()
+{
+    local menu=$1
+    local preferences=$2
+    local output="$STORAGE_PREFERENCES_DIR/$menu"
+
+    echo "$preferences" > "$output"
+}
+
 function read_preferences()
 {
     local menu=$1

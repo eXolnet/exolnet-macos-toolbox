@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+FORTICLIENT_CASK_PATH=/usr/local/Caskroom/forticlient
+
+# Read preferences
+APPLICATIONS_PREFERENCES=$(read_preferences applications)
+
+if [[ -d $FORTICLIENT_CASK_PATH ]]; then
+    e_header "Migrating forticlient to forticlient-offline"
+    backup_file $FORTICLIENT_CASK_PATH
+
+    if [[ ( ! " ${APPLICATIONS_PREFERENCES[@]} " =~ " forticlient-offline " ) ]]; then
+        APPLICATIONS_PREFERENCES="$APPLICATIONS_PREFERENCES forticlient-offline"
+        save_preferences applications "$APPLICATIONS_PREFERENCES"
+        e_success "Saved applications preferences"
+        cask_install "forticlient-offline"
+    fi
+fi
