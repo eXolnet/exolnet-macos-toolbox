@@ -40,6 +40,7 @@ shopt -s nullglob
 
 e_header "Tapping additional taps"
 brew_tap homebrew/cask-fonts
+brew_tap exolnet/homebrew-formula
 brew_tap exolnet/homebrew-cask
 brew_tap exolnet/homebrew-deprecated
 
@@ -295,6 +296,7 @@ if [[ " ${MAIN_PREFERENCES[@]} " =~ " development " ]]; then
     if [[ "${DEVELOPMENT_PREFERENCES[@]}" =~ "php" ]]; then
         e_header "Finishing php installation and configuration"
         brew_install composer
+        brew_install local-php-security-checker
         brew_install php-code-sniffer
         brew_install wp-cli
         safe_execute "httpd_disable_php_module" "Disabled php module in httpd" "Failed to disable php module in httpd"
