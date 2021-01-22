@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+e_header "Tapping additional taps"
+brew_tap exolnet/homebrew-formula
+
+# Read preferences
+DEVELOPMENT_PREFERENCES=$(read_preferences development)
+
+if [[ "${DEVELOPMENT_PREFERENCES[@]}" =~ "php" ]]; then
+    e_header "Finishing php installation and configuration"
+    brew_update
+    brew_install local-php-security-checker
+fi
