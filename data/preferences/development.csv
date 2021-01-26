@@ -14,3 +14,4 @@ mailhog,MailHog,on
 gh,GitHub CLI,on
 awscli,AWS CLI,off
 ansible,Ansible,off
+android-platform-tools,Android SDK Platform-Tools,off
