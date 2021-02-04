@@ -65,7 +65,7 @@ function safe_execute()
         $e_function "$success"
     else
         e_error "$failure"
-        echo "$output"
+        echo -e "$output"
         exit 1
     fi
 }

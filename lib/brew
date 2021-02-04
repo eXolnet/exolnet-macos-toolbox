@@ -16,7 +16,7 @@ function brew_update()
 {
     local formula=$@
 
-    safe_execute "brew update" "Updated brew" "Failed to update brew"
+    HOMEBREW_COLOR=1 safe_execute "brew update" "Updated brew" "Failed to update brew"
 }
 
 function brew_outdated()
@@ -30,28 +30,28 @@ function brew_outdated()
 
 function brew_upgrade_all()
 {
-    HOMEBREW_NO_AUTO_UPDATE=1 safe_execute "brew upgrade" "Upgraded all formulae" "Failed to upgrade all formulae"
+    HOMEBREW_COLOR=1 HOMEBREW_NO_AUTO_UPDATE=1 safe_execute "brew upgrade" "Upgraded all formulae" "Failed to upgrade all formulae"
 }
 
 function brew_upgrade()
 {
     local formula=$@
 
-    HOMEBREW_NO_AUTO_UPDATE=1 safe_execute "brew upgrade $formula" "Upgraded $formula" "Failed to upgrade $formula"
+    HOMEBREW_COLOR=1 HOMEBREW_NO_AUTO_UPDATE=1 safe_execute "brew upgrade $formula" "Upgraded $formula" "Failed to upgrade $formula"
 }
 
 function brew_install()
 {
     local formula=$@
 
-    HOMEBREW_NO_AUTO_UPDATE=1 safe_execute "brew install $formula" "Installed $formula" "Failed to install $formula"
+    HOMEBREW_COLOR=1 HOMEBREW_NO_AUTO_UPDATE=1 safe_execute "brew install $formula" "Installed $formula" "Failed to install $formula"
 }
 
 function brew_reinstall()
 {
     local formula=$@
 
-    HOMEBREW_NO_AUTO_UPDATE=1 safe_execute "brew reinstall $formula" "Installed $formula" "Failed to install $formula"
+    HOMEBREW_COLOR=1 HOMEBREW_NO_AUTO_UPDATE=1 safe_execute "brew reinstall $formula" "Installed $formula" "Failed to install $formula"
 }
 
 function brew_is_installed()
@@ -67,35 +67,35 @@ function brew_uninstall()
 {
     local formula=$@
 
-    safe_execute "brew uninstall $formula" "Uninstalled $formula" "Failed to uninstall $formula"
+    HOMEBREW_COLOR=1 safe_execute "brew uninstall $formula" "Uninstalled $formula" "Failed to uninstall $formula"
 }
 
 function brew_link()
 {
     local formula=$@
 
-    safe_execute "brew link $formula" "Linked $formula" "Failed to link $formula"
+    HOMEBREW_COLOR=1 safe_execute "brew link $formula" "Linked $formula" "Failed to link $formula"
 }
 
 function brew_link_force()
 {
     local formula=$@
 
-    safe_execute "brew link --overwrite --force $formula" "Linked $formula" "Failed to link $formula"
+    HOMEBREW_COLOR=1 safe_execute "brew link --overwrite --force $formula" "Linked $formula" "Failed to link $formula"
 }
 
 function brew_unlink()
 {
     local formula=$@
 
-    safe_execute "brew unlink $formula" "Unlinked $formula" "Failed to unlink $formula"
+    HOMEBREW_COLOR=1 safe_execute "brew unlink $formula" "Unlinked $formula" "Failed to unlink $formula"
 }
 
 function brew_tap()
 {
     local tap=$@
 
-    HOMEBREW_NO_AUTO_UPDATE=1 safe_execute "brew tap $tap" "Tapped $tap" "Failed to tap $tap"
+    HOMEBREW_COLOR=1 HOMEBREW_NO_AUTO_UPDATE=1 safe_execute "brew tap $tap" "Tapped $tap" "Failed to tap $tap"
 }
 
 function brew_is_tapped()
@@ -111,7 +111,7 @@ function brew_untap()
 {
     local tap=$@
 
-    safe_execute "brew untap $tap" "Untapped $tap" "Failed to untap $tap"
+    HOMEBREW_COLOR=1 safe_execute "brew untap $tap" "Untapped $tap" "Failed to untap $tap"
 }
 
 function brew_is_status()
@@ -139,7 +139,7 @@ function brew_start()
     local service=$1
     local plist=$2
 
-    safe_execute "brew services start $service $plist" "Started $service" "Failed to start $service"
+    HOMEBREW_COLOR=1 safe_execute "brew services start $service $plist" "Started $service" "Failed to start $service"
 }
 
 function sudo_brew_start()
@@ -147,40 +147,40 @@ function sudo_brew_start()
     local service=$1
     local plist=$2
 
-    safe_execute "sudo brew services start $service $plist" "Started $service" "Failed to start $service"
+    HOMEBREW_COLOR=1 safe_execute "sudo brew services start $service $plist" "Started $service" "Failed to start $service"
 }
 
 function brew_stop()
 {
     local service=$1
 
-    safe_execute "brew services stop $service" "Stopped $service" "Failed to stop $service"
+    HOMEBREW_COLOR=1 safe_execute "brew services stop $service" "Stopped $service" "Failed to stop $service"
 }
 
 function sudo_brew_stop()
 {
     local service=$1
 
-    safe_execute "sudo brew services stop $service" "Stopped $service" "Failed to stop $service"
+    HOMEBREW_COLOR=1 safe_execute "sudo brew services stop $service" "Stopped $service" "Failed to stop $service"
 }
 
 function brew_restart()
 {
     local service=$1
 
-    safe_execute "brew services restart $service" "Restarted $service" "Failed to restart $service"
+    HOMEBREW_COLOR=1 safe_execute "brew services restart $service" "Restarted $service" "Failed to restart $service"
 }
 
 function sudo_brew_restart()
 {
     local service=$1
 
-    safe_execute "sudo brew services restart $service" "Restarted $service" "Failed to restart $service"
+    HOMEBREW_COLOR=1 safe_execute "sudo brew services restart $service" "Restarted $service" "Failed to restart $service"
 }
 
 function cask_install()
 {
-    HOMEBREW_NO_AUTO_UPDATE=1 _cask_install "$@"
+    HOMEBREW_COLOR=1 HOMEBREW_NO_AUTO_UPDATE=1 _cask_install "$@"
 }
 
 function _cask_install()
@@ -213,7 +213,7 @@ function _cask_install()
         fi
     else
         e_error "$failure"
-        echo "$output"
+        echo -e "$output"
         exit 1
     fi
 }
