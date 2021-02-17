@@ -342,6 +342,11 @@ if [[ " ${MAIN_PREFERENCES[@]} " =~ " development " ]]; then
         fi
     fi
 
+    if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " gh " ]]; then
+        e_header "Installing and configuring github cli"
+        brew_install gh
+    fi
+
     if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " awscli " ]]; then
         e_header "Installing awscli and dependencies"
         pip3_install awscli
@@ -355,6 +360,11 @@ if [[ " ${MAIN_PREFERENCES[@]} " =~ " development " ]]; then
         pip3_install jmespath
         pip3_install passlib
         pip_install_system_boto
+    fi
+
+    if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " android-platform-tools " ]]; then
+        e_header "Installing and configuring android-platform-tools"
+        brew_install android-platform-tools
     fi
 
 fi
