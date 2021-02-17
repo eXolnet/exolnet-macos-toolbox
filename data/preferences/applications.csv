@@ -18,6 +18,7 @@ airserver,AirServer (Application),off
 alfred,Alfred (Application),off
 android-studio,Android Studio (Application),off
 sourcetree,Atlassian SourceTree (Application),on
+bitwarden,Bitwarden (Application),off
 caffeine,Caffeine (Application),off
 canon-printer-driver,Canon MF Printer Driver & Utilities (Application),on
 canon-scanner-driver,Canon Scanner Driver & Utilities (Application),on
@@ -30,7 +31,7 @@ figma,Figma (Application),off
 forticlient-offline,FortiClient (Application),on
 atom,Github Atom (Application),on
 google-chrome,Google Chrome (Application),on
-google-drive-file-stream,Google Drive File Stream (Application),on
+google-drive,Google Drive (Application),on
 grandperspective,GrandPerspective (Application),on
 handbrake,HandBrake (Application),off
 imageoptim,ImageOptim (Application),on

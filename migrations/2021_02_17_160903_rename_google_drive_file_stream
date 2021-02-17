@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+function google_drive_rename_preference()
+{
+    /usr/bin/sed -i '' 's/google-drive-file-stream/google-drive/g' "$STORAGE_PREFERENCES_DIR/applications"
+}
+
+GDFS_CASK_PATH=/usr/local/Caskroom/google-drive-file-stream
+
+# Read preferences
+APPLICATIONS_PREFERENCES=$(read_preferences applications)
+
+if [[ " ${APPLICATIONS_PREFERENCES[@]} " =~ " google-drive-file-stream " ]]; then
+    e_header "Migrating google drive file stream to google drive"
+    safe_execute "google_drive_rename_preference" "Renamed preference google-drive-file-stream to google-drive" "Failed to rename preference google-drive-file-stream to google-drive"
+    backup_file_if_exists $GDFS_CASK_PATH
+    brew_update
+    cask_install google-drive
+fi
