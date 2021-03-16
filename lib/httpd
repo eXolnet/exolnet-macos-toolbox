@@ -20,8 +20,8 @@ function httpd_add_include_exolnet()
 
 cat >> $HTTPD_ETC/httpd.conf <<EOL
 # EXOLNET-MACOS-TOOLBOX BEGIN
-Include /usr/local/etc/httpd/exolnet/*
-Include /usr/local/etc/httpd/exolnet-vhosts/*
+Include /usr/local/etc/httpd/exolnet/*.conf
+Include /usr/local/etc/httpd/exolnet-vhosts/*.conf
 # EXOLNET-MACOS-TOOLBOX END
 EOL
 }
