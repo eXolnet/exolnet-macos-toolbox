@@ -30,7 +30,7 @@ function brew_outdated()
 
 function brew_upgrade_all()
 {
-    HOMEBREW_COLOR=1 HOMEBREW_NO_AUTO_UPDATE=1 safe_execute "brew upgrade" "Upgraded all formulae" "Failed to upgrade all formulae"
+    HOMEBREW_COLOR=1 HOMEBREW_NO_AUTO_UPDATE=1 safe_execute "brew upgrade --ignore-pinned" "Upgraded all formulae" "Failed to upgrade all formulae"
 }
 
 function brew_upgrade()
