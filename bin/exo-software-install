@@ -110,8 +110,8 @@ if [[ " ${MAIN_PREFERENCES[@]} " =~ " development " ]]; then
         mysql_move_data_dir 5.7
         brew_start_mysql 5.7
         mysql_wait_for_connection 5.7
-        safe_execute "mysql_create_user 5.7" "Created user exolnet_dev" "Failed to create user exolnet_dev"
-        safe_execute "mysql_grant_user 5.7" "Granted user exolnet_dev" "Failed to grant user exolnet_dev"
+        safe_execute "mysql_create_users 5.7" "Created users exolnet_dev, exolnet_local, exolnet_prod, exolnet_qa and exolnet_test" "Failed to create users exolnet_dev, exolnet_local, exolnet_prod, exolnet_qa and exolnet_test"
+        safe_execute "mysql_grant_users 5.7" "Granted users exolnet_dev, exolnet_local, exolnet_prod, exolnet_qa and exolnet_test" "Failed to grant users exolnet_dev, exolnet_local, exolnet_prod, exolnet_qa and exolnet_test"
     fi
 
     if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " mysql80 " ]]; then
@@ -127,8 +127,8 @@ if [[ " ${MAIN_PREFERENCES[@]} " =~ " development " ]]; then
         brew_start_mysql 8.0
         mysql_wait_for_connection 8.0
         safe_execute "mysql_configure_mysqldump" "Configured mysqldump for mysql@5.7 compatibility" "Failed to Configure mysqldump for mysql@5.7 compatibility"
-        safe_execute "mysql_create_user 8.0" "Created user exolnet_dev" "Failed to create user exolnet_dev"
-        safe_execute "mysql_grant_user 8.0" "Granted user exolnet_dev" "Failed to grant user exolnet_dev"
+        safe_execute "mysql_create_users 8.0" "Created users exolnet_dev, exolnet_local, exolnet_prod, exolnet_qa and exolnet_test" "Failed to create users exolnet_dev, exolnet_local, exolnet_prod, exolnet_qa and exolnet_test"
+        safe_execute "mysql_grant_users 8.0" "Granted users exolnet_dev, exolnet_local, exolnet_prod, exolnet_qa and exolnet_test" "Failed to grant users exolnet_dev, exolnet_local, exolnet_prod, exolnet_qa and exolnet_test"
     fi
 
     if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " dnsmasq " ]]; then
