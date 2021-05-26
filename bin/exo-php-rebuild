@@ -84,32 +84,6 @@ if [[ "${DEVELOPMENT_PREFERENCES[@]}" =~ "php" ]]; then
     brew_install pkg-config
 fi
 
-if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " php72 " ]]; then
-    e_header "Reinstalling and reconfiguring php 7.2"
-    brew_reinstall php@7.2
-    brew_link_force php@7.2
-    safe_execute "php_remove_imagick_extension_insert 7.2" "Removed php@7.2 imagick extension insert" "Failed to remove php@7.2 imagick extension insert"
-    safe_execute "php_remove_pcov_extension_insert 7.2" "Removed php@7.2 pcov extension insert" "Failed to remove php@7.2 pcov extension insert"
-    safe_execute "php_remove_redis_extension_insert 7.2" "Removed php@7.2 redis extension insert" "Failed to remove php@7.2 redis extension insert"
-    safe_execute "php_remove_xdebug_extension_insert 7.2" "Removed php@7.2 xdebug extension insert" "Failed to remove php@7.2 xdebug extension insert"
-    pecl_update_channels
-    pecl_reinstall 7.2 imagick
-    pecl_reinstall 7.2 pcov
-    pecl_reinstall 7.2 redis
-    pecl_reinstall 7.2 xdebug
-    safe_execute "php_remove_imagick_extension_from_php_ini 7.2" "Removed php@7.2 imagick extension from php.ini" "Failed to remove php@7.2 imagick extension from php.ini"
-    safe_execute "php_remove_pcov_extension_from_php_ini 7.2" "Removed php@7.2 pcov extension from php.ini" "Failed to remove php@7.2 pcov extension from php.ini"
-    safe_execute "php_remove_redis_extension_from_php_ini 7.2" "Removed php@7.2 redis extension from php.ini" "Failed to remove php@7.2 redis extension from php.ini"
-    safe_execute "php_remove_xdebug_extension_from_php_ini 7.2" "Removed php@7.2 xdebug extension from php.ini" "Failed to remove php@7.2 xdebug extension from php.ini"
-    safe_execute "php_configure_timezone 7.2" "Configured php@7.2 timezone" "Failed to configure php@7.2 timezone"
-    safe_execute "php_configure_upload_max_filesize 7.2" "Configured php@7.2 upload_max_filesize" "Failed to configure php@7.2 upload_max_filesize"
-    safe_execute "php_configure_imagick 7.2" "Configured php@7.2 imagick extension" "Failed to configure php@7.2 imagick extension"
-    safe_execute "php_configure_pcov 7.2" "Configured php@7.2 pcov extension" "Failed to configure php@7.2 pcov extension"
-    safe_execute "php_configure_redis 7.2" "Configured php@7.2 redis extension" "Failed to configure php@7.2 redis extension"
-    safe_execute "php_configure_xdebug 7.2" "Configured php@7.2 xdebug extension" "Failed to configure php@7.2 xdebug extension"
-    brew_unlink php@7.2
-fi
-
 if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " php73 " ]]; then
     e_header "Reinstalling and reconfiguring php 7.3"
     brew_reinstall php@7.3
