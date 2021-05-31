@@ -66,6 +66,17 @@ function safe_execute()
     else
         e_error "$failure"
         echo -e "$output"
+
+        if [[ "$TOOLBOX_DISPLAY_FAT_ERROR" == "1" ]]; then
+            echo
+            echo -e "$INDENT \033[41m                                                  \033[0m"
+            echo -e "$INDENT \033[41m  Whoops, looks like something went wrong!        \033[0m"
+            echo -e "$INDENT \033[41m                                                  \033[0m"
+            echo -e "$INDENT \033[41m  Please, check the output above, fix all issues  \033[0m"
+            echo -e "$INDENT \033[41m  and then run your last command again.           \033[0m"
+            echo -e "$INDENT \033[41m                                                  \033[0m"
+        fi
+
         exit 1
     fi
 }

@@ -110,8 +110,8 @@ if [[ " ${MAIN_PREFERENCES[@]} " =~ " development " ]]; then
         mysql_move_data_dir 5.7
         brew_start_mysql 5.7
         mysql_wait_for_connection 5.7
-        safe_execute "mysql_create_user 5.7" "Created user exolnet_dev" "Failed to create user exolnet_dev"
-        safe_execute "mysql_grant_user 5.7" "Granted user exolnet_dev" "Failed to grant user exolnet_dev"
+        safe_execute "mysql_create_users 5.7" "Created users exolnet_dev, exolnet_local, exolnet_prod, exolnet_qa and exolnet_test" "Failed to create users exolnet_dev, exolnet_local, exolnet_prod, exolnet_qa and exolnet_test"
+        safe_execute "mysql_grant_users 5.7" "Granted users exolnet_dev, exolnet_local, exolnet_prod, exolnet_qa and exolnet_test" "Failed to grant users exolnet_dev, exolnet_local, exolnet_prod, exolnet_qa and exolnet_test"
     fi
 
     if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " mysql80 " ]]; then
@@ -127,8 +127,8 @@ if [[ " ${MAIN_PREFERENCES[@]} " =~ " development " ]]; then
         brew_start_mysql 8.0
         mysql_wait_for_connection 8.0
         safe_execute "mysql_configure_mysqldump" "Configured mysqldump for mysql@5.7 compatibility" "Failed to Configure mysqldump for mysql@5.7 compatibility"
-        safe_execute "mysql_create_user 8.0" "Created user exolnet_dev" "Failed to create user exolnet_dev"
-        safe_execute "mysql_grant_user 8.0" "Granted user exolnet_dev" "Failed to grant user exolnet_dev"
+        safe_execute "mysql_create_users 8.0" "Created users exolnet_dev, exolnet_local, exolnet_prod, exolnet_qa and exolnet_test" "Failed to create users exolnet_dev, exolnet_local, exolnet_prod, exolnet_qa and exolnet_test"
+        safe_execute "mysql_grant_users 8.0" "Granted users exolnet_dev, exolnet_local, exolnet_prod, exolnet_qa and exolnet_test" "Failed to grant users exolnet_dev, exolnet_local, exolnet_prod, exolnet_qa and exolnet_test"
     fi
 
     if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " dnsmasq " ]]; then
@@ -187,32 +187,6 @@ if [[ " ${MAIN_PREFERENCES[@]} " =~ " development " ]]; then
         brew_unlink_all_php
         brew_install imagemagick
         brew_install pkg-config
-    fi
-
-    if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " php72 " ]]; then
-        e_header "Installing and configuring php 7.2"
-        brew_install php@7.2
-        brew_link_force php@7.2
-        safe_execute "php_remove_imagick_extension_insert 7.2" "Removed php@7.2 imagick extension insert" "Failed to remove php@7.2 imagick extension insert"
-        safe_execute "php_remove_pcov_extension_insert 7.2" "Removed php@7.2 pcov extension insert" "Failed to remove php@7.2 pcov extension insert"
-        safe_execute "php_remove_redis_extension_insert 7.2" "Removed php@7.2 redis extension insert" "Failed to remove php@7.2 redis extension insert"
-        safe_execute "php_remove_xdebug_extension_insert 7.2" "Removed php@7.2 xdebug extension insert" "Failed to remove php@7.2 xdebug extension insert"
-        pecl_update_channels
-        pecl_install 7.2 imagick
-        pecl_install 7.2 pcov
-        pecl_install 7.2 redis
-        pecl_install 7.2 xdebug
-        safe_execute "php_remove_imagick_extension_from_php_ini 7.2" "Removed php@7.2 imagick extension from php.ini" "Failed to remove php@7.2 imagick extension from php.ini"
-        safe_execute "php_remove_pcov_extension_from_php_ini 7.2" "Removed php@7.2 pcov extension from php.ini" "Failed to remove php@7.2 pcov extension from php.ini"
-        safe_execute "php_remove_redis_extension_from_php_ini 7.2" "Removed php@7.2 redis extension from php.ini" "Failed to remove php@7.2 redis extension from php.ini"
-        safe_execute "php_remove_xdebug_extension_from_php_ini 7.2" "Removed php@7.2 xdebug extension from php.ini" "Failed to remove php@7.2 xdebug extension from php.ini"
-        safe_execute "php_configure_timezone 7.2" "Configured php@7.2 timezone" "Failed to configure php@7.2 timezone"
-        safe_execute "php_configure_upload_max_filesize 7.2" "Configured php@7.2 upload_max_filesize" "Failed to configure php@7.2 upload_max_filesize"
-        safe_execute "php_configure_imagick 7.2" "Configured php@7.2 imagick extension" "Failed to configure php@7.2 imagick extension"
-        safe_execute "php_configure_pcov 7.2" "Configured php@7.2 pcov extension" "Failed to configure php@7.2 pcov extension"
-        safe_execute "php_configure_redis 7.2" "Configured php@7.2 redis extension" "Failed to configure php@7.2 redis extension"
-        safe_execute "php_configure_xdebug 7.2" "Configured php@7.2 xdebug extension" "Failed to configure php@7.2 xdebug extension"
-        brew_unlink php@7.2
     fi
 
     if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " php73 " ]]; then

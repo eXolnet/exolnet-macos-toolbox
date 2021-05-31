@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+DEVELOPMENT_PREFERENCES=$(read_preferences development)
+
+if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " mysql57 " ]]; then
+    e_header "Configuring mysql 5.7"
+    safe_execute "mysql_create_users 5.7" "Created users exolnet_dev, exolnet_local, exolnet_prod, exolnet_qa and exolnet_test" "Failed to create users exolnet_dev, exolnet_local, exolnet_prod, exolnet_qa and exolnet_test"
+    safe_execute "mysql_grant_users 5.7" "Granted users exolnet_dev, exolnet_local, exolnet_prod, exolnet_qa and exolnet_test" "Failed to grant users exolnet_dev, exolnet_local, exolnet_prod, exolnet_qa and exolnet_test"
+fi
+
+if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " mysql80 " ]]; then
+    e_header "Configuring mysql 8.0"
+    safe_execute "mysql_create_users 8.0" "Created users exolnet_dev, exolnet_local, exolnet_prod, exolnet_qa and exolnet_test" "Failed to create users exolnet_dev, exolnet_local, exolnet_prod, exolnet_qa and exolnet_test"
+    safe_execute "mysql_grant_users 8.0" "Granted users exolnet_dev, exolnet_local, exolnet_prod, exolnet_qa and exolnet_test" "Failed to grant users exolnet_dev, exolnet_local, exolnet_prod, exolnet_qa and exolnet_test"
+fi

@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+e_header "Uninstalling deprecated php versions"
+brew_is_installed php@7.2 && brew_uninstall php@7.2
