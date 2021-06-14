@@ -178,8 +178,8 @@ if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " node " ]]; then
     e_header "Reinstalling and reconfiguring node"
     brew_install yarn
     brew_is_installed node && brew_unlink node
-    brew_install node@12
-    brew_link_force node@12
+    brew_install node@14
+    brew_link_force node@14
 fi
 
 # Display if backups were made
