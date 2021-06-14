@@ -83,6 +83,9 @@ e_header "Upgrading formulae"
 brew_outdated
 brew_upgrade_all
 
+e_header "Configuring system preferences"
+safe_execute "enable_sudo_touch_id" "Enabled touch id support for sudo" "Failed to enable touch id support for sudo"
+
 QUICKLOOK_REGEX=" (qlcolorcode|qlmarkdown|qlstephen) "
 
 if [[ " ${APPLICATIONS_PREFERENCES[@]} " =~ $QUICKLOOK_REGEX ]]; then
