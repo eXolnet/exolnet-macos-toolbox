@@ -44,7 +44,7 @@ function brew_install()
 {
     local formula=$@
 
-    HOMEBREW_COLOR=1 HOMEBREW_NO_AUTO_UPDATE=1 safe_execute "brew install $formula" "Installed $formula" "Failed to install $formula"
+    HOMEBREW_COLOR=1 HOMEBREW_NO_AUTO_UPDATE=1 HOMEBREW_NO_INSTALL_UPGRADE=1 safe_execute "brew install $formula" "Installed $formula" "Failed to install $formula"
 }
 
 function brew_reinstall()
@@ -137,7 +137,7 @@ function sudo_brew_is_status()
 function brew_start()
 {
     local service=$1
-    local plist=$2
+    local plist="${2:+--file=${2}}" # if $2 is defined, return "--file=$2"
 
     HOMEBREW_COLOR=1 safe_execute "brew services start $service $plist" "Started $service" "Failed to start $service"
 }
@@ -145,7 +145,7 @@ function brew_start()
 function sudo_brew_start()
 {
     local service=$1
-    local plist=$2
+    local plist="${2:+--file=${2}}" # if $2 is defined, return "--file=$2"
 
     HOMEBREW_COLOR=1 safe_execute "sudo brew services start $service $plist" "Started $service" "Failed to start $service"
 }

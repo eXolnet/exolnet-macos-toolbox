@@ -52,3 +52,4 @@ rails-completion,rails-completion,off
 rake-completion,rake-completion,off
 ruby-completion,ruby-completion,off
 vagrant-completion,vagrant-completion,on
+yarn-completion,yarn-completion,on

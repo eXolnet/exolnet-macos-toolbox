@@ -4,7 +4,6 @@ dnsmasq,Dnsmasq,on
 apache,Apache,on
 ssl,SSL (HTTPS for Apache),on
 force-ssl,Enforce HTTPS (redirect HTTP -> HTTPS),on
-php72,PHP 7.2,on
 php73,PHP 7.3,on
 php74,PHP 7.4,on
 php80,PHP 8.0,on
