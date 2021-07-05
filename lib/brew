@@ -44,7 +44,7 @@ function brew_install()
 {
     local formula=$@
 
-    HOMEBREW_COLOR=1 HOMEBREW_NO_AUTO_UPDATE=1 safe_execute "brew install $formula" "Installed $formula" "Failed to install $formula"
+    HOMEBREW_COLOR=1 HOMEBREW_NO_AUTO_UPDATE=1 HOMEBREW_NO_INSTALL_UPGRADE=1 safe_execute "brew install $formula" "Installed $formula" "Failed to install $formula"
 }
 
 function brew_reinstall()
