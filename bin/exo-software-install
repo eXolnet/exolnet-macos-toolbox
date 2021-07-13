@@ -124,9 +124,10 @@ if [[ " ${MAIN_PREFERENCES[@]} " =~ " development " ]]; then
         brew_install mysql@8.0
         brew_link_force mysql@8.0
         mysql_move_data_dir 8.0
+        safe_execute "mysql_disable_binlog" "Disabled mysql binlog" "Failed to disable mysql binlog"
+        safe_execute "mysql_configure_mysqldump" "Configured mysqldump for mysql@5.7 compatibility" "Failed to Configure mysqldump for mysql@5.7 compatibility"
         brew_start_mysql 8.0
         mysql_wait_for_connection 8.0
-        safe_execute "mysql_configure_mysqldump" "Configured mysqldump for mysql@5.7 compatibility" "Failed to Configure mysqldump for mysql@5.7 compatibility"
         safe_execute "mysql_create_users 8.0" "Created users exolnet_dev, exolnet_local, exolnet_prod, exolnet_qa and exolnet_test" "Failed to create users exolnet_dev, exolnet_local, exolnet_prod, exolnet_qa and exolnet_test"
         safe_execute "mysql_grant_users 8.0" "Granted users exolnet_dev, exolnet_local, exolnet_prod, exolnet_qa and exolnet_test" "Failed to grant users exolnet_dev, exolnet_local, exolnet_prod, exolnet_qa and exolnet_test"
     fi

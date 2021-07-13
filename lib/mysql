@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 MYSQL_DATA="/usr/local/var/mysql"
+MYSQL_ETC="/usr/local/etc"
 
 function mysql_get_cli_command()
 {
@@ -82,6 +83,19 @@ cat >> $file <<EOL
 # EXOLNET-MACOS-TOOLBOX BEGIN
 [mysqldump]
 column-statistics = 0
+# EXOLNET-MACOS-TOOLBOX END
+EOL
+}
+
+function mysql_disable_binlog()
+{
+    local file="$MYSQL_ETC/my.cnf"
+
+    remove_insert_from_file $file
+
+cat >> $file <<EOL
+# EXOLNET-MACOS-TOOLBOX BEGIN
+disable-log-bin
 # EXOLNET-MACOS-TOOLBOX END
 EOL
 }

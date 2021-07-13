@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+# Read preferences
+DEVELOPMENT_PREFERENCES=$(read_preferences development)
+
+if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " mysql80 " ]]; then
+    e_header "Configuring mysql 8.0"
+    brew_is_status mysql stopped || brew_stop mysql@8.0
+    safe_execute "mysql_disable_binlog" "Disabled mysql binlog" "Failed to disable mysql binlog"
+    remove_file "/usr/local/var/mysql@8.0/binlog.*"
+    brew_start_mysql 8.0
+    mysql_wait_for_connection 8.0
+fi
