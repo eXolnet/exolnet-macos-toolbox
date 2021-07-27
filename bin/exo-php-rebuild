@@ -93,7 +93,7 @@ if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " php73 " ]]; then
     safe_execute "php_remove_redis_extension_insert 7.3" "Removed php@7.3 redis extension insert" "Failed to remove php@7.3 redis extension insert"
     safe_execute "php_remove_xdebug_extension_insert 7.3" "Removed php@7.3 xdebug extension insert" "Failed to remove php@7.3 xdebug extension insert"
     pecl_update_channels
-    pecl_reinstall 7.3 imagick 3.4.4
+    pecl_reinstall 7.3 imagick
     pecl_reinstall 7.3 pcov
     pecl_reinstall 7.3 redis
     pecl_reinstall 7.3 xdebug
@@ -119,7 +119,7 @@ if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " php74 " ]]; then
     safe_execute "php_remove_redis_extension_insert 7.4" "Removed php@7.4 redis extension insert" "Failed to remove php@7.4 redis extension insert"
     safe_execute "php_remove_xdebug_extension_insert 7.4" "Removed php@7.4 xdebug extension insert" "Failed to remove php@7.4 xdebug extension insert"
     pecl_update_channels
-    pecl_reinstall 7.4 imagick 3.4.4
+    pecl_reinstall 7.4 imagick
     pecl_reinstall 7.4 pcov
     pecl_reinstall 7.4 redis
     pecl_reinstall 7.4 xdebug
