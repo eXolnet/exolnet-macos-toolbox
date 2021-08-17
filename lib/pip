@@ -13,9 +13,3 @@ function pip3_upgrade()
 
     safe_execute "pip3 install --upgrade $package" "Upgraded $package" "Failed to upgrade $package"
 }
-
-function pip_install_system_boto()
-{
-    safe_execute "sudo /usr/bin/python -m easy_install pip" "Installed system pip" "Failed to install system pip"
-    safe_execute "sudo /usr/bin/python -m pip install boto" "Installed system boto" "Failed to install system boto"
-}

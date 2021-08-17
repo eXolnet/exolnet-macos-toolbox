@@ -334,7 +334,7 @@ if [[ " ${MAIN_PREFERENCES[@]} " =~ " development " ]]; then
         pip3_install cryptography
         pip3_install jmespath
         pip3_install passlib
-        pip_install_system_boto
+        pip3_install boto
     fi
 
     if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " android-platform-tools " ]]; then
