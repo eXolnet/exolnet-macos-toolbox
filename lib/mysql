@@ -10,22 +10,11 @@ function mysql_get_cli_command()
     echo "mysql --user=root --socket=/tmp/${version}.sock"
 }
 
-function mysql_get_plist_source_path()
+function mysql_get_plist_path()
 {
     local version=$1
 
     echo "$TOOLBOX/conf/mysqld/${version}.plist"
-}
-
-function mysql_get_plist_destination_path()
-{
-    local version=$1
-
-    if [[ "${version}" == "mysql@8.0" ]]; then
-        version="mysql"
-    fi
-
-    echo "$HOME/Library/LaunchAgents/homebrew.mxcl.${version}.plist"
 }
 
 function mysql_get_data_dir()
@@ -131,11 +120,9 @@ function mysql_convert_version_to_homebrew()
 function brew_start_mysql()
 {
     local version="mysql@${1}"
-    local source="$(mysql_get_plist_source_path $version)"
-    local destination="$(mysql_get_plist_destination_path $version)"
+    local plist="$(mysql_get_plist_path $version)"
 
-    brew_start $version $source
-    copy_file $source $destination
+    brew_start $version $plist
 }
 
 function brew_stop_all_mysql()

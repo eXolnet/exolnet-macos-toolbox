@@ -42,7 +42,6 @@ e_header "Tapping additional taps"
 brew_tap homebrew/cask-fonts
 brew_tap exolnet/homebrew-formula
 brew_tap exolnet/homebrew-cask
-brew_tap exolnet/homebrew-deprecated
 
 # Read preferences
 MAIN_PREFERENCES=$(read_preferences main)
@@ -334,7 +333,7 @@ if [[ " ${MAIN_PREFERENCES[@]} " =~ " development " ]]; then
         pip3_install cryptography
         pip3_install jmespath
         pip3_install passlib
-        pip_install_system_boto
+        pip3_install boto
     fi
 
     if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " android-platform-tools " ]]; then
