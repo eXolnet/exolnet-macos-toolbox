@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+e_header "Untapping deprecated taps"
+brew_is_tapped exolnet/homebrew-deprecated && brew_untap exolnet/homebrew-deprecated
