@@ -1,0 +1,59 @@
+#!/usr/bin/env bash
+
+function mysql_rename_preference()
+{
+    /usr/bin/sed -Ei '' 's/mysql80/mysql/g' "$STORAGE_PREFERENCES_DIR/development"
+}
+
+function mysql57_list_all_databases()
+{
+    local list="$1"
+
+    mysql --user=root --socket=/tmp/mysql@5.7.sock -sN -e "SHOW DATABASES" | { egrep -v "^information_schema|performance_schema|mysql|sys$" || true; } > "$list"
+}
+
+function mysql57_dump_all_databases()
+{
+    local list="$1"
+    local archive="$2"
+
+    mysqldump --user=root --socket=/tmp/mysql@5.7.sock --force --opt --databases $(cat "$list" | tr '\n' ' ') > "$archive"
+}
+
+e_header "Cleaning-up broken links"
+remove_file /usr/local/bin/exo-mysql-cli
+remove_file /usr/local/bin/exo-mysql-start
+
+# Read preferences
+DEVELOPMENT_PREFERENCES=$(read_preferences development)
+
+if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ "mysql" ]]; then
+    e_header "Renaming mysql"
+    safe_execute "mysql_rename_preference" "Renamed preference mysql80 to mysql" "Failed to rename preference mysql80 to mysql"
+
+    temp_dir="$(mktemp -d)"
+    list="${temp_dir}/databases-list.txt"
+    archive="${temp_dir}/databases.sql"
+
+    e_header "Exporting existing MySQL 5.7 databases"
+    safe_execute "mysql57_list_all_databases $list" "Listed all databases from MySQL 5.7" "Failed to list all databases from MySQL 5.7"
+    if [[ -s $list ]]; then
+        safe_execute "mysql57_dump_all_databases $list $archive" "Exported all databases from MySQL 5.7" "Failed to export all databases from MySQL 5.7"
+        safe_execute "gzip $archive" "Compressed archive file" "Failed to compress archive file"
+        backup_file "${archive}.gz"
+    fi
+    backup_file "${list}"
+
+    e_header "Uninstalling MySQL 5.7"
+    brew_stop_all_mysql
+    brew_unlink_all_mysql
+    brew_is_installed mysql@5.7 && brew_uninstall mysql@5.7
+    backup_file "/usr/local/var/mysql@5.7"
+
+    e_header "Configuring MySQL 8.0"
+    backup_file "/usr/local/var/mysql"
+    move_file "/usr/local/var/mysql@8.0" "/usr/local/var/mysql"
+    brew_link mysql
+    brew_start mysql
+    mysql_wait_for_connection
+fi
