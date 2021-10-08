@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
 PHP_ETC="/usr/local/etc/php"
-PHP_DEFAULT_VERSION="php74"
 
 function pecl_update_channels()
 {
@@ -196,6 +195,38 @@ extension="$(php_get_extension_path $version)/redis.so"
 EOL
 }
 
+function php_remove_default_php_fpm_pool()
+{
+    local version=$1
+    local file="$PHP_ETC/$version/php-fpm.d/www.conf"
+
+    remove_file $file
+}
+
+function php_generate_php_fpm_pool()
+{
+    local version=$1
+    local file="$PHP_ETC/$version/php-fpm.d/exolnet.conf"
+
+    touch $file
+    remove_insert_from_file2 $file
+
+cat >> $file <<EOL
+; EXOLNET-MACOS-TOOLBOX BEGIN
+[exolnet]
+user = $(whoami)
+group = staff
+listen = /usr/local/var/run/php${version}-fpm.sock
+listen.owner = $(whoami)
+listen.group = staff
+pm = ondemand
+pm.max_children = 5
+pm.process_idle_timeout = 120s
+pm.max_requests = 500
+; EXOLNET-MACOS-TOOLBOX END
+EOL
+}
+
 function php_configure_xdebug()
 {
     local version=$1
@@ -215,7 +246,10 @@ EOL
 
 function php_create_phpinfo()
 {
-cat > $HOME/Sites/phpinfo.php <<EOL
+    local version=$1
+    local file="$HOME/Sites/${version}/index.php"
+
+cat > $file <<EOL
 <?php
 // EXOLNET-MACOS-TOOLBOX
 phpinfo();
@@ -268,12 +302,6 @@ function php_display_extension_status()
 
 function php_get_current_version()
 {
-    local php_path="$(dirname "$(which php)")"
-
-    if [[ "$php_path" != "/usr/local/bin" ]]; then
-        return 1
-    fi
-
     php -d display_errors=0 -r "echo 'php'.str_replace('.', '', substr(phpversion(), 0, 3));" 2> /dev/null
 }
 
@@ -301,6 +329,19 @@ function php_convert_version_to_dot_version()
 function php_convert_version_to_homebrew()
 {
     echo "php@$(php_convert_version_to_dot_version $1)"
+}
+
+function brew_stop_all_php_fpm()
+{
+    if brew_is_installed php@7.3 ; then
+        brew_is_status php@7.3 stopped || brew_stop php@7.3
+    fi
+    if brew_is_installed php@7.4 ; then
+        brew_is_status php@7.4 stopped || brew_stop php@7.4
+    fi
+    if brew_is_installed php@8.0 ; then
+        brew_is_status php@8.0 stopped || brew_stop php@8.0
+    fi
 }
 
 function brew_unlink_all_php()

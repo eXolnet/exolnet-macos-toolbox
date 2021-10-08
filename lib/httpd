@@ -40,19 +40,44 @@ cat >> $HTTPD_ETC/exolnet/user.conf <<EOL
 EOL
 }
 
-function httpd_disable_mpm_event_module()
+function httpd_create_include_php()
 {
-    /usr/bin/sed -i '' 's/^\(LoadModule mpm_event_module .*\)$/#\1/g' $HTTPD_ETC/httpd.conf
+    local slug=$1
+    local file="$HTTPD_ETC/exolnet-include/$slug.conf"
+
+    create_file $file
 }
 
-function httpd_enable_mpm_prefork_module()
+function httpd_generate_include_php()
 {
-    /usr/bin/sed -i '' 's/^#\(LoadModule mpm_prefork_module .*\)$/\1/g' $HTTPD_ETC/httpd.conf
+    local version=$1
+    local slug=$2
+    local file="$HTTPD_ETC/exolnet-include/$slug.conf"
+
+    remove_insert_from_file $file
+
+cat >> $file <<EOL
+# EXOLNET-MACOS-TOOLBOX BEGIN
+<Directory /usr/local/var/www/${slug}>
+    Include ${HTTPD_ETC}/exolnet-php-fpm/php${version}-fpm.conf
+</Directory>
+# EXOLNET-MACOS-TOOLBOX END
+EOL
+}
+
+function httpd_enable_mpm_event_module()
+{
+    /usr/bin/sed -i '' 's/^#\(LoadModule mpm_event_module .*\)$/\1/g' $HTTPD_ETC/httpd.conf
+}
+
+function httpd_disable_mpm_prefork_module()
+{
+    /usr/bin/sed -i '' 's/^\(LoadModule mpm_prefork_module .*\)$/#\1/g' $HTTPD_ETC/httpd.conf
 }
 
 function httpd_disable_php_module()
 {
-    /usr/bin/sed -i '' 's/^\(LoadModule php[57]_module .*\)$/#\1/g' $HTTPD_ETC/httpd.conf
+    /usr/bin/sed -i '' 's/^\(LoadModule php[578]_module .*\)$/#\1/g' $HTTPD_ETC/httpd.conf
 }
 
 function httpd_chown_cellar_path()
