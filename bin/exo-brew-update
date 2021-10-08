@@ -50,10 +50,9 @@ fi
 
 create_file $TOOLBOX/.updating
 
-if [[ "${DEVELOPMENT_PREFERENCES[@]}" =~ "mysql" ]]; then
+if [[ "${DEVELOPMENT_PREFERENCES[@]}" =~ " mysql " ]]; then
     e_header "Preparing mysql"
-    brew_stop_all_mysql
-    brew_unlink_all_mysql
+    brew_is_status mysql stopped || brew_stop mysql
 fi
 
 if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " apache " ]]; then
@@ -105,24 +104,10 @@ if [[ " ${APPLICATIONS_PREFERENCES[@]} " =~ $QUICKLOOK_REGEX ]]; then
     fi
 fi
 
-if [[ "${DEVELOPMENT_PREFERENCES[@]}" =~ "mysql" ]]; then
+if [[ "${DEVELOPMENT_PREFERENCES[@]}" =~ " mysql " ]]; then
     e_header "Reconfiguring mysql"
-
-    if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " mysql80 " ]]; then
-        brew_link_force mysql@8.0
-    elif [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " mysql57 " ]]; then
-        brew_link_force mysql@5.7
-    fi
-fi
-
-if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " mysql57 " ]]; then
-    brew_start_mysql 5.7
-    mysql_wait_for_connection 5.7
-fi
-
-if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " mysql80 " ]]; then
-    brew_start_mysql 8.0
-    mysql_wait_for_connection 8.0
+    brew_restart mysql
+    mysql_wait_for_connection
 fi
 
 if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " apache " ]]; then
