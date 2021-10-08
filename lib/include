@@ -2,21 +2,21 @@
 
 if [[ -z "$TOOLBOX_LIB_INCLUDED" ]]; then
     if [[ ! "$TOOLBOX_NO_HEADER" ]]; then
-        . $TOOLBOX/lib/header
+        . "$TOOLBOX/lib/header"
     fi
-    . $TOOLBOX/lib/utils
-    . $TOOLBOX/lib/preferences
-    . $TOOLBOX/lib/git
-    . $TOOLBOX/lib/brew
-    . $TOOLBOX/lib/pip
-    . $TOOLBOX/lib/gem
-    . $TOOLBOX/lib/mysql
-    . $TOOLBOX/lib/dnsmasq
-    . $TOOLBOX/lib/httpd
-    . $TOOLBOX/lib/php
-    . $TOOLBOX/lib/node
-    . $TOOLBOX/lib/completion
-    . $TOOLBOX/lib/macos
+    . "$TOOLBOX/lib/utils"
+    . "$TOOLBOX/lib/preferences"
+    . "$TOOLBOX/lib/git"
+    . "$TOOLBOX/lib/brew"
+    . "$TOOLBOX/lib/pip"
+    . "$TOOLBOX/lib/gem"
+    . "$TOOLBOX/lib/mysql"
+    . "$TOOLBOX/lib/dnsmasq"
+    . "$TOOLBOX/lib/httpd"
+    . "$TOOLBOX/lib/php"
+    . "$TOOLBOX/lib/node"
+    . "$TOOLBOX/lib/completion"
+    . "$TOOLBOX/lib/macos"
 
     TOOLBOX_LIB_INCLUDED=true
 

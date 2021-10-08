@@ -226,7 +226,7 @@ function process_recursive()
     local parent=$3
 
     for file in "${files[@]}"; do
-        local base="$(basename $file)"
+        local base=$(basename "$file")
         local dest="$parent/$base"
 
         if [[ -d "$file" ]]; then
@@ -243,7 +243,7 @@ function remove_insert_from_file()
     local file=$1
 
     # See: https://nixtricks.wordpress.com/2013/01/09/sed-delete-the-lines-lying-in-between-two-patterns/
-    /usr/bin/sed -i '' '/# EXOLNET-MACOS-TOOLBOX BEGIN/,/# EXOLNET-MACOS-TOOLBOX END/d' $file
+    /usr/bin/sed -i '' '/# EXOLNET-MACOS-TOOLBOX BEGIN/,/# EXOLNET-MACOS-TOOLBOX END/d' "$file"
 }
 
 function remove_insert_from_file2()
@@ -251,7 +251,7 @@ function remove_insert_from_file2()
     local file=$1
 
     # See: https://nixtricks.wordpress.com/2013/01/09/sed-delete-the-lines-lying-in-between-two-patterns/
-    /usr/bin/sed -i '' '/; EXOLNET-MACOS-TOOLBOX BEGIN/,/; EXOLNET-MACOS-TOOLBOX END/d' $file
+    /usr/bin/sed -i '' '/; EXOLNET-MACOS-TOOLBOX BEGIN/,/; EXOLNET-MACOS-TOOLBOX END/d' "$file"
 }
 
 function waiting_for()
@@ -259,7 +259,7 @@ function waiting_for()
     local seconds=$1
 
     echo -n -e "$INDENT \033[1m?\033[0m Waiting for $seconds seconds "
-    for ((i=0; i<$seconds; i++)) ; do
+    for ((i=0; i<"$seconds"; i++)) ; do
         echo -n '.' && sleep 1
     done
     echo -e "\r$INDENT \033[1;32m✔\033[0m "

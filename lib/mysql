@@ -54,11 +54,11 @@ function mysql_configure_mysqldump()
 {
     local file="$HOME/.my.cnf"
 
-    touch $file
+    touch "$file"
 
-    remove_insert_from_file $file
+    remove_insert_from_file "$file"
 
-cat >> $file <<EOL
+cat >> "$file" <<EOL
 # EXOLNET-MACOS-TOOLBOX BEGIN
 [mysqldump]
 column-statistics = 0
@@ -70,9 +70,9 @@ function mysql_disable_binlog()
 {
     local file="$MYSQL_ETC/my.cnf"
 
-    remove_insert_from_file $file
+    remove_insert_from_file "$file"
 
-cat >> $file <<EOL
+cat >> "$file" <<EOL
 # EXOLNET-MACOS-TOOLBOX BEGIN
 disable-log-bin
 # EXOLNET-MACOS-TOOLBOX END
