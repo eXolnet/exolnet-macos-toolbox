@@ -12,6 +12,46 @@ if [[ -z $(command -v brew) ]]; then
     echo
 fi
 
+echo "Configuring environment variables ..."
+echo
+
+UNAME_MACHINE="$(/usr/bin/uname -m)"
+if [[ "${UNAME_MACHINE}" == "arm64" ]]; then
+    HOMEBREW_PREFIX="/opt/homebrew"
+else
+    HOMEBREW_PREFIX="/usr/local"
+fi
+
+case "${SHELL}" in
+    */bash*)
+        if [[ -r "${HOME}/.bash_profile" ]]; then
+            shell_profile="${HOME}/.bash_profile"
+        else
+            shell_profile="${HOME}/.profile"
+        fi
+        ;;
+    */zsh*)
+        shell_profile="${HOME}/.zprofile"
+        ;;
+    *)
+        shell_profile="${HOME}/.profile"
+        ;;
+esac
+
+shell_env=$(${HOMEBREW_PREFIX}/bin/brew shellenv)
+
+# Add homebrew shell environment variables to shell profile
+cat >> "${shell_profile}" <<EOL
+# HOMEBREW BEGIN
+${shell_env}
+# HOMEBREW END
+EOL
+
+# Load homebrew shell environment variables for this session
+echo "${shell_env}"
+eval "${shell_env}"
+
+echo
 echo "Cloning exolnet-macos-toolbox ..."
 echo
 
