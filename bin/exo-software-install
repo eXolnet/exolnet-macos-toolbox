@@ -105,6 +105,7 @@ if [[ " ${MAIN_PREFERENCES[@]} " =~ " development " ]]; then
         mysql_wait_for_connection
         safe_execute "mysql_create_users" "Created users exolnet_dev, exolnet_local, exolnet_prev, exolnet_prod, exolnet_qa and exolnet_test" "Failed to create users exolnet_dev, exolnet_local, exolnet_prod, exolnet_qa and exolnet_test"
         safe_execute "mysql_grant_users" "Granted users exolnet_dev, exolnet_local, exolnet_prev, exolnet_prod, exolnet_qa and exolnet_test" "Failed to grant users exolnet_dev, exolnet_local, exolnet_prod, exolnet_qa and exolnet_test"
+        safe_execute "mysql_create_and_grant_current_user" "Granted global privileges to current user" "Failed to global privileges to current user"
     fi
 
     if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " dnsmasq " ]]; then
