@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+DEVELOPMENT_PREFERENCES=$(read_preferences development)
+
+if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " mysql " ]]; then
+    e_header "Configuring mysql"
+    safe_execute "mysql_create_and_grant_current_user" "Granted global privileges to current user" "Failed to global privileges to current user"
+fi
