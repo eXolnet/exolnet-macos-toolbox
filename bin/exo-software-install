@@ -271,7 +271,7 @@ if [[ " ${MAIN_PREFERENCES[@]} " =~ " development " ]]; then
         brew_restart mailhog
 
         if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " apache " ]]; then
-            link_file "$TOOLBOX/conf/httpd_vhosts_extra/003-mailhog.conf" "$HTTPD_ETC/exolnet-vhosts/003-mailhog.conf"
+            link_file "$TOOLBOX/conf/httpd_vhosts_extra/750-mailhog.conf" "$HTTPD_ETC/exolnet-vhosts/750-mailhog.conf"
             create_directory "$HOME/Sites/mailhog"
             sudo_brew_restart httpd
         fi
