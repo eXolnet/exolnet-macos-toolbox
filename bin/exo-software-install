@@ -103,8 +103,8 @@ if [[ " ${MAIN_PREFERENCES[@]} " =~ " development " ]]; then
         safe_execute "mysql_configure_mysqldump" "Configured mysqldump for mysql@5.7 compatibility" "Failed to Configure mysqldump for mysql@5.7 compatibility"
         brew_restart mysql
         mysql_wait_for_connection
-        safe_execute "mysql_create_users" "Created users exolnet_dev, exolnet_local, exolnet_prod, exolnet_qa and exolnet_test" "Failed to create users exolnet_dev, exolnet_local, exolnet_prod, exolnet_qa and exolnet_test"
-        safe_execute "mysql_grant_users" "Granted users exolnet_dev, exolnet_local, exolnet_prod, exolnet_qa and exolnet_test" "Failed to grant users exolnet_dev, exolnet_local, exolnet_prod, exolnet_qa and exolnet_test"
+        safe_execute "mysql_create_users" "Created users exolnet_dev, exolnet_local, exolnet_prev, exolnet_prod, exolnet_qa and exolnet_test" "Failed to create users exolnet_dev, exolnet_local, exolnet_prod, exolnet_qa and exolnet_test"
+        safe_execute "mysql_grant_users" "Granted users exolnet_dev, exolnet_local, exolnet_prev, exolnet_prod, exolnet_qa and exolnet_test" "Failed to grant users exolnet_dev, exolnet_local, exolnet_prod, exolnet_qa and exolnet_test"
     fi
 
     if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " dnsmasq " ]]; then
