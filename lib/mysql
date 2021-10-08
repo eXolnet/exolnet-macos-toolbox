@@ -1,44 +1,15 @@
 #!/usr/bin/env bash
 
-MYSQL_DATA="/usr/local/var/mysql"
 MYSQL_ETC="/usr/local/etc"
 
 function mysql_get_cli_command()
 {
-    local version=$1
-
-    echo "mysql --user=root --socket=/tmp/${version}.sock"
-}
-
-function mysql_get_plist_path()
-{
-    local version=$1
-
-    echo "$TOOLBOX/conf/mysqld/${version}.plist"
-}
-
-function mysql_get_data_dir()
-{
-    local version=$1
-
-    echo "$TOOLBOX/conf/mysqld/${version}.plist"
-}
-
-function mysql_move_data_dir()
-{
-    local version="mysql@${1}"
-    local src="$MYSQL_DATA"
-    local dest="/usr/local/var/$version"
-
-    if [[ ! -d "$dest" ]]; then
-        move_file "$src" "$dest"
-    fi
+    echo "mysql --user=root"
 }
 
 function mysql_create_users()
 {
-    local version="mysql@${1}"
-    local mysql="$(mysql_get_cli_command $version)"
+    local mysql="$(mysql_get_cli_command)"
 
     $mysql -e 'CREATE USER IF NOT EXISTS "exolnet_dev"@"localhost" IDENTIFIED WITH mysql_native_password' && \
     $mysql -e 'CREATE USER IF NOT EXISTS "exolnet_local"@"localhost" IDENTIFIED WITH mysql_native_password' && \
@@ -49,8 +20,7 @@ function mysql_create_users()
 
 function mysql_grant_users()
 {
-    local version="mysql@${1}"
-    local mysql="$(mysql_get_cli_command $version)"
+    local mysql="$(mysql_get_cli_command)"
 
     $mysql -e 'GRANT ALL PRIVILEGES ON `%\_dev`.* to "exolnet_dev"@"localhost"' && \
     $mysql -e 'GRANT ALL PRIVILEGES ON `%\_local`.* to "exolnet_local"@"localhost"' && \
@@ -61,8 +31,7 @@ function mysql_grant_users()
 
 function mysql_wait_for_connection()
 {
-    local version="mysql@${1}"
-    local mysql="$(mysql_get_cli_command $version)"
+    local mysql="$(mysql_get_cli_command)"
 
     echo -n -e "$INDENT \033[1m?\033[0m Waiting for mysql to be online "
     while ! $mysql -e 'SELECT USER()' &> /dev/null ; do
@@ -98,31 +67,6 @@ cat >> $file <<EOL
 disable-log-bin
 # EXOLNET-MACOS-TOOLBOX END
 EOL
-}
-
-function mysql_convert_version_to_homebrew()
-{
-    case "$1" in
-        mysql57)
-            echo 'mysql@5.7'
-            ;;
-
-        mysql80)
-            echo 'mysql@8.0'
-            ;;
-
-        *)
-            echo 'mysql_invalid'
-
-    esac
-}
-
-function brew_start_mysql()
-{
-    local version="mysql@${1}"
-    local plist="$(mysql_get_plist_path $version)"
-
-    brew_start $version $plist
 }
 
 function brew_stop_all_mysql()
