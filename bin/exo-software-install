@@ -120,11 +120,15 @@ if [[ " ${MAIN_PREFERENCES[@]} " =~ " development " ]]; then
     fi
 
     if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " apache " ]]; then
-        e_header "Installing and configuring apache"
-        safe_execute "sudo apachectl stop" "Stopped built-in apache" "Failed to stop built-in apache"
-        safe_execute "sudo launchctl unload -w /System/Library/LaunchDaemons/org.apache.httpd.plist" "Disabled built-in apache" "Failed to disable built-in apache"
+        e_header "Installing and configuring apache with ssl"
+        sudo_brew_is_status httpd stopped || sudo_brew_stop httpd
         create_directory "$HOME/Sites"
         brew_install httpd
+        brew_install mkcert
+        brew_install nss
+        create_directory "$HTTPD_SSL/localhost"
+        safe_execute "mkcert_install_local_ca" "Installed local certificate authority" "Failed to install local certificate authority"
+        safe_execute "mkcert_generate_ssl_certificate" "Generated localhost ssl certificate" "Failed to generate localhost ssl certificate"
         safe_execute "httpd_replace_listen_80" "Changed listen port 8080 -> 80" "Failed to change listen port 8080 -> 80"
         safe_execute "httpd_replace_listen_443" "Changed listen port 8443 -> 443" "Failed to change listen port 8443 -> 443"
         safe_execute "httpd_disable_mpm_event_module" "Disabled mpm event module in httpd" "Failed to disable mpm event module in httpd"
@@ -132,28 +136,10 @@ if [[ " ${MAIN_PREFERENCES[@]} " =~ " development " ]]; then
         create_directory "$HTTPD_ETC/exolnet"
         create_directory "$HTTPD_ETC/exolnet-vhosts"
         safe_execute "httpd_add_include_exolnet" "Added exolnet include directive" "Failed to add exolnet include directive"
-        remove_file "$HTTPD_ETC/exolnet/directory.conf" # File was renamed to 000-default.conf
         process_recursive "link_file" "$TOOLBOX/conf/httpd" "$HTTPD_ETC/exolnet"
         process_recursive "link_file" "$TOOLBOX/conf/httpd_vhosts" "$HTTPD_ETC/exolnet-vhosts"
         safe_execute "httpd_generate_user_conf" "Generated user conf file" "Failed to generate user conf file"
         link_file "$HOME/Sites" "$HTTPD_WWW"
-
-        if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " ssl " ]]; then
-            e_header "Installing and configuring ssl"
-            brew_install mkcert
-            brew_install nss
-            create_directory "$HTTPD_SSL/localhost"
-            safe_execute "mkcert_install_local_ca" "Installed local certificate authority" "Failed to install local certificate authority"
-            safe_execute "mkcert_generate_ssl_certificate" "Generated localhost ssl certificate" "Failed to generate localhost ssl certificate"
-            process_recursive "link_file" "$TOOLBOX/conf/httpd_ssl" "$HTTPD_ETC/exolnet"
-            process_recursive "link_file" "$TOOLBOX/conf/httpd_vhosts_ssl" "$HTTPD_ETC/exolnet-vhosts"
-
-            if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " force-ssl " ]]; then
-                e_header "Enforcing HTTPS (redirect HTTP to HTTPS)"
-                process_recursive "link_file" "$TOOLBOX/conf/httpd_vhosts_ssl_enforced" "$HTTPD_ETC/exolnet-vhosts"
-            fi
-        fi
-
         sudo_brew_restart httpd
     fi
 
@@ -285,11 +271,9 @@ if [[ " ${MAIN_PREFERENCES[@]} " =~ " development " ]]; then
         brew_restart mailhog
 
         if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " apache " ]]; then
-            if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " ssl " ]]; then
-                link_file "$TOOLBOX/conf/httpd_vhosts_extra/003-mailhog.conf" "$HTTPD_ETC/exolnet-vhosts/003-mailhog.conf"
-                create_directory "$HOME/Sites/mailhog"
-                sudo_brew_restart httpd
-            fi
+            link_file "$TOOLBOX/conf/httpd_vhosts_extra/003-mailhog.conf" "$HTTPD_ETC/exolnet-vhosts/003-mailhog.conf"
+            create_directory "$HOME/Sites/mailhog"
+            sudo_brew_restart httpd
         fi
     fi
 
