@@ -16,7 +16,7 @@ if [[ ! -d "$TOOLBOX" ]]; then
 fi
 
 # Source helpers
-. $TOOLBOX/lib/include
+. "$TOOLBOX/lib/include"
 
 #
 # Script checks
@@ -25,7 +25,7 @@ fi
 # Check if command was ran as root.
 if [[ $(id -u) -eq 0 ]]; then
     echo
-    echo "The command \"`basename \"$0\"`\" should not be executed as root or via sudo directly."
+    echo "The command \"$(basename "$0")\" should not be executed as root or via sudo directly."
     echo "When a command requires root access, you will be prompted for a password as needed."
     exit 1
 fi

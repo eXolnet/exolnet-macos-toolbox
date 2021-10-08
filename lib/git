@@ -27,7 +27,7 @@ function git_create_global_gitignore()
     fi
 
     if [[ ! -f $gitignore ]]; then
-        create_file $gitignore
+        create_file "$gitignore"
     fi
 }
 

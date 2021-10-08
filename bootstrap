@@ -16,8 +16,8 @@ echo "Cloning exolnet-macos-toolbox ..."
 echo
 
 # Clone exolnet-macos-toolbox
-git clone -b master https://github.com/eXolnet/exolnet-macos-toolbox.git $TOOLBOX
-cd $TOOLBOX
+git clone -b master https://github.com/eXolnet/exolnet-macos-toolbox.git "$TOOLBOX"
+cd "$TOOLBOX"
 
 echo
 echo "Installing exolnet-macos-toolbox ..."
