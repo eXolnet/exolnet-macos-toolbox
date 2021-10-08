@@ -8,7 +8,7 @@ echo
 
 if [[ -z $(command -v brew) ]]; then
     # Homebrew will install the Command Line Tools, no need to run `xcode-select --install` beforehand
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
     echo
 fi
 
