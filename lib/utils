@@ -50,6 +50,24 @@ function ask_yes_no()
     return $value
 }
 
+function ask_question_with_default()
+{
+    local question=$1
+    local default=$2
+    local prompt=" [$default] "
+    local value=
+
+    echo -ne "\033[33m$question$prompt\033[0m"
+    read -p "" -r
+    case "$REPLY" in
+        "")
+            REPLY="$default"
+            ;;
+    esac
+
+    # Result is available in $REPLY variable
+}
+
 function safe_execute()
 {
     local cmd=$1

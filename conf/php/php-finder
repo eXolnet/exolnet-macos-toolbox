@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+set -e
+
+CEILING="/"
+DIRECTORY="$PWD"
+PHP="/usr/local/opt/php/bin/php"
+
+while true; do
+    DOT_PHP="$DIRECTORY/.php"
+
+    if [[ -L "$DOT_PHP" ]]; then
+        PHP="$DOT_PHP"
+        break
+    fi
+
+    if [[ "$DIRECTORY" == "$CEILING" ]]; then
+        break
+    fi
+
+    DIRECTORY=$(dirname "$DIRECTORY")
+done
+
+"$PHP" "$@"

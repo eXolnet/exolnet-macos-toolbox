@@ -49,12 +49,15 @@ if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " apache " ]]; then
     # safe_execute "mkcert_generate_ssl_certificate" "Generated localhost ssl certificate" "Failed to generate localhost ssl certificate"
     safe_execute "httpd_replace_listen_80" "Changed listen port 8080 -> 80" "Failed to change listen port 8080 -> 80"
     safe_execute "httpd_replace_listen_443" "Changed listen port 8443 -> 443" "Failed to change listen port 8443 -> 443"
-    safe_execute "httpd_disable_mpm_event_module" "Disabled mpm event module in httpd" "Failed to disable mpm event module in httpd"
-    safe_execute "httpd_enable_mpm_prefork_module" "Enabled mpm prefork module in httpd" "Failed to enable mpm prefork module in httpd"
+    safe_execute "httpd_disable_mpm_prefork_module" "Enabled mpm prefork module in httpd" "Failed to enable mpm prefork module in httpd"
+    safe_execute "httpd_enable_mpm_event_module" "Disabled mpm event module in httpd" "Failed to disable mpm event module in httpd"
     create_directory "$HTTPD_ETC/exolnet"
+    create_directory "$HTTPD_ETC/exolnet-php-fpm"
+    create_directory "$HTTPD_ETC/exolnet-include"
     create_directory "$HTTPD_ETC/exolnet-vhosts"
     safe_execute "httpd_add_include_exolnet" "Added exolnet include directive" "Failed to add exolnet include directive"
     process_recursive "link_file" "$TOOLBOX/conf/httpd" "$HTTPD_ETC/exolnet"
+    process_recursive "link_file" "$TOOLBOX/conf/httpd_php_fpm" "$HTTPD_ETC/exolnet-php-fpm"
     process_recursive "link_file" "$TOOLBOX/conf/httpd_vhosts" "$HTTPD_ETC/exolnet-vhosts"
     safe_execute "httpd_generate_user_conf" "Generated user conf file" "Failed to generate user conf file"
     link_file "$HOME/Sites" "$HTTPD_WWW"
@@ -63,8 +66,7 @@ fi
 
 if [[ "${DEVELOPMENT_PREFERENCES[@]}" =~ "php" ]]; then
     e_header "Preparing php reinstallation and reconfiguration"
-    PHP_CURRENT_VERSION="$(php_get_current_version || echo $PHP_DEFAULT_VERSION)"
-    PHP_BREW_CURRENT_VERSION="$(php_convert_version_to_homebrew $PHP_CURRENT_VERSION)"
+    brew_stop_all_php_fpm
     brew_unlink_all_php
     brew_install imagemagick
     brew_install pkg-config
@@ -93,6 +95,12 @@ if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " php73 " ]]; then
     safe_execute "php_configure_pcov 7.3" "Configured php@7.3 pcov extension" "Failed to configure php@7.3 pcov extension"
     safe_execute "php_configure_redis 7.3" "Configured php@7.3 redis extension" "Failed to configure php@7.3 redis extension"
     safe_execute "php_configure_xdebug 7.3" "Configured php@7.3 xdebug extension" "Failed to configure php@7.3 xdebug extension"
+    safe_execute "php_remove_default_php_fpm_pool 7.3" "Removed default php-fpm pool for php@7.3" "Failed to remove default php-fpm pool for php@7.3"
+    safe_execute "php_generate_php_fpm_pool 7.3" "Generated php-fpm pool for php@7.3" "Failed to generate php-fpm pool for php@7.3"
+    create_directory "$HOME/Sites/php73"
+    safe_execute "php_create_phpinfo php73" "Created phpinfo.php file for php@7.3" "Failed to create phpinfo.php file for php@7.3"
+    safe_execute "httpd_generate_include_php 7.3 php73" "Generated apache include file for php73 with php@7.3" "Failed to generated apache include file for php73 with php@7.3"
+    brew_restart php@7.3
     brew_unlink php@7.3
 fi
 
@@ -119,6 +127,12 @@ if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " php74 " ]]; then
     safe_execute "php_configure_pcov 7.4" "Configured php@7.4 pcov extension" "Failed to configure php@7.4 pcov extension"
     safe_execute "php_configure_redis 7.4" "Configured php@7.4 redis extension" "Failed to configure php@7.4 redis extension"
     safe_execute "php_configure_xdebug 7.4" "Configured php@7.4 xdebug extension" "Failed to configure php@7.4 xdebug extension"
+    safe_execute "php_remove_default_php_fpm_pool 7.4" "Removed default php-fpm pool for php@7.4" "Failed to remove default php-fpm pool for php@7.4"
+    safe_execute "php_generate_php_fpm_pool 7.4" "Generated php-fpm pool for php@7.4" "Failed to generate php-fpm pool for php@7.4"
+    create_directory "$HOME/Sites/php74"
+    safe_execute "php_create_phpinfo php74" "Created phpinfo.php file for php@7.3" "Failed to create phpinfo.php file for php@7.3"
+    safe_execute "httpd_generate_include_php 7.4 php74" "Generated apache include file for php74 with php@7.4" "Failed to generated apache include file for php74 with php@7.4"
+    brew_restart php@7.4
     brew_unlink php@7.4
 fi
 
@@ -145,6 +159,12 @@ if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " php80 " ]]; then
     safe_execute "php_configure_pcov 8.0" "Configured php@8.0 pcov extension" "Failed to configure php@8.0 pcov extension"
     safe_execute "php_configure_redis 8.0" "Configured php@8.0 redis extension" "Failed to configure php@8.0 redis extension"
     safe_execute "php_configure_xdebug 8.0" "Configured php@8.0 xdebug extension" "Failed to configure php@8.0 xdebug extension"
+    safe_execute "php_remove_default_php_fpm_pool 8.0" "Removed default php-fpm pool for php@8.0" "Failed to remove default php-fpm pool for php@8.0"
+    safe_execute "php_generate_php_fpm_pool 8.0" "Generated php-fpm pool for php@8.0" "Failed to generate php-fpm pool for php@8.0"
+    create_directory "$HOME/Sites/php80"
+    safe_execute "php_create_phpinfo php80" "Created phpinfo.php file for php@7.3" "Failed to create phpinfo.php file for php@7.3"
+    safe_execute "httpd_generate_include_php 8.0 php80" "Generated apache include file for php80 with php@8.0" "Failed to generated apache include file for php80 with php@8.0"
+    brew_restart php@8.0
     brew_unlink php@8.0
 fi
 
@@ -153,11 +173,11 @@ if [[ "${DEVELOPMENT_PREFERENCES[@]}" =~ "php" ]]; then
     brew_install composer
     brew_install php-code-sniffer
     brew_install wp-cli
+    remove_file "/usr/local/bin/php"
+    link_file "$TOOLBOX/conf/php/php-finder" "/usr/local/bin/php"
+    safe_execute "git_add_file_to_global_gitignore" "Added '.php' in global gitignore file" "Failed to add '.php' in global gitignore file"
     safe_execute "httpd_disable_php_module" "Disabled php module in httpd" "Failed to disable php module in httpd"
-    brew_link_force $PHP_BREW_CURRENT_VERSION
-    link_file "$TOOLBOX/conf/httpd_php/$PHP_CURRENT_VERSION.conf" "$HTTPD_ETC/exolnet/php.conf"
     sudo_brew_restart httpd
-    safe_execute "php_create_phpinfo" "Created phpinfo.php file" "Failed to create phpinfo.php file"
 fi
 
 if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " node " ]]; then
