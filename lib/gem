@@ -9,7 +9,7 @@ function gem_install()
 
 function _gem()
 {
-    yes | sudo gem $@
+    yes | sudo gem "$@"
 }
 
 function gem_uninstall()
