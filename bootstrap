@@ -24,6 +24,7 @@ fi
 echo "Configuring environment variables ..."
 echo
 
+# This section logic and code was taken from https://github.com/Homebrew/install/blob/HEAD/install.sh
 if [[ "${UNAME_MACHINE}" == "arm64" ]]; then
     HOMEBREW_PREFIX="/opt/homebrew"
 else

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# This script logic and code was taken from https://github.com/Homebrew/install/blob/master/install.sh
+# This script logic and code was taken from https://github.com/Homebrew/install/blob/HEAD/install.sh
 
 #
 # Script setup
