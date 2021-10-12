@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-DNSMASQ_CONF="/usr/local/etc/dnsmasq.conf"
-DNSMASQ_DIR="/usr/local/etc/dnsmasq.d"
+DNSMASQ_CONF="$HOMEBREW_PREFIX/etc/dnsmasq.conf"
+DNSMASQ_DIR="$HOMEBREW_PREFIX/etc/dnsmasq.d"
 RESOLVER_DIR="/private/etc/resolver"
 
 function dnsmasq_replace_listen_address()
@@ -11,7 +11,7 @@ function dnsmasq_replace_listen_address()
 
 function dnsmasq_enable_conf_dir()
 {
-    /usr/bin/sed -i '' 's|^#\(conf-dir=/usr/local/etc/dnsmasq.d\)$|\1|g' "$DNSMASQ_CONF"
+    /usr/bin/sed -i '' "s|^#\(conf-dir=${HOMEBREW_PREFIX}/etc/dnsmasq.d\)$|\1|g" "$DNSMASQ_CONF"
 }
 
 function dnsmasq_generate_localhost_conf()

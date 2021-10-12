@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-PHP_ETC="/usr/local/etc/php"
+PHP_ETC="$HOMEBREW_PREFIX/etc/php"
 
 function pecl_update_channels()
 {
@@ -216,7 +216,7 @@ cat >> "$file" <<EOL
 [exolnet]
 user = $(whoami)
 group = staff
-listen = /usr/local/var/run/php${version}-fpm.sock
+listen = ${HOMEBREW_PREFIX}/var/run/php${version}-fpm.sock
 listen.owner = $(whoami)
 listen.group = staff
 pm = ondemand

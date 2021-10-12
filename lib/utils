@@ -219,6 +219,13 @@ function remove_file()
     safe_execute "rm -f $file" "Removed $file" "Failed to remove $file"
 }
 
+function chmod_execute_file()
+{
+    local file=$1
+
+    safe_execute "chmod +x $file" "Changed $file mode" "Failed to change $file mode"
+}
+
 function process_recursive()
 {
     local action=$1
@@ -236,6 +243,22 @@ function process_recursive()
             "$action" "$file" "$dest"
         fi
     done
+}
+
+function generate_jinja2_file()
+{
+    local src=$1
+    local dest=$2
+
+    safe_execute "_generate_jinja2_file $src $dest" "Generated $src -> $dest" "Failed to generate $src -> $dest"
+}
+
+function _generate_jinja2_file()
+{
+    local src=$1
+    local dest=$2
+
+    jinja2 --strict -D HOMEBREW_PREFIX="$HOMEBREW_PREFIX" "$src" > "$dest"
 }
 
 function remove_insert_from_file()

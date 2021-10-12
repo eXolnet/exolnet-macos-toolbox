@@ -14,6 +14,6 @@
     ProxyPassReverse / http://127.0.0.1:8025/
 
     SSLEngine on
-    SSLCertificateFile /usr/local/etc/httpd/exolnet-ssl/localhost/fullchain.pem
-    SSLCertificateKeyFile /usr/local/etc/httpd/exolnet-ssl/localhost/privkey.pem
+    SSLCertificateFile {{ HOMEBREW_PREFIX }}/etc/httpd/exolnet-ssl/localhost/fullchain.pem
+    SSLCertificateKeyFile {{ HOMEBREW_PREFIX }}/etc/httpd/exolnet-ssl/localhost/privkey.pem
 </VirtualHost>

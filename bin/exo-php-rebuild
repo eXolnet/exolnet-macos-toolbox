@@ -65,8 +65,13 @@ if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " apache " ]]; then
     create_directory "$HTTPD_ETC/exolnet-vhosts"
     safe_execute "httpd_add_include_exolnet" "Added exolnet include directive" "Failed to add exolnet include directive"
     process_recursive "link_file" "$TOOLBOX/conf/httpd" "$HTTPD_ETC/exolnet"
-    process_recursive "link_file" "$TOOLBOX/conf/httpd_php_fpm" "$HTTPD_ETC/exolnet-php-fpm"
-    process_recursive "link_file" "$TOOLBOX/conf/httpd_vhosts" "$HTTPD_ETC/exolnet-vhosts"
+    generate_jinja2_file "$TOOLBOX/conf/httpd_php_fpm/php7.3-fpm.conf.j2" "$HTTPD_ETC/exolnet-php-fpm/php7.3-fpm.conf"
+    generate_jinja2_file "$TOOLBOX/conf/httpd_php_fpm/php7.4-fpm.conf.j2" "$HTTPD_ETC/exolnet-php-fpm/php7.4-fpm.conf"
+    generate_jinja2_file "$TOOLBOX/conf/httpd_php_fpm/php8.0-fpm.conf.j2" "$HTTPD_ETC/exolnet-php-fpm/php8.0-fpm.conf"
+    generate_jinja2_file "$TOOLBOX/conf/httpd_vhosts/100-default.conf.j2" "$HTTPD_ETC/exolnet-vhosts/100-default.conf"
+    generate_jinja2_file "$TOOLBOX/conf/httpd_vhosts/400-wildcard.conf.j2" "$HTTPD_ETC/exolnet-vhosts/400-wildcard.conf"
+    generate_jinja2_file "$TOOLBOX/conf/httpd_vhosts/600-default-ssl.conf.j2" "$HTTPD_ETC/exolnet-vhosts/600-default-ssl.conf"
+    generate_jinja2_file "$TOOLBOX/conf/httpd_vhosts/900-wildcard-ssl.conf.j2" "$HTTPD_ETC/exolnet-vhosts/900-wildcard-ssl.conf"
     safe_execute "httpd_generate_user_conf" "Generated user conf file" "Failed to generate user conf file"
     link_file "$HOME/Sites" "$HTTPD_WWW"
     sudo_brew_restart httpd
@@ -181,8 +186,9 @@ if [[ "${DEVELOPMENT_PREFERENCES[@]}" =~ "php" ]]; then
     brew_install composer
     brew_install php-code-sniffer
     brew_install wp-cli
-    remove_file "/usr/local/bin/php"
-    link_file "$TOOLBOX/conf/php/php-finder" "/usr/local/bin/php"
+    remove_file "$HOMEBREW_PREFIX/bin/php"
+    generate_jinja2_file "$TOOLBOX/conf/php/php-finder.j2" "$HOMEBREW_PREFIX/bin/php"
+    chmod_execute_file "$HOMEBREW_PREFIX/bin/php"
     safe_execute "git_add_file_to_global_gitignore" "Added '.php' in global gitignore file" "Failed to add '.php' in global gitignore file"
     safe_execute "httpd_disable_php_module" "Disabled php module in httpd" "Failed to disable php module in httpd"
     sudo_brew_restart httpd
