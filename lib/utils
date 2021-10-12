@@ -294,3 +294,13 @@ function clear_extended_attributes()
 
     xattr -cr "$file"
 }
+
+function toolbox_reload()
+{
+    unset TOOLBOX_LIB_INCLUDED
+    TOOLBOX_NO_HEADER=true
+
+    . "$TOOLBOX/lib/include"
+
+    e_success "Reloaded toolbox helpers"
+}

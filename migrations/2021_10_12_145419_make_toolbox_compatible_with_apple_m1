@@ -1,0 +1,103 @@
+#!/usr/bin/env bash
+
+e_header "Configuring environment variables"
+
+UNAME_MACHINE=$(/usr/bin/uname -m)
+if [[ "${UNAME_MACHINE}" == "arm64" ]]; then
+    HOMEBREW_PREFIX="/opt/homebrew"
+else
+    HOMEBREW_PREFIX="/usr/local"
+fi
+
+case "${SHELL}" in
+    */bash*)
+        if [[ -r "${HOME}/.bash_profile" ]]; then
+            shell_profile="${HOME}/.bash_profile"
+        else
+            shell_profile="${HOME}/.profile"
+        fi
+        ;;
+    */zsh*)
+        shell_profile="${HOME}/.zprofile"
+        ;;
+    *)
+        shell_profile="${HOME}/.profile"
+        ;;
+esac
+
+shell_env=$(${HOMEBREW_PREFIX}/bin/brew shellenv)
+
+# Add homebrew shell environment variables to shell profile
+cat >> "${shell_profile}" <<EOL
+# HOMEBREW BEGIN
+${shell_env}
+# HOMEBREW END
+EOL
+
+if [[ $? -eq 0 ]]; then
+    e_success "Added homebrew shell environment variables to shell profile"
+else
+    e_error "Fail to add homebrew shell environment variables to shell profile"
+    exit 1
+fi
+
+# Load homebrew shell environment variables for this session
+eval "${shell_env}"
+
+if [[ $? -eq 0 ]]; then
+    e_success "Loaded homebrew shell environment variables for this session"
+else
+    e_error "Fail to load homebrew shell environment variables for this session"
+    exit 1
+fi
+
+# Reload helpers
+toolbox_reload
+
+# Check if homebrew shell environment variables are defined
+if [[ -z "$HOMEBREW_PREFIX" ]]; then
+    echo
+    echo "$INDENT Homebrew environment variables are missing."
+    echo "$INDENT They must be present in your shell profile in order for this script to run."
+    exit 1
+fi
+
+e_header "Installing dependencies"
+brew_install jinja2-cli
+
+DEVELOPMENT_PREFERENCES=$(read_preferences development)
+
+if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " apache " ]]; then
+    e_header "Reconfiguring apache with ssl"
+    sudo_brew_is_status httpd stopped || sudo_brew_stop httpd
+    remove_file "$HTTPD_ETC/exolnet-php-fpm/php7.3-fpm.conf"
+    remove_file "$HTTPD_ETC/exolnet-php-fpm/php7.4-fpm.conf"
+    remove_file "$HTTPD_ETC/exolnet-php-fpm/php8.0-fpm.conf"
+    remove_file "$HTTPD_ETC/exolnet-vhosts/100-default.conf"
+    remove_file "$HTTPD_ETC/exolnet-vhosts/400-wildcard.conf"
+    remove_file "$HTTPD_ETC/exolnet-vhosts/600-default-ssl.conf"
+    remove_file "$HTTPD_ETC/exolnet-vhosts/900-wildcard-ssl.conf"
+    generate_jinja2_file "$TOOLBOX/conf/httpd_php_fpm/php7.3-fpm.conf.j2" "$HTTPD_ETC/exolnet-php-fpm/php7.3-fpm.conf"
+    generate_jinja2_file "$TOOLBOX/conf/httpd_php_fpm/php7.4-fpm.conf.j2" "$HTTPD_ETC/exolnet-php-fpm/php7.4-fpm.conf"
+    generate_jinja2_file "$TOOLBOX/conf/httpd_php_fpm/php8.0-fpm.conf.j2" "$HTTPD_ETC/exolnet-php-fpm/php8.0-fpm.conf"
+    generate_jinja2_file "$TOOLBOX/conf/httpd_vhosts/100-default.conf.j2" "$HTTPD_ETC/exolnet-vhosts/100-default.conf"
+    generate_jinja2_file "$TOOLBOX/conf/httpd_vhosts/400-wildcard.conf.j2" "$HTTPD_ETC/exolnet-vhosts/400-wildcard.conf"
+    generate_jinja2_file "$TOOLBOX/conf/httpd_vhosts/600-default-ssl.conf.j2" "$HTTPD_ETC/exolnet-vhosts/600-default-ssl.conf"
+    generate_jinja2_file "$TOOLBOX/conf/httpd_vhosts/900-wildcard-ssl.conf.j2" "$HTTPD_ETC/exolnet-vhosts/900-wildcard-ssl.conf"
+
+    if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " mailhog " ]]; then
+        remove_file "$HTTPD_ETC/exolnet-vhosts/750-mailhog.conf"
+        generate_jinja2_file "$TOOLBOX/conf/httpd_vhosts_extra/750-mailhog.conf.j2" "$HTTPD_ETC/exolnet-vhosts/750-mailhog.conf"
+    fi
+
+    sudo_brew_restart httpd
+fi
+
+if [[ "${DEVELOPMENT_PREFERENCES[@]}" =~ "php" ]]; then
+    remove_file "$HOMEBREW_PREFIX/bin/php"
+    generate_jinja2_file "$TOOLBOX/conf/php/php-finder.j2" "$HOMEBREW_PREFIX/bin/php"
+    chmod_execute_file "$HOMEBREW_PREFIX/bin/php"
+fi
+
+e_header "Caveats"
+e_arrow "You must close this shell session and start a new one once 'exo-self-migrate' finishes"
