@@ -11,7 +11,7 @@ function pecl_update_channels()
 # `yes` command is required to run in non interactive, because pecl might ask questions
 function _pecl()
 {
-    yes '' | pecl $@
+    yes '' | pecl "$@"
 }
 
 function pecl_install()
@@ -24,7 +24,7 @@ function pecl_install()
     if [[ -f "$(php_get_extension_path "$version")/$file" ]]; then
         e_success "Installed $package"
     else
-        pecl_reinstall $@
+        pecl_reinstall "$@"
     fi
 }
 
