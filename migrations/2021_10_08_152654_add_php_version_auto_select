@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+
+HTTPD_ETC="/usr/local/etc/httpd"
+HTTPD_WWW="/usr/local/var/www"
+HTTPD_SSL="$HTTPD_ETC/exolnet-ssl"
+
+e_header "Cleaning-up broken links"
+remove_file /usr/local/bin/bin/exo-php-switch
+
+DEVELOPMENT_PREFERENCES=$(read_preferences development)
+
+if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " apache " ]]; then
+    e_header "Reconfiguring apache with ssl"
+    sudo_brew_is_status httpd stopped || sudo_brew_stop httpd
+    safe_execute "httpd_disable_mpm_prefork_module" "Enabled mpm prefork module in httpd" "Failed to enable mpm prefork module in httpd"
+    safe_execute "httpd_enable_mpm_event_module" "Disabled mpm event module in httpd" "Failed to disable mpm event module in httpd"
+    create_directory "$HTTPD_ETC/exolnet-php-fpm"
+    create_directory "$HTTPD_ETC/exolnet-include"
+    process_recursive "link_file" "$TOOLBOX/conf/httpd_php_fpm" "$HTTPD_ETC/exolnet-php-fpm"
+    remove_file "$HTTPD_ETC/exolnet/php.conf"
+    sudo_brew_restart httpd
+fi
+
+if [[ "${DEVELOPMENT_PREFERENCES[@]}" =~ "php" ]]; then
+    git_create_global_gitignore
+    remove_file "$HOME/Sites/phpinfo.php"
+fi
+
+e_header "Caveats"
+e_arrow "You must run 'exo-php-rebuild' to reinstall php and rebuild extensions"
