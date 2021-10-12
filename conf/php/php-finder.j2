@@ -4,7 +4,7 @@ set -e
 
 CEILING="/"
 DIRECTORY="$PWD"
-PHP="/usr/local/opt/php/bin/php"
+PHP="{{ HOMEBREW_PREFIX }}/opt/php/bin/php"
 
 while true; do
     DOT_PHP="$DIRECTORY/.php"

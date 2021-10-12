@@ -9,7 +9,7 @@
     </IfModule>
 
     <FilesMatch ".+\.ph(ar|p|tml)$">
-        SetHandler "proxy:unix:/usr/local/var/run/php7.3-fpm.sock|fcgi://localhost"
+        SetHandler "proxy:unix:{{ HOMEBREW_PREFIX }}/var/run/php7.4-fpm.sock|fcgi://localhost"
     </FilesMatch>
     <FilesMatch ".+\.phps$">
         # Deny access to raw php sources by default

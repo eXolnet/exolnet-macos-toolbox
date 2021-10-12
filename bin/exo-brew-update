@@ -133,8 +133,9 @@ fi
 if [[ "${DEVELOPMENT_PREFERENCES[@]}" =~ "php" ]]; then
     e_header "Reconfiguring php"
     brew_unlink_all_php
-    remove_file "/usr/local/bin/php"
-    link_file "$TOOLBOX/conf/php/php-finder" "/usr/local/bin/php"
+    remove_file "$HOMEBREW_PREFIX/bin/php"
+    generate_jinja2_file "$TOOLBOX/conf/php/php-finder.j2" "$HOMEBREW_PREFIX/bin/php"
+    chmod_execute_file "$HOMEBREW_PREFIX/bin/php"
 
     if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " php73 " ]]; then
         brew_restart php@7.3

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-MYSQL_ETC="/usr/local/etc"
+MYSQL_ETC="$HOMEBREW_PREFIX/etc"
 
 function mysql_get_cli_command()
 {

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-HTTPD_ETC="/usr/local/etc/httpd"
-HTTPD_WWW="/usr/local/var/www"
+HTTPD_ETC="$HOMEBREW_PREFIX/etc/httpd"
+HTTPD_WWW="$HOMEBREW_PREFIX/var/www"
 HTTPD_SSL="$HTTPD_ETC/exolnet-ssl"
 
 function httpd_replace_listen_80()
@@ -20,8 +20,8 @@ function httpd_add_include_exolnet()
 
 cat >> "$HTTPD_ETC/httpd.conf" <<EOL
 # EXOLNET-MACOS-TOOLBOX BEGIN
-Include /usr/local/etc/httpd/exolnet/*.conf
-Include /usr/local/etc/httpd/exolnet-vhosts/*.conf
+Include ${HOMEBREW_PREFIX}/etc/httpd/exolnet/*.conf
+Include ${HOMEBREW_PREFIX}/etc/httpd/exolnet-vhosts/*.conf
 # EXOLNET-MACOS-TOOLBOX END
 EOL
 }
@@ -58,7 +58,7 @@ function httpd_generate_include_php()
 
 cat >> "$file" <<EOL
 # EXOLNET-MACOS-TOOLBOX BEGIN
-<Directory /usr/local/var/www/${slug}>
+<Directory ${HOMEBREW_PREFIX}/var/www/${slug}>
     Include ${HTTPD_ETC}/exolnet-php-fpm/php${version}-fpm.conf
 </Directory>
 # EXOLNET-MACOS-TOOLBOX END

@@ -49,9 +49,10 @@ MAIN_INSTALL_SCRIPT=true
 
 e_header "Installing dependencies"
 brew_install dialog
+brew_install jinja2-cli
 
 e_header "Installing scripts"
-process_recursive "link_file" "$TOOLBOX/bin" "/usr/local/bin"
+process_recursive "link_file" "$TOOLBOX/bin" "$HOMEBREW_PREFIX/bin"
 
 e_header "Configuring system preferences"
 safe_execute "increase_sudo_timeout" "Increased sudo timeout to 60 minutes" "Failed to increase sudo timeout to 60 minutes"

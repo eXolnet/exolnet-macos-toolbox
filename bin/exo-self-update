@@ -47,7 +47,7 @@ safe_execute "git_fetch" "Fetched remote changes" "Failed to fetch remote change
 safe_execute "git_merge" "Fast-forwarded repository" "Failed to fast-forward repository"
 
 e_header "Installing scripts"
-process_recursive "link_file" "$TOOLBOX/bin" "/usr/local/bin"
+process_recursive "link_file" "$TOOLBOX/bin" "$HOMEBREW_PREFIX/bin"
 
 # Display if backups were made
 if [[ "$BACKUP" == true ]]; then
