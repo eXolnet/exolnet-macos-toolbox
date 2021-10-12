@@ -3,6 +3,9 @@
 # Define toolbox directory
 TOOLBOX="$HOME/.exolnet/toolbox"
 
+# Define machine architecture
+UNAME_MACHINE=$(/usr/bin/uname -m)
+
 echo "Installing homebrew ..."
 echo
 
@@ -12,10 +15,15 @@ if [[ -z $(command -v brew) ]]; then
     echo
 fi
 
+if [[ "${UNAME_MACHINE}" == "arm64" ]]; then
+    echo "Installing rosetta 2 ..."
+    sudo softwareupdate --install-rosetta --agree-to-license
+    echo
+fi
+
 echo "Configuring environment variables ..."
 echo
 
-UNAME_MACHINE="$(/usr/bin/uname -m)"
 if [[ "${UNAME_MACHINE}" == "arm64" ]]; then
     HOMEBREW_PREFIX="/opt/homebrew"
 else
