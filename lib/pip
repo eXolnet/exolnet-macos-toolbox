@@ -13,3 +13,10 @@ function pip3_upgrade()
 
     safe_execute "pip3 install --upgrade $package" "Upgraded $package" "Failed to upgrade $package"
 }
+
+function pip3_uninstall()
+{
+    local package=$@
+
+    safe_execute "pip3 uninstall -y $package" "Uninstalled $package" "Failed to uninstall $package"
+}
