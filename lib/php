@@ -62,6 +62,16 @@ function php_copy_extension()
     copy_file "$src" "$dest"
 }
 
+function php_link_pcre2_header()
+{
+    local version=$1
+
+    local src="${HOMEBREW_PREFIX}/opt/pcre2/include/pcre2.h"
+    local dest="${HOMEBREW_PREFIX}/opt/php@${version}/include/php/ext/pcre/pcre2.h"
+
+    link_file "$src" "$dest"
+}
+
 function php_remove_imagick_extension_from_php_ini()
 {
     local version=$1
