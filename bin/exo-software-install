@@ -63,6 +63,10 @@ if [[ " ${MAIN_PREFERENCES[@]} " =~ " applications " ]]; then
     e_header "Installing applications"
 
     for item in ${APPLICATIONS_PREFERENCES[@]}; do
+        if [[ "$item" =~ "font-roboto" ]]; then
+            brew_install "svn"
+        fi
+
         cask_install "$item"
     done
 
