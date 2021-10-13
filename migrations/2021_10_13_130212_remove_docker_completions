@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+
+function bash_remove_docker_completion_preference()
+{
+    /usr/bin/sed -Ei '' 's/docker-completion//g' "$STORAGE_PREFERENCES_DIR/bash"
+}
+
+function bash_remove_docker_compose_completion_preference()
+{
+    /usr/bin/sed -Ei '' 's/docker-compose-completion//g' "$STORAGE_PREFERENCES_DIR/bash"
+}
+
+function bash_remove_docker_machine_completion_preference()
+{
+    /usr/bin/sed -Ei '' 's/docker-machine-completion//g' "$STORAGE_PREFERENCES_DIR/bash"
+}
+
+# Read preferences
+BASH_PREFERENCES=$(read_preferences bash)
+
+if [[ " ${BASH_PREFERENCES[@]} " =~ "docker" ]]; then
+    e_header "Removing deprecated preferences"
+
+    if [[ " ${BASH_PREFERENCES[@]} " =~ " docker-completion " ]]; then
+        safe_execute "bash_remove_docker_completion_preference" "Removed docker-completion preference" "Failed to remove docker-completion preference"
+        brew_uninstall "docker-completion"
+    fi
+
+    if [[ " ${BASH_PREFERENCES[@]} " =~ " docker-compose-completion " ]]; then
+        safe_execute "bash_remove_docker_compose_completion_preference" "Removed docker-compose-completion preference" "Failed to remove docker-compose-completion preference"
+        brew_uninstall "docker-compose-completion"
+    fi
+
+    if [[ " ${BASH_PREFERENCES[@]} " =~ " docker-machine-completion " ]]; then
+        safe_execute "bash_remove_docker_machine_completion_preference" "Removed docker-machine-completion preference" "Failed to remove docker-machine-completion preference"
+        brew_uninstall "docker-machine-completion"
+    fi
+fi
