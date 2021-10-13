@@ -325,8 +325,9 @@ if [[ " ${MAIN_PREFERENCES[@]} " =~ " development " ]]; then
 
     if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " awscli " ]]; then
         e_header "Installing awscli and dependencies"
-        pip3_install awscli
-        gem_install aws_runas
+        brew_install awscli
+        brew_install awsume
+        brew_install cli53
     fi
 
     if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " ansible " ]]; then
