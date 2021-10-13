@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+DEVELOPMENT_PREFERENCES=$(read_preferences development)
+
+if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " awscli " ]]; then
+    e_header "Reinstalling awscli and dependencies"
+    pip3_uninstall awscli
+    gem_uninstall aws_runas
+    brew_install awscli
+    brew_install awsume
+    brew_install cli53
+fi
