@@ -89,6 +89,7 @@ if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " php73 " ]]; then
     e_header "Reinstalling and reconfiguring php 7.3"
     brew_reinstall php@7.3
     brew_link_force php@7.3
+    safe_execute "php_link_pcre2_header 7.3" "Linked pcre2 header to php@7.3 include directory" "Failed to link pcre2 header to php@7.3 include directory"
     safe_execute "php_remove_imagick_extension_insert 7.3" "Removed php@7.3 imagick extension insert" "Failed to remove php@7.3 imagick extension insert"
     safe_execute "php_remove_pcov_extension_insert 7.3" "Removed php@7.3 pcov extension insert" "Failed to remove php@7.3 pcov extension insert"
     safe_execute "php_remove_redis_extension_insert 7.3" "Removed php@7.3 redis extension insert" "Failed to remove php@7.3 redis extension insert"
@@ -121,6 +122,7 @@ if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " php74 " ]]; then
     e_header "Reinstalling and reconfiguring php 7.4"
     brew_reinstall php@7.4
     brew_link_force php@7.4
+    safe_execute "php_link_pcre2_header 7.4" "Linked pcre2 header to php@7.4 include directory" "Failed to link pcre2 header to php@7.4 include directory"
     safe_execute "php_remove_imagick_extension_insert 7.4" "Removed php@7.4 imagick extension insert" "Failed to remove php@7.4 imagick extension insert"
     safe_execute "php_remove_pcov_extension_insert 7.4" "Removed php@7.4 pcov extension insert" "Failed to remove php@7.4 pcov extension insert"
     safe_execute "php_remove_redis_extension_insert 7.4" "Removed php@7.4 redis extension insert" "Failed to remove php@7.4 redis extension insert"
@@ -153,6 +155,7 @@ if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " php80 " ]]; then
     e_header "Reinstalling and reconfiguring php 8.0"
     brew_reinstall php@8.0
     brew_link_force php@8.0
+    safe_execute "php_link_pcre2_header 8.0" "Linked pcre2 header to php@8.0 include directory" "Failed to link pcre2 header to php@8.0 include directory"
     safe_execute "php_remove_imagick_extension_insert 8.0" "Removed php@8.0 imagick extension insert" "Failed to remove php@8.0 imagick extension insert"
     safe_execute "php_remove_pcov_extension_insert 8.0" "Removed php@8.0 pcov extension insert" "Failed to remove php@8.0 pcov extension insert"
     safe_execute "php_remove_redis_extension_insert 8.0" "Removed php@8.0 redis extension insert" "Failed to remove php@8.0 redis extension insert"
