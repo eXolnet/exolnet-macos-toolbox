@@ -81,6 +81,7 @@ if [[ "${DEVELOPMENT_PREFERENCES[@]}" =~ "php" ]]; then
     e_header "Preparing php reinstallation and reconfiguration"
     brew_stop_all_php_fpm
     brew_unlink_all_php
+    remove_file "$HOMEBREW_PREFIX/bin/php"
     brew_install imagemagick
     brew_install pkg-config
 fi

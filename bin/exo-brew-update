@@ -78,6 +78,7 @@ if [[ "${DEVELOPMENT_PREFERENCES[@]}" =~ "php" ]]; then
     e_header "Unlinking php"
     brew_stop_all_php_fpm
     brew_unlink_all_php
+    remove_file "$HOMEBREW_PREFIX/bin/php"
 fi
 
 if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " node " ]]; then

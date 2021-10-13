@@ -173,6 +173,7 @@ if [[ " ${MAIN_PREFERENCES[@]} " =~ " development " ]]; then
         e_header "Preparing php installation and configuration"
         brew_stop_all_php_fpm
         brew_unlink_all_php
+        remove_file "$HOMEBREW_PREFIX/bin/php"
         brew_install imagemagick
         brew_install pkg-config
     fi
