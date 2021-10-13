@@ -37,6 +37,7 @@ hex-fiend,Hex Fiend (Application),off
 imageoptim,ImageOptim (Application),on
 insomnia,Insomnia (Application),on
 iina,IINA (Application),off
+jd-gui,JD-GUI (Application),off
 phpstorm,JetBrains PhpStorm (Application),on
 pycharm,JetBrains PyCharm (Application),off
 rubymine,JetBrains RubyMine (Application),off
