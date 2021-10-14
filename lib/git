@@ -9,3 +9,36 @@ function git_merge()
 {
     git -C "$TOOLBOX" merge --ff-only
 }
+
+function git_configure_global_gitignore()
+{
+    local gitignore=$1
+
+    git config --global core.excludesfile "$gitignore"
+}
+
+function git_create_global_gitignore()
+{
+    local gitignore=$(git config --global core.excludesfile)
+
+    if [[ -z $gitignore ]]; then
+        gitignore="$HOME/.gitignore"
+        safe_execute "git_configure_global_gitignore $gitignore" "Configured global gitignore file" "Failed to configure global gitignore file"
+    fi
+
+    if [[ ! -f $gitignore ]]; then
+        create_file "$gitignore"
+    fi
+}
+
+function git_add_file_to_global_gitignore()
+{
+    local file=$1
+    local gitignore=$(git config --global core.excludesfile)
+
+    if [[ -z $gitignore || ! -f $gitignore ]]; then
+        return 1
+    fi
+
+    egrep -q "^${file}$" "$gitignore" || echo "$file" >> "$gitignore"
+}

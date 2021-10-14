@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
-PHP_ETC="/usr/local/etc/php"
-PHP_DEFAULT_VERSION="php74"
+PHP_ETC="$HOMEBREW_PREFIX/etc/php"
 
 function pecl_update_channels()
 {
@@ -12,7 +11,7 @@ function pecl_update_channels()
 # `yes` command is required to run in non interactive, because pecl might ask questions
 function _pecl()
 {
-    yes '' | pecl $@
+    yes '' | pecl "$@"
 }
 
 function pecl_install()
@@ -22,10 +21,10 @@ function pecl_install()
     local extra=${3:+-${3}} # if $3 is define, return "-$3"
     local file=${package}.so
 
-    if [[ -f "$(php_get_extension_path $version)/$file" ]]; then
+    if [[ -f "$(php_get_extension_path "$version")/$file" ]]; then
         e_success "Installed $package"
     else
-        pecl_reinstall $@
+        pecl_reinstall "$@"
     fi
 }
 
@@ -45,9 +44,9 @@ function php_get_extension_path()
 {
     local version=$1
 
-    local opt_prefix="$(brew --prefix php@$version)"
-    local extension_dir="$(php-config --extension-dir)" # or `pecl config-get ext_dir`
-    local php_basename="$(basename $extension_dir)"
+    local opt_prefix=$(brew --prefix "php@$version")
+    local extension_dir=$(php-config --extension-dir) # or `pecl config-get ext_dir`
+    local php_basename=$(basename "$extension_dir")
 
     echo "$opt_prefix/lib/php/$php_basename"
 }
@@ -58,9 +57,19 @@ function php_copy_extension()
     local extension=$2
 
     local src="$(pecl config-get ext_dir)/$extension"
-    local dest="$(php_get_extension_path $version)/$extension"
+    local dest="$(php_get_extension_path "$version")/$extension"
 
     copy_file "$src" "$dest"
+}
+
+function php_link_pcre2_header()
+{
+    local version=$1
+
+    local src="${HOMEBREW_PREFIX}/opt/pcre2/include/pcre2.h"
+    local dest="${HOMEBREW_PREFIX}/opt/php@${version}/include/php/ext/pcre/pcre2.h"
+
+    link_file "$src" "$dest"
 }
 
 function php_remove_imagick_extension_from_php_ini()
@@ -68,7 +77,7 @@ function php_remove_imagick_extension_from_php_ini()
     local version=$1
     local file="$PHP_ETC/$version/php.ini"
 
-    /usr/bin/sed -i '' '/extension="imagick.so"/d' $file
+    /usr/bin/sed -i '' '/extension="imagick.so"/d' "$file"
 }
 
 function php_remove_pcov_extension_from_php_ini()
@@ -76,7 +85,7 @@ function php_remove_pcov_extension_from_php_ini()
     local version=$1
     local file="$PHP_ETC/$version/php.ini"
 
-    /usr/bin/sed -i '' '/extension="pcov.so"/d' $file
+    /usr/bin/sed -i '' '/extension="pcov.so"/d' "$file"
 }
 
 function php_remove_redis_extension_from_php_ini()
@@ -84,7 +93,7 @@ function php_remove_redis_extension_from_php_ini()
     local version=$1
     local file="$PHP_ETC/$version/php.ini"
 
-    /usr/bin/sed -i '' '/extension="redis.so"/d' $file
+    /usr/bin/sed -i '' '/extension="redis.so"/d' "$file"
 }
 
 function php_remove_xdebug_extension_from_php_ini()
@@ -92,7 +101,7 @@ function php_remove_xdebug_extension_from_php_ini()
     local version=$1
     local file="$PHP_ETC/$version/php.ini"
 
-    /usr/bin/sed -i '' '/zend_extension="xdebug.so"/d' $file
+    /usr/bin/sed -i '' '/zend_extension="xdebug.so"/d' "$file"
 }
 
 function php_configure_timezone()
@@ -100,7 +109,7 @@ function php_configure_timezone()
     local version=$1
     local file="$PHP_ETC/$version/php.ini"
 
-    /usr/bin/sed -Ei '' 's/^;?date.timezone =.*$/date.timezone = America\/Toronto/g' $file
+    /usr/bin/sed -Ei '' 's/^;?date.timezone =.*$/date.timezone = America\/Toronto/g' "$file"
 }
 
 function php_configure_upload_max_filesize()
@@ -108,7 +117,7 @@ function php_configure_upload_max_filesize()
     local version=$1
     local file="$PHP_ETC/$version/php.ini"
 
-    /usr/bin/sed -Ei '' 's/^;?upload_max_filesize =.*$/upload_max_filesize = 8M/g' $file
+    /usr/bin/sed -Ei '' 's/^;?upload_max_filesize =.*$/upload_max_filesize = 8M/g' "$file"
 }
 
 function php_remove_imagick_extension_insert()
@@ -116,8 +125,8 @@ function php_remove_imagick_extension_insert()
     local version=$1
     local file="$PHP_ETC/$version/conf.d/exolnet-ext-imagick.ini"
 
-    if [[ -f "$file" ]]; then
-        remove_insert_from_file2 $file
+    if [[ -f $file ]]; then
+        remove_insert_from_file2 "$file"
     fi
 }
 
@@ -126,8 +135,8 @@ function php_remove_pcov_extension_insert()
     local version=$1
     local file="$PHP_ETC/$version/conf.d/exolnet-ext-pcov.ini"
 
-    if [[ -f "$file" ]]; then
-        remove_insert_from_file2 $file
+    if [[ -f $file ]]; then
+        remove_insert_from_file2 "$file"
     fi
 }
 
@@ -136,8 +145,8 @@ function php_remove_redis_extension_insert()
     local version=$1
     local file="$PHP_ETC/$version/conf.d/exolnet-ext-redis.ini"
 
-    if [[ -f "$file" ]]; then
-        remove_insert_from_file2 $file
+    if [[ -f $file ]]; then
+        remove_insert_from_file2 "$file"
     fi
 }
 
@@ -146,8 +155,8 @@ function php_remove_xdebug_extension_insert()
     local version=$1
     local file="$PHP_ETC/$version/conf.d/exolnet-ext-xdebug.ini"
 
-    if [[ -f "$file" ]]; then
-        remove_insert_from_file2 $file
+    if [[ -f $file ]]; then
+        remove_insert_from_file2 "$file"
     fi
 }
 
@@ -156,12 +165,12 @@ function php_configure_imagick()
     local version=$1
     local file="$PHP_ETC/$version/conf.d/exolnet-ext-imagick.ini"
 
-    remove_insert_from_file2 $file
+    remove_insert_from_file2 "$file"
 
-cat >> $file <<EOL
+cat >> "$file" <<EOL
 ; EXOLNET-MACOS-TOOLBOX BEGIN
 [imagick]
-extension="$(php_get_extension_path $version)/imagick.so"
+extension="$(php_get_extension_path "$version")/imagick.so"
 ; EXOLNET-MACOS-TOOLBOX END
 EOL
 }
@@ -171,12 +180,12 @@ function php_configure_pcov()
     local version=$1
     local file="$PHP_ETC/$version/conf.d/exolnet-ext-pcov.ini"
 
-    remove_insert_from_file2 $file
+    remove_insert_from_file2 "$file"
 
-cat >> $file <<EOL
+cat >> "$file" <<EOL
 ; EXOLNET-MACOS-TOOLBOX BEGIN
 [pcov]
-extension="$(php_get_extension_path $version)/pcov.so"
+extension="$(php_get_extension_path "$version")/pcov.so"
 ; EXOLNET-MACOS-TOOLBOX END
 EOL
 }
@@ -186,12 +195,44 @@ function php_configure_redis()
     local version=$1
     local file="$PHP_ETC/$version/conf.d/exolnet-ext-redis.ini"
 
-    remove_insert_from_file2 $file
+    remove_insert_from_file2 "$file"
 
-cat >> $file <<EOL
+cat >> "$file" <<EOL
 ; EXOLNET-MACOS-TOOLBOX BEGIN
 [redis]
-extension="$(php_get_extension_path $version)/redis.so"
+extension="$(php_get_extension_path "$version")/redis.so"
+; EXOLNET-MACOS-TOOLBOX END
+EOL
+}
+
+function php_remove_default_php_fpm_pool()
+{
+    local version=$1
+    local file="$PHP_ETC/$version/php-fpm.d/www.conf"
+
+    remove_file "$file"
+}
+
+function php_generate_php_fpm_pool()
+{
+    local version=$1
+    local file="$PHP_ETC/$version/php-fpm.d/exolnet.conf"
+
+    touch "$file"
+    remove_insert_from_file2 "$file"
+
+cat >> "$file" <<EOL
+; EXOLNET-MACOS-TOOLBOX BEGIN
+[exolnet]
+user = $(whoami)
+group = staff
+listen = ${HOMEBREW_PREFIX}/var/run/php${version}-fpm.sock
+listen.owner = $(whoami)
+listen.group = staff
+pm = ondemand
+pm.max_children = 5
+pm.process_idle_timeout = 120s
+pm.max_requests = 500
 ; EXOLNET-MACOS-TOOLBOX END
 EOL
 }
@@ -201,12 +242,12 @@ function php_configure_xdebug()
     local version=$1
     local file="$PHP_ETC/$version/conf.d/exolnet-ext-xdebug.ini"
 
-    remove_insert_from_file2 $file
+    remove_insert_from_file2 "$file"
 
-cat >> $file <<EOL
+cat >> "$file" <<EOL
 ; EXOLNET-MACOS-TOOLBOX BEGIN
 [xdebug]
-zend_extension="$(php_get_extension_path $version)/xdebug.so"
+zend_extension="$(php_get_extension_path "$version")/xdebug.so"
 xdebug.mode=debug
 xdebug.idekey=PHPSTORM
 ; EXOLNET-MACOS-TOOLBOX END
@@ -215,7 +256,10 @@ EOL
 
 function php_create_phpinfo()
 {
-cat > $HOME/Sites/phpinfo.php <<EOL
+    local version=$1
+    local file="$HOME/Sites/${version}/index.php"
+
+cat > "$file" <<EOL
 <?php
 // EXOLNET-MACOS-TOOLBOX
 phpinfo();
@@ -224,8 +268,8 @@ EOL
 
 function php_display_extension_status()
 {
-    currentversion="$(php_get_current_version)"
-    dotcurrentversion="$(php_convert_version_to_dot_version $currentversion)"
+    currentversion=$(php_get_current_version)
+    dotcurrentversion=$(php_convert_version_to_dot_version "$currentversion")
     confdir="$PHP_ETC/$dotcurrentversion/conf.d"
 
     if [[ ! -d "$confdir" ]]; then
@@ -242,14 +286,14 @@ function php_display_extension_status()
     status+="\033[0m\n"
 
     for file in "$confdir"/exolnet-ext-*.ini* ; do
-        filename="$(basename $file)"
-        extension="$(echo $filename | sed 's/^exolnet-ext-\(.*\)\.ini\(.*\)*$/\1/')"
+        filename=$(basename "$file")
+        extension=$(echo "$filename" | sed 's/^exolnet-ext-\(.*\)\.ini\(.*\)*$/\1/')
 
         status+="\033[0m"
         status+="$extension"
         status+="\033[0m "
 
-        if echo $filename | egrep -q '^exolnet-ext-(.*)\.ini$' ; then
+        if echo "$filename" | egrep -q '^exolnet-ext-(.*)\.ini$' ; then
             status+="\033[32m"
             status+="enabled"
             status+="\033[0m"
@@ -268,12 +312,6 @@ function php_display_extension_status()
 
 function php_get_current_version()
 {
-    local php_path="$(dirname "$(which php)")"
-
-    if [[ "$php_path" != "/usr/local/bin" ]]; then
-        return 1
-    fi
-
     php -d display_errors=0 -r "echo 'php'.str_replace('.', '', substr(phpversion(), 0, 3));" 2> /dev/null
 }
 
@@ -300,7 +338,20 @@ function php_convert_version_to_dot_version()
 
 function php_convert_version_to_homebrew()
 {
-    echo "php@$(php_convert_version_to_dot_version $1)"
+    echo "php@$(php_convert_version_to_dot_version "$1")"
+}
+
+function brew_stop_all_php_fpm()
+{
+    if brew_is_installed php@7.3 ; then
+        brew_is_status php@7.3 stopped || brew_stop php@7.3
+    fi
+    if brew_is_installed php@7.4 ; then
+        brew_is_status php@7.4 stopped || brew_stop php@7.4
+    fi
+    if brew_is_installed php@8.0 ; then
+        brew_is_status php@8.0 stopped || brew_stop php@8.0
+    fi
 }
 
 function brew_unlink_all_php()

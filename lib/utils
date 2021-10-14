@@ -50,6 +50,24 @@ function ask_yes_no()
     return $value
 }
 
+function ask_question_with_default()
+{
+    local question=$1
+    local default=$2
+    local prompt=" [$default] "
+    local value=
+
+    echo -ne "\033[33m$question$prompt\033[0m"
+    read -p "" -r
+    case "$REPLY" in
+        "")
+            REPLY="$default"
+            ;;
+    esac
+
+    # Result is available in $REPLY variable
+}
+
 function safe_execute()
 {
     local cmd=$1
@@ -201,6 +219,13 @@ function remove_file()
     safe_execute "rm -f $file" "Removed $file" "Failed to remove $file"
 }
 
+function chmod_execute_file()
+{
+    local file=$1
+
+    safe_execute "chmod +x $file" "Changed $file mode" "Failed to change $file mode"
+}
+
 function process_recursive()
 {
     local action=$1
@@ -208,7 +233,7 @@ function process_recursive()
     local parent=$3
 
     for file in "${files[@]}"; do
-        local base="$(basename $file)"
+        local base=$(basename "$file")
         local dest="$parent/$base"
 
         if [[ -d "$file" ]]; then
@@ -220,12 +245,28 @@ function process_recursive()
     done
 }
 
+function generate_jinja2_file()
+{
+    local src=$1
+    local dest=$2
+
+    safe_execute "_generate_jinja2_file $src $dest" "Generated $src -> $dest" "Failed to generate $src -> $dest"
+}
+
+function _generate_jinja2_file()
+{
+    local src=$1
+    local dest=$2
+
+    jinja2 --strict -D HOMEBREW_PREFIX="$HOMEBREW_PREFIX" "$src" > "$dest"
+}
+
 function remove_insert_from_file()
 {
     local file=$1
 
     # See: https://nixtricks.wordpress.com/2013/01/09/sed-delete-the-lines-lying-in-between-two-patterns/
-    /usr/bin/sed -i '' '/# EXOLNET-MACOS-TOOLBOX BEGIN/,/# EXOLNET-MACOS-TOOLBOX END/d' $file
+    /usr/bin/sed -i '' '/# EXOLNET-MACOS-TOOLBOX BEGIN/,/# EXOLNET-MACOS-TOOLBOX END/d' "$file"
 }
 
 function remove_insert_from_file2()
@@ -233,7 +274,7 @@ function remove_insert_from_file2()
     local file=$1
 
     # See: https://nixtricks.wordpress.com/2013/01/09/sed-delete-the-lines-lying-in-between-two-patterns/
-    /usr/bin/sed -i '' '/; EXOLNET-MACOS-TOOLBOX BEGIN/,/; EXOLNET-MACOS-TOOLBOX END/d' $file
+    /usr/bin/sed -i '' '/; EXOLNET-MACOS-TOOLBOX BEGIN/,/; EXOLNET-MACOS-TOOLBOX END/d' "$file"
 }
 
 function waiting_for()
@@ -241,7 +282,7 @@ function waiting_for()
     local seconds=$1
 
     echo -n -e "$INDENT \033[1m?\033[0m Waiting for $seconds seconds "
-    for ((i=0; i<$seconds; i++)) ; do
+    for ((i=0; i<"$seconds"; i++)) ; do
         echo -n '.' && sleep 1
     done
     echo -e "\r$INDENT \033[1;32m✔\033[0m "
@@ -252,4 +293,14 @@ function clear_extended_attributes()
     local file=$1
 
     xattr -cr "$file"
+}
+
+function toolbox_reload()
+{
+    unset TOOLBOX_LIB_INCLUDED
+    TOOLBOX_NO_HEADER=true
+
+    . "$TOOLBOX/lib/include"
+
+    e_success "Reloaded toolbox helpers"
 }

@@ -16,16 +16,24 @@ if [[ ! -d "$TOOLBOX" ]]; then
 fi
 
 # Source helpers
-. $TOOLBOX/lib/include
+. "$TOOLBOX/lib/include"
 
 #
 # Script checks
 #
 
+# Check if homebrew shell environment variables are defined
+if [[ -z "$HOMEBREW_PREFIX" ]]; then
+    echo
+    echo "Homebrew environment variables are missing."
+    echo "They must be present in your shell profile in order for this script to run."
+    exit 1
+fi
+
 # Check if command was ran as root.
 if [[ $(id -u) -eq 0 ]]; then
     echo
-    echo "The command \"`basename \"$0\"`\" should not be executed as root or via sudo directly."
+    echo "The command \"$(basename "$0")\" should not be executed as root or via sudo directly."
     echo "When a command requires root access, you will be prompted for a password as needed."
     exit 1
 fi
@@ -48,12 +56,11 @@ if [[ -z "$outdated" ]] && [[ ! -f $TOOLBOX/.updating ]]; then
     exit
 fi
 
-create_file $TOOLBOX/.updating
+create_file "$TOOLBOX/.updating"
 
-if [[ "${DEVELOPMENT_PREFERENCES[@]}" =~ "mysql" ]]; then
+if [[ "${DEVELOPMENT_PREFERENCES[@]}" =~ " mysql " ]]; then
     e_header "Preparing mysql"
-    brew_stop_all_mysql
-    brew_unlink_all_mysql
+    brew_is_status mysql stopped || brew_stop mysql
 fi
 
 if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " apache " ]]; then
@@ -69,9 +76,9 @@ fi
 
 if [[ "${DEVELOPMENT_PREFERENCES[@]}" =~ "php" ]]; then
     e_header "Unlinking php"
-    PHP_CURRENT_VERSION="$(php_get_current_version || echo $PHP_DEFAULT_VERSION)"
-    PHP_BREW_CURRENT_VERSION="$(php_convert_version_to_homebrew $PHP_CURRENT_VERSION)"
+    brew_stop_all_php_fpm
     brew_unlink_all_php
+    remove_file "$HOMEBREW_PREFIX/bin/php"
 fi
 
 if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " node " ]]; then
@@ -105,46 +112,43 @@ if [[ " ${APPLICATIONS_PREFERENCES[@]} " =~ $QUICKLOOK_REGEX ]]; then
     fi
 fi
 
-if [[ "${DEVELOPMENT_PREFERENCES[@]}" =~ "mysql" ]]; then
+if [[ "${DEVELOPMENT_PREFERENCES[@]}" =~ " mysql " ]]; then
     e_header "Reconfiguring mysql"
-
-    if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " mysql80 " ]]; then
-        brew_link_force mysql@8.0
-    elif [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " mysql57 " ]]; then
-        brew_link_force mysql@5.7
-    fi
-fi
-
-if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " mysql57 " ]]; then
-    brew_start_mysql 5.7
-    mysql_wait_for_connection 5.7
-fi
-
-if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " mysql80 " ]]; then
-    brew_start_mysql 8.0
-    mysql_wait_for_connection 8.0
+    brew_restart mysql
+    mysql_wait_for_connection
 fi
 
 if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " apache " ]]; then
     e_header "Reconfiguring apache"
     safe_execute "httpd_replace_listen_80" "Changed listen port 8080 -> 80" "Failed to change listen port 8080 -> 80"
     safe_execute "httpd_replace_listen_443" "Changed listen port 8443 -> 443" "Failed to change listen port 8443 -> 443"
-    safe_execute "httpd_disable_mpm_event_module" "Disabled mpm event module in httpd" "Failed to disable mpm event module in httpd"
-    safe_execute "httpd_enable_mpm_prefork_module" "Enabled mpm prefork module in httpd" "Failed to enable mpm prefork module in httpd"
+    safe_execute "httpd_disable_mpm_prefork_module" "Enabled mpm prefork module in httpd" "Failed to enable mpm prefork module in httpd"
+    safe_execute "httpd_enable_mpm_event_module" "Disabled mpm event module in httpd" "Failed to disable mpm event module in httpd"
     safe_execute "httpd_add_include_exolnet" "Added exolnet include directive" "Failed to add exolnet include directive"
     safe_execute "httpd_generate_user_conf" "Generated user conf file" "Failed to generate user conf file"
     safe_execute "httpd_disable_php_module" "Disabled php module in httpd" "Failed to disable php module in httpd"
     link_file "$HOME/Sites" "$HTTPD_WWW"
+    sudo_brew_restart httpd
 fi
 
 if [[ "${DEVELOPMENT_PREFERENCES[@]}" =~ "php" ]]; then
     e_header "Reconfiguring php"
-    brew_link_force $PHP_BREW_CURRENT_VERSION
-    link_file "$TOOLBOX/conf/httpd_php/$PHP_CURRENT_VERSION.conf" "$HTTPD_ETC/exolnet/php.conf"
-fi
+    brew_unlink_all_php
+    remove_file "$HOMEBREW_PREFIX/bin/php"
+    generate_jinja2_file "$TOOLBOX/conf/php/php-finder.j2" "$HOMEBREW_PREFIX/bin/php"
+    chmod_execute_file "$HOMEBREW_PREFIX/bin/php"
 
-if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " apache " ]]; then
-    sudo_brew_restart httpd
+    if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " php73 " ]]; then
+        brew_restart php@7.3
+    fi
+
+    if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " php74 " ]]; then
+        brew_restart php@7.4
+    fi
+
+    if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " php80 " ]]; then
+        brew_restart php@8.0
+    fi
 fi
 
 if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " node " ]]; then
@@ -153,6 +157,6 @@ if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " node " ]]; then
 fi
 
 e_header "Cleaning up"
-remove_file $TOOLBOX/.updating
+remove_file "$TOOLBOX/.updating"
 
 e_header "All done!"

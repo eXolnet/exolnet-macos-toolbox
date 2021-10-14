@@ -3,21 +3,70 @@
 # Define toolbox directory
 TOOLBOX="$HOME/.exolnet/toolbox"
 
+# Define machine architecture
+UNAME_MACHINE=$(/usr/bin/uname -m)
+
 echo "Installing homebrew ..."
 echo
 
 if [[ -z $(command -v brew) ]]; then
     # Homebrew will install the Command Line Tools, no need to run `xcode-select --install` beforehand
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
     echo
 fi
 
+if [[ "${UNAME_MACHINE}" == "arm64" ]]; then
+    echo "Installing rosetta 2 ..."
+    sudo softwareupdate --install-rosetta --agree-to-license
+    echo
+fi
+
+echo "Configuring environment variables ..."
+echo
+
+# This section logic and code was taken from https://github.com/Homebrew/install/blob/HEAD/install.sh
+if [[ "${UNAME_MACHINE}" == "arm64" ]]; then
+    HOMEBREW_PREFIX="/opt/homebrew"
+else
+    HOMEBREW_PREFIX="/usr/local"
+fi
+
+case "${SHELL}" in
+    */bash*)
+        if [[ -r "${HOME}/.bash_profile" ]]; then
+            shell_profile="${HOME}/.bash_profile"
+        else
+            shell_profile="${HOME}/.profile"
+        fi
+        ;;
+    */zsh*)
+        shell_profile="${HOME}/.zprofile"
+        ;;
+    *)
+        shell_profile="${HOME}/.profile"
+        ;;
+esac
+
+shell_env=$(${HOMEBREW_PREFIX}/bin/brew shellenv)
+
+# Add homebrew shell environment variables to shell profile
+cat >> "${shell_profile}" <<EOL
+# HOMEBREW BEGIN
+${shell_env}
+# HOMEBREW END
+EOL
+
+# Load homebrew shell environment variables for this session
+echo "${shell_env}"
+eval "${shell_env}"
+
+echo
 echo "Cloning exolnet-macos-toolbox ..."
 echo
 
 # Clone exolnet-macos-toolbox
-git clone -b master https://github.com/eXolnet/exolnet-macos-toolbox.git $TOOLBOX
-cd $TOOLBOX
+git clone -b master https://github.com/eXolnet/exolnet-macos-toolbox.git "$TOOLBOX"
+cd "$TOOLBOX"
 
 echo
 echo "Installing exolnet-macos-toolbox ..."

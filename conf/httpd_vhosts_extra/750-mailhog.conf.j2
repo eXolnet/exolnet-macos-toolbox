@@ -1,9 +1,5 @@
 # EXOLNET-MACOS-TOOLBOX
 
-LoadModule proxy_module lib/httpd/modules/mod_proxy.so
-LoadModule proxy_http_module lib/httpd/modules/mod_proxy_http.so
-LoadModule proxy_wstunnel_module lib/httpd/modules/mod_proxy_wstunnel.so
-
 <VirtualHost *:443>
     ServerName mailhog.ssl.localhost
 
@@ -18,6 +14,6 @@ LoadModule proxy_wstunnel_module lib/httpd/modules/mod_proxy_wstunnel.so
     ProxyPassReverse / http://127.0.0.1:8025/
 
     SSLEngine on
-    SSLCertificateFile /usr/local/etc/httpd/exolnet-ssl/localhost/fullchain.pem
-    SSLCertificateKeyFile /usr/local/etc/httpd/exolnet-ssl/localhost/privkey.pem
+    SSLCertificateFile {{ HOMEBREW_PREFIX }}/etc/httpd/exolnet-ssl/localhost/fullchain.pem
+    SSLCertificateKeyFile {{ HOMEBREW_PREFIX }}/etc/httpd/exolnet-ssl/localhost/privkey.pem
 </VirtualHost>

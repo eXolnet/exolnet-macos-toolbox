@@ -10,7 +10,6 @@ font-noto-sans,Noto Sans (Font),off
 font-noto-serif,Noto Serif (Font),off
 font-roboto,Roboto (Font),off
 font-roboto-mono,Roboto Mono (Font),off
-0xed,0xED (Application),off
 1password,1Password (Application),off
 adobe-acrobat-reader,Adobe Acrobat Reader DC (Application),off
 adobe-creative-cloud,Adobe Creative Cloud (Application),off
@@ -34,9 +33,11 @@ google-chrome,Google Chrome (Application),on
 google-drive,Google Drive (Application),on
 grandperspective,GrandPerspective (Application),on
 handbrake,HandBrake (Application),off
+hex-fiend,Hex Fiend (Application),off
 imageoptim,ImageOptim (Application),on
 insomnia,Insomnia (Application),on
 iina,IINA (Application),off
+jd-gui,JD-GUI (Application),off
 phpstorm,JetBrains PhpStorm (Application),on
 pycharm,JetBrains PyCharm (Application),off
 rubymine,JetBrains RubyMine (Application),off
@@ -45,7 +46,7 @@ kap,Kap (Application),on
 karabiner-elements,Karabiner Elements (Application),off
 keepassxc,KeePassXC (Application),off
 microsoft-office,Microsoft Office (Application),on
-microsoft-teams,Microsoft Teams (Application),off
+microsoft-teams,Microsoft Teams (Application),on
 visual-studio-code,Microsoft VS Code (Application),on
 mitel-connect,Mitel Connect (Application),on
 firefox,Mozilla Firefox (Application),on
@@ -71,3 +72,4 @@ unetbootin,UNetbootin (Application),off
 vagrant,Vagrant (Application),off
 vlc,VLC media player (Application),off
 wireshark,Wireshark (Application),off
+zoom,Zoom.us (Application),on

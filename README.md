@@ -18,17 +18,20 @@ bash -c "$(curl -fsSL https://raw.githubusercontent.com/eXolnet/exolnet-macos-to
 exo-self-update
 exo-self-migrate
 exo-brew-update
+exo-php-rebuild
 ```
 
 ## Commands
 
-* `exo-brew-update`: Update all homebrew formulae to the latest version, while taking care of properly reinstalling/configuring apache and php when required.
-* `exo-php-rebuild`: Reinstall (recompile) all php formulae and reconfigure apache. Use this script to repair your development environment if your php and/or apache stop working. 
-* `exo-php-switch`: Switch php version to the specified one.
-* `exo-self-migrate`: Apply migration to update current installation for newer version of exolnet-macos-toolbox or homebrew.
+* `exo-brew-update`: Update all Homebrew formulae to the latest version, while taking care of properly reinstalling/configuring apache and php when required.
+* `exo-php-extension`: List enabled or toggle php extension for the current php version.
+* `exo-php-initialize`: Initialize php version for the current directory and configure the apache php version for the given slug.
+* `exo-php-rebuild`: Reinstall all php formulae, recompile all php extensions and reconfigure apache. Use this script to repair your development environment if your php and/or apache stop working. Should also be run after updating Homebrew.
+* `exo-self-migrate`: Apply migration to update current installation for newer version of exolnet-macos-toolbox or Homebrew.
 * `exo-self-update`: Update exolnet-macos-toolbox to the latest version.
-* `exo-software-select`: Select which software to install. Preferences are saved locally.
 * `exo-software-install`: Install selected software. Can be run to fix broken installation.
+* `exo-software-select`: Select which software to install. Preferences are saved locally.
+* `exo-xcode-update`: Trigger a CommandLineTools update and install the latest version (if any).
 
 ## Caveats
 

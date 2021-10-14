@@ -16,16 +16,24 @@ if [[ ! -d "$TOOLBOX" ]]; then
 fi
 
 # Source helpers
-. $TOOLBOX/lib/include
+. "$TOOLBOX/lib/include"
 
 #
 # Script checks
 #
 
+# Check if homebrew shell environment variables are defined
+if [[ -z "$HOMEBREW_PREFIX" ]]; then
+    echo
+    echo "Homebrew environment variables are missing."
+    echo "They must be present in your shell profile in order for this script to run."
+    exit 1
+fi
+
 # Check if command was ran as root.
 if [[ $(id -u) -eq 0 ]]; then
     echo
-    echo "The command \"`basename \"$0\"`\" should not be executed as root or via sudo directly."
+    echo "The command \"$(basename "$0")\" should not be executed as root or via sudo directly."
     echo "When a command requires root access, you will be prompted for a password as needed."
     exit 1
 fi
@@ -36,8 +44,8 @@ fi
 
 function _extension_status()
 {
-    currentversion="$(php_get_current_version)"
-    brewcurrentversion="$(php_convert_version_to_homebrew $currentversion)"
+    currentversion=$(php_get_current_version)
+    brewcurrentversion=$(php_convert_version_to_homebrew "$currentversion")
 
     php_display_extension_status
 
@@ -48,9 +56,9 @@ function _extension_status()
 function _extension_toggle()
 {
     extension="$1"
-    currentversion="$(php_get_current_version)"
-    dotcurrentversion="$(php_convert_version_to_dot_version $currentversion)"
-    brewcurrentversion="$(php_convert_version_to_homebrew $currentversion)"
+    currentversion=$(php_get_current_version)
+    dotcurrentversion=$(php_convert_version_to_dot_version "$currentversion")
+    brewcurrentversion=$(php_convert_version_to_homebrew "$currentversion")
     file="$PHP_ETC/$dotcurrentversion/conf.d/exolnet-ext-$extension.ini"
 
     e_header "Toggling php extension"
@@ -64,7 +72,7 @@ function _extension_toggle()
         exit 1
     fi
 
-    sudo_brew_restart httpd
+    brew_restart "$brewcurrentversion"
 
     e_header "All done!"
 }
@@ -73,9 +81,9 @@ function _extension_set()
 {
     extension="$1"
     action="$2"
-    currentversion="$(php_get_current_version)"
-    dotcurrentversion="$(php_convert_version_to_dot_version $currentversion)"
-    brewcurrentversion="$(php_convert_version_to_homebrew $currentversion)"
+    currentversion=$(php_get_current_version)
+    dotcurrentversion=$(php_convert_version_to_dot_version "$currentversion")
+    brewcurrentversion=$(php_convert_version_to_homebrew "$currentversion")
     file="$PHP_ETC/$dotcurrentversion/conf.d/exolnet-ext-$extension.ini"
 
     e_header "Toggling php extension"
@@ -94,7 +102,7 @@ function _extension_set()
         exit 1
     fi
 
-    sudo_brew_restart httpd
+    brew_restart "$brewcurrentversion"
 
     e_header "All done!"
 }

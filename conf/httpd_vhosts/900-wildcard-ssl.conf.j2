@@ -1,0 +1,21 @@
+# EXOLNET-MACOS-TOOLBOX
+
+<VirtualHost *:443>
+    ServerName wildcard.ssl.localhost
+    ServerAlias *.ssl.localhost
+
+    VirtualDocumentRoot {{ HOMEBREW_PREFIX }}/var/www/%1
+    <Directory {{ HOMEBREW_PREFIX }}/var/www>
+        Options FollowSymLinks Indexes
+        MultiviewsMatch Any
+        AllowOverride All
+
+        Require local
+    </Directory>
+
+    IncludeOptional {{ HOMEBREW_PREFIX }}/etc/httpd/exolnet-include/*.conf
+
+    SSLEngine on
+    SSLCertificateFile {{ HOMEBREW_PREFIX }}/etc/httpd/exolnet-ssl/localhost/fullchain.pem
+    SSLCertificateKeyFile {{ HOMEBREW_PREFIX }}/etc/httpd/exolnet-ssl/localhost/privkey.pem
+</VirtualHost>

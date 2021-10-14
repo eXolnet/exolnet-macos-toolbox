@@ -4,17 +4,12 @@ function gem_install()
 {
     local gem=$@
 
-    safe_execute "sudo gem install -n /usr/local/bin $gem" "Installed $gem" "Failed to install $gem"
-}
-
-function _gem()
-{
-    yes | sudo gem $@
+    safe_execute "sudo gem install -n $HOMEBREW_PREFIX/bin $gem" "Installed $gem" "Failed to install $gem"
 }
 
 function gem_uninstall()
 {
     local gem=$@
 
-    safe_execute "_gem uninstall -n /usr/local/bin $gem" "Uninstalled $gem" "Failed to uninstall $gem"
+    safe_execute "sudo gem uninstall -x -n $HOMEBREW_PREFIX/bin $gem" "Uninstalled $gem" "Failed to uninstall $gem"
 }

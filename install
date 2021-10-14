@@ -16,16 +16,24 @@ if [ ! -d "$TOOLBOX" ]; then
 fi
 
 # Source helpers
-. $TOOLBOX/lib/include
+. "$TOOLBOX/lib/include"
 
 #
 # Script checks
 #
 
+# Check if homebrew shell environment variables are defined
+if [[ -z "$HOMEBREW_PREFIX" ]]; then
+    echo
+    echo "Homebrew environment variables are missing."
+    echo "They must be present in your shell profile in order for this script to run."
+    exit 1
+fi
+
 # Check if command was ran as root.
 if [[ $(id -u) -eq 0 ]]; then
     echo
-    echo "The command \"`basename \"$0\"`\" should not be executed as root or via sudo directly."
+    echo "The command \"$(basename "$0")\" should not be executed as root or via sudo directly."
     echo "When a command requires root access, you will be prompted for a password as needed."
     exit 1
 fi
@@ -41,9 +49,10 @@ MAIN_INSTALL_SCRIPT=true
 
 e_header "Installing dependencies"
 brew_install dialog
+brew_install jinja2-cli
 
 e_header "Installing scripts"
-process_recursive "link_file" "$TOOLBOX/bin" "/usr/local/bin"
+process_recursive "link_file" "$TOOLBOX/bin" "$HOMEBREW_PREFIX/bin"
 
 e_header "Configuring system preferences"
 safe_execute "increase_sudo_timeout" "Increased sudo timeout to 60 minutes" "Failed to increase sudo timeout to 60 minutes"
@@ -58,7 +67,7 @@ create_directory "$STORAGE_PREFERENCES_DIR"
 create_directory "$STORAGE_MIGRATIONS_DIR"
 
 e_header "Skipping migrations"
-MIGRATIONS=$(ls $MIGRATIONS_DIR 2> /dev/null)
+MIGRATIONS=$(ls "$MIGRATIONS_DIR" 2> /dev/null)
 for migration in $MIGRATIONS; do
     if [ ! -e "$STORAGE_MIGRATIONS_DIR/$migration" ]; then
         touch "$STORAGE_MIGRATIONS_DIR/$migration"
@@ -66,5 +75,5 @@ for migration in $MIGRATIONS; do
     fi
 done
 
-. $TOOLBOX/bin/exo-software-select
-. $TOOLBOX/bin/exo-software-install
+. "$TOOLBOX/bin/exo-software-select"
+. "$TOOLBOX/bin/exo-software-install"
