@@ -193,7 +193,7 @@ if [[ "${DEVELOPMENT_PREFERENCES[@]}" =~ "php" ]]; then
     remove_file "$HOMEBREW_PREFIX/bin/php"
     generate_jinja2_file "$TOOLBOX/conf/php/php-finder.j2" "$HOMEBREW_PREFIX/bin/php"
     chmod_execute_file "$HOMEBREW_PREFIX/bin/php"
-    safe_execute "git_add_file_to_global_gitignore" "Added '.php' in global gitignore file" "Failed to add '.php' in global gitignore file"
+    safe_execute "git_add_file_to_global_gitignore .php" "Added '.php' in global gitignore file" "Failed to add '.php' in global gitignore file"
     safe_execute "httpd_disable_php_module" "Disabled php module in httpd" "Failed to disable php module in httpd"
     sudo_brew_restart httpd
 fi
