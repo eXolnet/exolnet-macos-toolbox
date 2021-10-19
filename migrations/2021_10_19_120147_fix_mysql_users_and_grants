@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+function mysql_remove_user_with_invalid_grant()
+{
+    local mysql="$(mysql_get_cli_command)"
+
+    $mysql -e 'DROP USER IF EXISTS "exolnet_prev"@"localhost"'
+}
+
+DEVELOPMENT_PREFERENCES=$(read_preferences development)
+
+if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " mysql " ]]; then
+    e_header "Configuring mysql"
+    safe_execute "mysql_remove_user_with_invalid_grant" "Dropped user exolnet_prev with invalid grant" "Failed to drop user exolnet_prev with invalid grant"
+    safe_execute "mysql_create_users" "Created users exolnet_dev, exolnet_local, exolnet_prev, exolnet_prod, exolnet_qa and exolnet_test" "Failed to create users exolnet_dev, exolnet_local, exolnet_prod, exolnet_qa and exolnet_test"
+    safe_execute "mysql_grant_users" "Granted users exolnet_dev, exolnet_local, exolnet_prev, exolnet_prod, exolnet_qa and exolnet_test" "Failed to grant users exolnet_dev, exolnet_local, exolnet_prod, exolnet_qa and exolnet_test"
+fi
