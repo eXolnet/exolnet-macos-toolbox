@@ -25,7 +25,7 @@ function mysql_grant_users()
 
     $mysql -e 'GRANT ALL PRIVILEGES ON `%\_dev`.* TO "exolnet_dev"@"localhost"' && \
     $mysql -e 'GRANT ALL PRIVILEGES ON `%\_local`.* TO "exolnet_local"@"localhost"' && \
-    $mysql -e 'GRANT ALL PRIVILEGES ON `%\_prod`.* TO "exolnet_prev"@"localhost"' && \
+    $mysql -e 'GRANT ALL PRIVILEGES ON `%\_prev`.* TO "exolnet_prev"@"localhost"' && \
     $mysql -e 'GRANT ALL PRIVILEGES ON `%\_prod`.* TO "exolnet_prod"@"localhost"' && \
     $mysql -e 'GRANT ALL PRIVILEGES ON `%\_qa`.* TO "exolnet_qa"@"localhost"' && \
     $mysql -e 'GRANT ALL PRIVILEGES ON `%\_test`.* TO "exolnet_test"@"localhost"'
