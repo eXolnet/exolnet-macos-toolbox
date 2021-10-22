@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+function apache_remove_j2_symlinks()
+{
+    find "$HOMEBREW_PREFIX/etc/httpd" -name "*.j2" -type l -delete
+}
+
+DEVELOPMENT_PREFERENCES=$(read_preferences development)
+
+if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " apache " ]]; then
+    e_header "Configuring apache"
+    safe_execute "apache_remove_j2_symlinks" "Removed symlinks to j2 files in apache directory" "Failed to removed symlinks to j2 files in apache directory"
+fi
