@@ -93,17 +93,13 @@ brew_upgrade_all
 e_header "Configuring system preferences"
 safe_execute "enable_sudo_touch_id" "Enabled touch id support for sudo" "Failed to enable touch id support for sudo"
 
-QUICKLOOK_REGEX=" (qlcolorcode|qlmarkdown|qlstephen) "
+QUICKLOOK_REGEX=" (qlcolorcode|qlstephen) "
 
 if [[ " ${APPLICATIONS_PREFERENCES[@]} " =~ $QUICKLOOK_REGEX ]]; then
     e_header "Reconfiguring quicklook plugins"
 
     if [[ " ${APPLICATIONS_PREFERENCES[@]} " =~ " qlcolorcode " ]]; then
         plugin="${HOME}/Library/QuickLook/QLColorCode.qlgenerator"
-        safe_execute "clear_extended_attributes $plugin" "Cleared extended attributes of $plugin" "Failed to clear extended attributes of $plugin"
-    fi
-    if [[ " ${APPLICATIONS_PREFERENCES[@]} " =~ " qlmarkdown " ]]; then
-        plugin="${HOME}/Library/QuickLook/QLMarkdown.qlgenerator"
         safe_execute "clear_extended_attributes $plugin" "Cleared extended attributes of $plugin" "Failed to clear extended attributes of $plugin"
     fi
     if [[ " ${APPLICATIONS_PREFERENCES[@]} " =~ " qlstephen " ]]; then
