@@ -343,15 +343,9 @@ function php_convert_version_to_homebrew()
 
 function brew_stop_all_php_fpm()
 {
-    if brew_is_installed php@7.3 ; then
-        brew_is_status php@7.3 stopped || brew_stop php@7.3
-    fi
-    if brew_is_installed php@7.4 ; then
-        brew_is_status php@7.4 stopped || brew_stop php@7.4
-    fi
-    if brew_is_installed php@8.0 ; then
-        brew_is_status php@8.0 stopped || brew_stop php@8.0
-    fi
+    brew_is_installed php@7.3 && brew_stop php@7.3
+    brew_is_installed php@7.4 && brew_stop php@7.4
+    brew_is_installed php@8.0 && brew_stop php@8.0
 }
 
 function brew_unlink_all_php()
