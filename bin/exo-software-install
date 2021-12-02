@@ -153,9 +153,9 @@ if [[ " ${MAIN_PREFERENCES[@]} " =~ " development " ]]; then
         create_directory "$HTTPD_ETC/exolnet-vhosts"
         safe_execute "httpd_add_include_exolnet" "Added exolnet include directive" "Failed to add exolnet include directive"
         process_recursive "link_file" "$TOOLBOX/conf/httpd" "$HTTPD_ETC/exolnet"
-        generate_jinja2_file "$TOOLBOX/conf/httpd_php_fpm/php7.3-fpm.conf.j2" "$HTTPD_ETC/exolnet-php-fpm/php7.3-fpm.conf"
         generate_jinja2_file "$TOOLBOX/conf/httpd_php_fpm/php7.4-fpm.conf.j2" "$HTTPD_ETC/exolnet-php-fpm/php7.4-fpm.conf"
         generate_jinja2_file "$TOOLBOX/conf/httpd_php_fpm/php8.0-fpm.conf.j2" "$HTTPD_ETC/exolnet-php-fpm/php8.0-fpm.conf"
+        generate_jinja2_file "$TOOLBOX/conf/httpd_php_fpm/php8.1-fpm.conf.j2" "$HTTPD_ETC/exolnet-php-fpm/php8.1-fpm.conf"
         generate_jinja2_file "$TOOLBOX/conf/httpd_vhosts/100-default.conf.j2" "$HTTPD_ETC/exolnet-vhosts/100-default.conf"
         generate_jinja2_file "$TOOLBOX/conf/httpd_vhosts/400-wildcard.conf.j2" "$HTTPD_ETC/exolnet-vhosts/400-wildcard.conf"
         generate_jinja2_file "$TOOLBOX/conf/httpd_vhosts/600-default-ssl.conf.j2" "$HTTPD_ETC/exolnet-vhosts/600-default-ssl.conf"
@@ -172,39 +172,6 @@ if [[ " ${MAIN_PREFERENCES[@]} " =~ " development " ]]; then
         remove_file "$HOMEBREW_PREFIX/bin/php"
         brew_install imagemagick
         brew_install pkg-config
-    fi
-
-    if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " php73 " ]]; then
-        e_header "Installing and configuring php 7.3"
-        brew_install php@7.3
-        brew_link_force php@7.3
-        safe_execute "php_link_pcre2_header 7.3" "Linked pcre2 header to php@7.3 include directory" "Failed to link pcre2 header to php@7.3 include directory"
-        safe_execute "php_remove_imagick_extension_insert 7.3" "Removed php@7.3 imagick extension insert" "Failed to remove php@7.3 imagick extension insert"
-        safe_execute "php_remove_pcov_extension_insert 7.3" "Removed php@7.3 pcov extension insert" "Failed to remove php@7.3 pcov extension insert"
-        safe_execute "php_remove_redis_extension_insert 7.3" "Removed php@7.3 redis extension insert" "Failed to remove php@7.3 redis extension insert"
-        safe_execute "php_remove_xdebug_extension_insert 7.3" "Removed php@7.3 xdebug extension insert" "Failed to remove php@7.3 xdebug extension insert"
-        pecl_update_channels
-        pecl_install 7.3 imagick
-        pecl_install 7.3 pcov
-        pecl_install 7.3 redis
-        pecl_install 7.3 xdebug
-        safe_execute "php_remove_imagick_extension_from_php_ini 7.3" "Removed php@7.3 imagick extension from php.ini" "Failed to remove php@7.3 imagick extension from php.ini"
-        safe_execute "php_remove_pcov_extension_from_php_ini 7.3" "Removed php@7.3 pcov extension from php.ini" "Failed to remove php@7.3 pcov extension from php.ini"
-        safe_execute "php_remove_redis_extension_from_php_ini 7.3" "Removed php@7.3 redis extension from php.ini" "Failed to remove php@7.3 redis extension from php.ini"
-        safe_execute "php_remove_xdebug_extension_from_php_ini 7.3" "Removed php@7.3 xdebug extension from php.ini" "Failed to remove php@7.3 xdebug extension from php.ini"
-        safe_execute "php_configure_timezone 7.3" "Configured php@7.3 timezone" "Failed to configure php@7.3 timezone"
-        safe_execute "php_configure_upload_max_filesize 7.3" "Configured php@7.3 upload_max_filesize" "Failed to configure php@7.3 upload_max_filesize"
-        safe_execute "php_configure_imagick 7.3" "Configured php@7.3 imagick extension" "Failed to configure php@7.3 imagick extension"
-        safe_execute "php_configure_pcov 7.3" "Configured php@7.3 pcov extension" "Failed to configure php@7.3 pcov extension"
-        safe_execute "php_configure_redis 7.3" "Configured php@7.3 redis extension" "Failed to configure php@7.3 redis extension"
-        safe_execute "php_configure_xdebug 7.3" "Configured php@7.3 xdebug extension" "Failed to configure php@7.3 xdebug extension"
-        safe_execute "php_remove_default_php_fpm_pool 7.3" "Removed default php-fpm pool for php@7.3" "Failed to remove default php-fpm pool for php@7.3"
-        safe_execute "php_generate_php_fpm_pool 7.3" "Generated php-fpm pool for php@7.3" "Failed to generate php-fpm pool for php@7.3"
-        create_directory "$HOME/Sites/php73"
-        safe_execute "php_create_phpinfo php73" "Created phpinfo.php file for php@7.3" "Failed to create phpinfo.php file for php@7.3"
-        safe_execute "httpd_generate_include_php 7.3 php73" "Generated apache include file for php73 with php@7.3" "Failed to generated apache include file for php73 with php@7.3"
-        brew_restart php@7.3
-        brew_unlink php@7.3
     fi
 
     if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " php74 " ]]; then
@@ -234,7 +201,7 @@ if [[ " ${MAIN_PREFERENCES[@]} " =~ " development " ]]; then
         safe_execute "php_remove_default_php_fpm_pool 7.4" "Removed default php-fpm pool for php@7.4" "Failed to remove default php-fpm pool for php@7.4"
         safe_execute "php_generate_php_fpm_pool 7.4" "Generated php-fpm pool for php@7.4" "Failed to generate php-fpm pool for php@7.4"
         create_directory "$HOME/Sites/php74"
-        safe_execute "php_create_phpinfo php74" "Created phpinfo.php file for php@7.3" "Failed to create phpinfo.php file for php@7.3"
+        safe_execute "php_create_phpinfo php74" "Created phpinfo.php file for php@7.4" "Failed to create phpinfo.php file for php@7.4"
         safe_execute "httpd_generate_include_php 7.4 php74" "Generated apache include file for php74 with php@7.4" "Failed to generated apache include file for php74 with php@7.4"
         brew_restart php@7.4
         brew_unlink php@7.4
@@ -267,10 +234,43 @@ if [[ " ${MAIN_PREFERENCES[@]} " =~ " development " ]]; then
         safe_execute "php_remove_default_php_fpm_pool 8.0" "Removed default php-fpm pool for php@8.0" "Failed to remove default php-fpm pool for php@8.0"
         safe_execute "php_generate_php_fpm_pool 8.0" "Generated php-fpm pool for php@8.0" "Failed to generate php-fpm pool for php@8.0"
         create_directory "$HOME/Sites/php80"
-        safe_execute "php_create_phpinfo php80" "Created phpinfo.php file for php@7.3" "Failed to create phpinfo.php file for php@7.3"
+        safe_execute "php_create_phpinfo php80" "Created phpinfo.php file for php@8.0" "Failed to create phpinfo.php file for php@8.0"
         safe_execute "httpd_generate_include_php 8.0 php80" "Generated apache include file for php80 with php@8.0" "Failed to generated apache include file for php80 with php@8.0"
         brew_restart php@8.0
         brew_unlink php@8.0
+    fi
+
+    if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " php81 " ]]; then
+        e_header "Installing and configuring php 8.1"
+        brew_install php@8.1
+        brew_link_force php@8.1
+        safe_execute "php_link_pcre2_header 8.1" "Linked pcre2 header to php@8.1 include directory" "Failed to link pcre2 header to php@8.1 include directory"
+        safe_execute "php_remove_imagick_extension_insert 8.1" "Removed php@8.1 imagick extension insert" "Failed to remove php@8.1 imagick extension insert"
+        safe_execute "php_remove_pcov_extension_insert 8.1" "Removed php@8.1 pcov extension insert" "Failed to remove php@8.1 pcov extension insert"
+        safe_execute "php_remove_redis_extension_insert 8.1" "Removed php@8.1 redis extension insert" "Failed to remove php@8.1 redis extension insert"
+        safe_execute "php_remove_xdebug_extension_insert 8.1" "Removed php@8.1 xdebug extension insert" "Failed to remove php@8.1 xdebug extension insert"
+        pecl_update_channels
+        pecl_install 8.1 imagick
+        pecl_install 8.1 pcov
+        pecl_install 8.1 redis
+        pecl_install 8.1 xdebug
+        safe_execute "php_remove_imagick_extension_from_php_ini 8.1" "Removed php@8.1 imagick extension from php.ini" "Failed to remove php@8.1 imagick extension from php.ini"
+        safe_execute "php_remove_pcov_extension_from_php_ini 8.1" "Removed php@8.1 pcov extension from php.ini" "Failed to remove php@8.1 pcov extension from php.ini"
+        safe_execute "php_remove_redis_extension_from_php_ini 8.1" "Removed php@8.1 redis extension from php.ini" "Failed to remove php@8.1 redis extension from php.ini"
+        safe_execute "php_remove_xdebug_extension_from_php_ini 8.1" "Removed php@8.1 xdebug extension from php.ini" "Failed to remove php@8.1 xdebug extension from php.ini"
+        safe_execute "php_configure_timezone 8.1" "Configured php@8.1 timezone" "Failed to configure php@8.1 timezone"
+        safe_execute "php_configure_upload_max_filesize 8.1" "Configured php@8.1 upload_max_filesize" "Failed to configure php@8.1 upload_max_filesize"
+        safe_execute "php_configure_imagick 8.1" "Configured php@8.1 imagick extension" "Failed to configure php@8.1 imagick extension"
+        safe_execute "php_configure_pcov 8.1" "Configured php@8.1 pcov extension" "Failed to configure php@8.1 pcov extension"
+        safe_execute "php_configure_redis 8.1" "Configured php@8.1 redis extension" "Failed to configure php@8.1 redis extension"
+        safe_execute "php_configure_xdebug 8.1" "Configured php@8.1 xdebug extension" "Failed to configure php@8.1 xdebug extension"
+        safe_execute "php_remove_default_php_fpm_pool 8.1" "Removed default php-fpm pool for php@8.1" "Failed to remove default php-fpm pool for php@8.1"
+        safe_execute "php_generate_php_fpm_pool 8.1" "Generated php-fpm pool for php@8.1" "Failed to generate php-fpm pool for php@8.1"
+        create_directory "$HOME/Sites/php81"
+        safe_execute "php_create_phpinfo php81" "Created phpinfo.php file for php@8.1" "Failed to create phpinfo.php file for php@8.1"
+        safe_execute "httpd_generate_include_php 8.1 php81" "Generated apache include file for php81 with php@8.1" "Failed to generated apache include file for php81 with php@8.1"
+        brew_restart php@8.1
+        brew_unlink php@8.1
     fi
 
     if [[ "${DEVELOPMENT_PREFERENCES[@]}" =~ "php" ]]; then

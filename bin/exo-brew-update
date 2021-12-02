@@ -134,16 +134,16 @@ if [[ "${DEVELOPMENT_PREFERENCES[@]}" =~ "php" ]]; then
     generate_jinja2_file "$TOOLBOX/conf/php/php-finder.j2" "$HOMEBREW_PREFIX/bin/php"
     chmod_execute_file "$HOMEBREW_PREFIX/bin/php"
 
-    if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " php73 " ]]; then
-        brew_restart php@7.3
-    fi
-
     if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " php74 " ]]; then
-        brew_restart php@7.4
+        brew_is_installed php@7.4 && brew_restart php@7.4
     fi
 
     if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " php80 " ]]; then
-        brew_restart php@8.0
+        brew_is_installed php@8.0 && brew_restart php@8.0
+    fi
+
+    if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " php81 " ]]; then
+        brew_is_installed php@8.1 && brew_restart php@8.1
     fi
 fi
 
