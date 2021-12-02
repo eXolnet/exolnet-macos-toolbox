@@ -3,6 +3,7 @@ dnsmasq,Dnsmasq,on
 apache,Apache,on
 php74,PHP 7.4,on
 php80,PHP 8.0,on
+php81,PHP 8.1,on
 node,Node,on
 redis,Redis,on
 mailhog,MailHog,on

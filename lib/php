@@ -326,6 +326,10 @@ function php_convert_version_to_dot_version()
             echo '8.0'
             ;;
 
+        php81)
+            echo '8.1'
+            ;;
+
         *)
             echo 'invalid'
 
@@ -342,6 +346,7 @@ function brew_stop_all_php_fpm()
     brew_is_installed php@7.3 && brew_stop php@7.3
     brew_is_installed php@7.4 && brew_stop php@7.4
     brew_is_installed php@8.0 && brew_stop php@8.0
+    brew_is_installed php@8.1 && brew_stop php@8.1
 }
 
 function brew_unlink_all_php()
@@ -353,4 +358,5 @@ function brew_unlink_all_php()
     brew_is_installed php@7.3 && brew_unlink php@7.3
     brew_is_installed php@7.4 && brew_unlink php@7.4
     brew_is_installed php@8.0 && brew_unlink php@8.0
+    brew_is_installed php@8.1 && brew_unlink php@8.1
 }
