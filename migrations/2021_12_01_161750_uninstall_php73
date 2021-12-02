@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+function apache_purge_php73_include_conf()
+{
+    if [[ -d "$HTTPD_ETC/exolnet-include" ]]; then
+        grep -rl "php7.3-fpm.conf" "$HTTPD_ETC/exolnet-include" | while read -r file ; do
+            backup_file "$file"
+        done
+    fi
+}
+
+e_header "Uninstalling deprecated php versions"
+backup_file_if_exists "$HOME/Sites/php73"
+apache_purge_php73_include_conf
+backup_file_if_exists "$HTTPD_ETC/exolnet-php-fpm/php7.3-fpm.conf"
+brew_is_installed php@7.3 && brew_uninstall php@7.3
