@@ -45,7 +45,7 @@ if [[ $# -ne 0 && $# -ne 1 ]]; then
     brew list | egrep '^php(@[0-9.]{3,})?$' | sed 's/^php$/php@8.0/g' | sort | grep -o -E '[0-9.]+' | while read -r line ; do
         if [ "$first" = true ]; then
             echo
-            echo -n "Usage: exo-php-switch ["
+            echo -n "Usage: exo-php-initialize ["
         else
             echo -n "|"
         fi

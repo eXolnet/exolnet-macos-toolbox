@@ -234,7 +234,7 @@ if [[ " ${MAIN_PREFERENCES[@]} " =~ " development " ]]; then
         safe_execute "php_remove_default_php_fpm_pool 7.4" "Removed default php-fpm pool for php@7.4" "Failed to remove default php-fpm pool for php@7.4"
         safe_execute "php_generate_php_fpm_pool 7.4" "Generated php-fpm pool for php@7.4" "Failed to generate php-fpm pool for php@7.4"
         create_directory "$HOME/Sites/php74"
-        safe_execute "php_create_phpinfo php74" "Created phpinfo.php file for php@7.3" "Failed to create phpinfo.php file for php@7.3"
+        safe_execute "php_create_phpinfo php74" "Created phpinfo.php file for php@7.4" "Failed to create phpinfo.php file for php@7.4"
         safe_execute "httpd_generate_include_php 7.4 php74" "Generated apache include file for php74 with php@7.4" "Failed to generated apache include file for php74 with php@7.4"
         brew_restart php@7.4
         brew_unlink php@7.4
@@ -267,7 +267,7 @@ if [[ " ${MAIN_PREFERENCES[@]} " =~ " development " ]]; then
         safe_execute "php_remove_default_php_fpm_pool 8.0" "Removed default php-fpm pool for php@8.0" "Failed to remove default php-fpm pool for php@8.0"
         safe_execute "php_generate_php_fpm_pool 8.0" "Generated php-fpm pool for php@8.0" "Failed to generate php-fpm pool for php@8.0"
         create_directory "$HOME/Sites/php80"
-        safe_execute "php_create_phpinfo php80" "Created phpinfo.php file for php@7.3" "Failed to create phpinfo.php file for php@7.3"
+        safe_execute "php_create_phpinfo php80" "Created phpinfo.php file for php@8.0" "Failed to create phpinfo.php file for php@8.0"
         safe_execute "httpd_generate_include_php 8.0 php80" "Generated apache include file for php80 with php@8.0" "Failed to generated apache include file for php80 with php@8.0"
         brew_restart php@8.0
         brew_unlink php@8.0
