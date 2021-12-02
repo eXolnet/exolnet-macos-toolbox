@@ -318,10 +318,6 @@ function php_get_current_version()
 function php_convert_version_to_dot_version()
 {
     case "$1" in
-        php73)
-            echo '7.3'
-            ;;
-
         php74)
             echo '7.4'
             ;;
