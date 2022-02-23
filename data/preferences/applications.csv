@@ -24,7 +24,7 @@ canon-scanner-driver,Canon Scanner Driver & Utilities (Application),on
 coconutbattery,coconutBattery (Application),on
 discord,Discord (Application),off
 diskmaker-x,DiskMaker X (Application),off
-docker,Docker CE (Application),off
+docker,Docker CE (Application),on
 balenaetcher,Etcher (Application),off
 figma,Figma (Application),off
 forticlient-offline,FortiClient (Application),on
