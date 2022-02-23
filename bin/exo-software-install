@@ -109,6 +109,8 @@ if [[ " ${MAIN_PREFERENCES[@]} " =~ " bash " ]]; then
 fi
 
 if [[ " ${MAIN_PREFERENCES[@]} " =~ " development " ]]; then
+    e_header "Installing dependencies"
+    brew_install jinja2-cli
 
     if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " mysql " ]]; then
         e_header "Installing and configuring mysql"

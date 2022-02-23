@@ -49,7 +49,6 @@ MAIN_INSTALL_SCRIPT=true
 
 e_header "Installing dependencies"
 brew_install dialog
-brew_install jinja2-cli
 
 e_header "Installing scripts"
 process_recursive "link_file" "$TOOLBOX/bin" "$HOMEBREW_PREFIX/bin"
@@ -57,8 +56,6 @@ process_recursive "link_file" "$TOOLBOX/bin" "$HOMEBREW_PREFIX/bin"
 e_header "Configuring system preferences"
 safe_execute "increase_sudo_timeout" "Increased sudo timeout to 60 minutes" "Failed to increase sudo timeout to 60 minutes"
 safe_execute "enable_sudo_touch_id" "Enabled touch id support for sudo" "Failed to enable touch id support for sudo"
-safe_execute "enable_require_password" "Enabled require password after sleep" "Failed to enable require password after sleep"
-safe_execute "set_require_password_to_immediately" "Set require password to immediately" "Failed to set require password to immediately"
 safe_execute "enable_full_keyboard_access" "Enabled full keyboard access" "Failed to enable full keyboard access"
 safe_execute "enable_show_all_file_name_extensions" "Enabled show all file name extensions" "Failed to enable show all file name extensions"
 

@@ -17,14 +17,14 @@ airserver,AirServer (Application),off
 alfred,Alfred (Application),off
 android-studio,Android Studio (Application),off
 sourcetree,Atlassian SourceTree (Application),on
-bitwarden,Bitwarden (Application),off
+bitwarden,Bitwarden (Application),on
 caffeine,Caffeine (Application),off
-canon-printer-driver,Canon MF Printer Driver & Utilities (Application),on
+canon-printer-driver,Canon MF Printer Driver & Utilities (Application),off
 canon-scanner-driver,Canon Scanner Driver & Utilities (Application),on
-coconutbattery,coconutBattery (Application),off
+coconutbattery,coconutBattery (Application),on
 discord,Discord (Application),off
 diskmaker-x,DiskMaker X (Application),off
-docker,Docker CE (Application),off
+docker,Docker CE (Application),on
 balenaetcher,Etcher (Application),off
 figma,Figma (Application),off
 forticlient-offline,FortiClient (Application),on

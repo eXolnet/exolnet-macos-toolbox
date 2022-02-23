@@ -19,16 +19,6 @@ auth       sufficient     pam_tid.so\
     grep -q '^auth       sufficient     pam_tid.so$' /private/etc/pam.d/sudo
 }
 
-function enable_require_password()
-{
-    defaults write com.apple.screensaver askForPassword -int 1
-}
-
-function set_require_password_to_immediately()
-{
-    defaults write com.apple.screensaver askForPasswordDelay -int 0
-}
-
 function enable_full_keyboard_access()
 {
     defaults write NSGlobalDomain AppleKeyboardUIMode -int 2
