@@ -11,6 +11,7 @@ font-noto-serif,Noto Serif (Font),off
 font-roboto,Roboto (Font),off
 font-roboto-mono,Roboto Mono (Font),off
 1password,1Password (Application),off
+3cx-exolnet,3CX Desktop App (Application),off
 adobe-acrobat-reader,Adobe Acrobat Reader DC (Application),off
 adobe-creative-cloud,Adobe Creative Cloud (Application),off
 airserver,AirServer (Application),off
@@ -48,7 +49,6 @@ keepassxc,KeePassXC (Application),off
 microsoft-office,Microsoft Office (Application),on
 microsoft-teams,Microsoft Teams (Application),on
 visual-studio-code,Microsoft VS Code (Application),on
-mitel-connect,Mitel Connect (Application),on
 monitorcontrol,MonitorControl (Application),on
 firefox,Mozilla Firefox (Application),on
 mysqlworkbench,MySQL Workbench (Application),on
