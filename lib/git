@@ -19,7 +19,7 @@ function git_configure_global_gitignore()
 
 function git_create_global_gitignore()
 {
-    local gitignore=$(git config --global core.excludesfile)
+    local gitignore=$(git config --global --includes core.excludesfile)
 
     if [[ -z $gitignore ]]; then
         gitignore="$HOME/.gitignore"
@@ -34,7 +34,7 @@ function git_create_global_gitignore()
 function git_add_file_to_global_gitignore()
 {
     local file=$1
-    local gitignore=$(git config --global core.excludesfile)
+    local gitignore=$(git config --global --includes core.excludesfile)
 
     if [[ -z $gitignore || ! -f $gitignore ]]; then
         return 1
