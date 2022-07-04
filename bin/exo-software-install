@@ -303,6 +303,7 @@ if [[ " ${MAIN_PREFERENCES[@]} " =~ " development " ]]; then
         npm_global_install bower
         npm_global_install gulp-cli
         npm_global_install grunt-cli
+        npm_global_install dotenv-cli
     fi
 
     if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " redis " ]]; then
