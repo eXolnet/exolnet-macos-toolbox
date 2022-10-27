@@ -60,6 +60,7 @@ virtualbox,Oracle VirtualBox (Application),off
 poedit,Poedit (Application),on
 postman,Postman (Application),on
 rectangle,Rectangle (Application),on
+sequel-ace,Sequel Ace (Application),off
 sketch,Sketch (Application),on
 skype,Skype (Application),off
 slack,Slack (Application),on
