@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+# Read preferences
+DEVELOPMENT_PREFERENCES=$(read_preferences development)
+
+if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " node " ]]; then
+    e_header "Uninstalling previous versions of node"
+    brew_is_installed node@8 && brew_uninstall node@8
+    brew_is_installed node@10 && brew_uninstall node@10
+    brew_is_installed node@12 && brew_uninstall node@12
+    brew_is_installed node@14 && brew_uninstall node@14
+fi

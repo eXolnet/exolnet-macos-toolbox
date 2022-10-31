@@ -4,15 +4,15 @@ qlmarkdown,QLMarkdown (Application & QuickLook plugin),on
 qlstephen,QLStephen (QuickLook plugin),on
 suspicious-package,Suspicious Package (Application & QuickLook plugin),off
 colorpicker-skalacolor,Skala Color (Colorpicker),on
-font-dejavu,DejaVu (Font),off
-font-jetbrains-mono,JetBrains Mono (Font),off
-font-noto-sans,Noto Sans (Font),off
-font-noto-serif,Noto Serif (Font),off
-font-roboto,Roboto (Font),off
-font-roboto-mono,Roboto Mono (Font),off
+font-dejavu,DejaVu (Font),on
+font-jetbrains-mono,JetBrains Mono (Font),on
+font-noto-sans,Noto Sans (Font),on
+font-noto-serif,Noto Serif (Font),on
+font-roboto,Roboto (Font),on
+font-roboto-mono,Roboto Mono (Font),on
 1password,1Password (Application),off
-3cx-exolnet,3CX Desktop App (Application),off
-adobe-acrobat-reader,Adobe Acrobat Reader DC (Application),off
+3cx-exolnet,3CX Desktop App (Application),on
+adobe-acrobat-reader,Adobe Acrobat Reader DC (Application),on
 adobe-creative-cloud,Adobe Creative Cloud (Application),off
 airserver,AirServer (Application),off
 alfred,Alfred (Application),off
@@ -30,6 +30,7 @@ balenaetcher,Etcher (Application),off
 figma,Figma (Application),off
 forticlient-offline,FortiClient (Application),on
 atom,Github Atom (Application),on
+github,GitHub Desktop (Application),on
 google-chrome,Google Chrome (Application),on
 google-drive,Google Drive (Application),on
 grandperspective,GrandPerspective (Application),on
@@ -59,6 +60,7 @@ virtualbox,Oracle VirtualBox (Application),off
 poedit,Poedit (Application),on
 postman,Postman (Application),on
 rectangle,Rectangle (Application),on
+sequel-ace,Sequel Ace (Application),off
 sketch,Sketch (Application),on
 skype,Skype (Application),off
 slack,Slack (Application),on
