@@ -35,7 +35,8 @@ function pecl_reinstall()
     local extra=${3:+-${3}} # if $3 is define, return "-$3"
     local file=${package}.so
 
-    safe_execute "_pecl install --force ${package}${extra}" "Installed $package" "Failed to install $package"
+    safe_execute "_pecl uninstall --ignore-errors ${package}" "Uninstalled $package" "Failed to uninstall $package"
+    safe_execute "_pecl install ${package}${extra}" "Installed $package" "Failed to install $package"
 
     php_copy_extension "$version" "$file"
 }
