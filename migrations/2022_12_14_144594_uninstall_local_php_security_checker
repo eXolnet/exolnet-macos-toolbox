@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+e_header "Uninstalling local php security checker"
+brew_is_installed local-php-security-checker && brew_uninstall local-php-security-checker

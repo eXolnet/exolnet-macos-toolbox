@@ -279,7 +279,6 @@ if [[ " ${MAIN_PREFERENCES[@]} " =~ " development " ]]; then
     if [[ "${DEVELOPMENT_PREFERENCES[@]}" =~ "php" ]]; then
         e_header "Finishing php installation and configuration"
         brew_install composer
-        brew_install local-php-security-checker
         brew_install php-code-sniffer
         brew_install wp-cli
         remove_file "$HOMEBREW_PREFIX/bin/php"
