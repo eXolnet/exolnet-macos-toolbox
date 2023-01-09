@@ -42,7 +42,7 @@ fi
 if [[ $# -ne 0 && $# -ne 1 ]]; then
     first=true
 
-    brew list | egrep '^php(@[0-9.]{3,})?$' | sed 's/^php$/php@8.1/g' | sort | grep -o -E '[0-9.]+' | while read -r line ; do
+    brew list | egrep '^php(@[0-9.]{3,})?$' | sed 's/^php$/php@8.2/g' | sort | grep -o -E '[0-9.]+' | while read -r line ; do
         if [ "$first" = true ]; then
             echo
             echo -n "Usage: exo-php-initialize ["
