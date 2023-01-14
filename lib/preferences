@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 STORAGE_PREFERENCES_DIR="$TOOLBOX/storage/preferences"
-DATA_PREFERENCES_DIR="$TOOLBOX/data/preferences"
+DATA_PREFERENCES_DIR="$TOOLBOX/profiles/${PROFILE:=default}"
 
 function show_preferences_menu()
 {

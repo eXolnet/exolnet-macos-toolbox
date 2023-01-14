@@ -1,0 +1,83 @@
+betterzip,BetterZip (Application & QuickLook plugin),on
+qlcolorcode,QLColorCode (QuickLook plugin),on
+qlmarkdown,QLMarkdown (Application & QuickLook plugin),on
+qlstephen,QLStephen (QuickLook plugin),on
+suspicious-package,Suspicious Package (Application & QuickLook plugin),off
+colorpicker-skalacolor,Skala Color (Colorpicker),on
+font-dejavu,DejaVu (Font),on
+font-jetbrains-mono,JetBrains Mono (Font),on
+font-noto-sans,Noto Sans (Font),on
+font-noto-serif,Noto Serif (Font),on
+font-roboto,Roboto (Font),on
+font-roboto-mono,Roboto Mono (Font),on
+1password,1Password (Application),off
+3cx-exolnet,3CX Desktop App (Application),off
+adobe-acrobat-reader,Adobe Acrobat Reader DC (Application),on
+adobe-creative-cloud,Adobe Creative Cloud (Application),off
+adobe-connect,Adobe Connect (Application),on
+airserver,AirServer (Application),on
+alfred,Alfred (Application),off
+android-studio,Android Studio (Application),off
+sourcetree,Atlassian SourceTree (Application),off
+bitwarden,Bitwarden (Application),off
+caffeine,Caffeine (Application),off
+canon-printer-driver,Canon MF Printer Driver & Utilities (Application),off
+canon-scanner-driver,Canon Scanner Driver & Utilities (Application),on
+coconutbattery,coconutBattery (Application),off
+discord,Discord (Application),off
+diskmaker-x,DiskMaker X (Application),off
+docker,Docker CE (Application),off
+balenaetcher,Etcher (Application),off
+figma,Figma (Application),off
+forticlient-offline,FortiClient (Application),off
+atom,Github Atom (Application),on
+github,GitHub Desktop (Application),off
+google-chrome,Google Chrome (Application),on
+google-drive,Google Drive (Application),off
+grandperspective,GrandPerspective (Application),on
+handbrake,HandBrake (Application),off
+hex-fiend,Hex Fiend (Application),off
+imageoptim,ImageOptim (Application),off
+insomnia,Insomnia (Application),off
+iina,IINA (Application),off
+jd-gui,JD-GUI (Application),off
+phpstorm,JetBrains PhpStorm (Application),off
+pycharm,JetBrains PyCharm (Application),off
+rubymine,JetBrains RubyMine (Application),off
+jetbrains-toolbox,JetBrains Toolbox (Application),off
+kap,Kap (Application),on
+karabiner-elements,Karabiner Elements (Application),off
+keepassxc,KeePassXC (Application),off
+microsoft-office,Microsoft Office (Application),off
+microsoft-remote-desktop,Microsoft Remote Desktop,off
+microsoft-teams,Microsoft Teams (Application),on
+visual-studio-code,Microsoft VS Code (Application),on
+monitorcontrol,MonitorControl (Application),off
+firefox,Mozilla Firefox (Application),on
+mysqlworkbench,MySQL Workbench (Application),off
+ngrok,ngrok (Application),off
+openemu,OpenEmu (Application),off
+opera,Opera (Application),on
+virtualbox,Oracle VirtualBox (Application),off
+poedit,Poedit (Application),off
+postman,Postman (Application),off
+raycast,Raycast (Application),on
+rectangle,Rectangle (Application),on
+sequel-ace,Sequel Ace (Application),off
+sketch,Sketch (Application),off
+skype,Skype (Application),off
+slack,Slack (Application),on
+spotify,Spotify (Application),off
+steam,Steam (Application),off
+sublime-merge,Sublime Merge (Application),off
+sublime-text,Sublime Text (Application),off
+tableplus,TablePlus (Application),off
+teamviewer,TeamViewer (Application),off
+topnotch,TopNotch (Application),off
+tunnelblick,Tunnelblick (Application),off
+ukelele,Ukelele (Application),off
+unetbootin,UNetbootin (Application),off
+vagrant,Vagrant (Application),off
+vlc,VLC media player (Application),off
+wireshark,Wireshark (Application),off
+zoom,Zoom.us (Application),on

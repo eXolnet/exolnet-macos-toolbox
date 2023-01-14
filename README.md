@@ -12,6 +12,11 @@ Run the following:
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/eXolnet/exolnet-macos-toolbox/master/bootstrap)"
 ```
 
+You can also pre-select another profile on installation
+```bash
+PROFILE=conference-room bash -c "$(curl -fsSL https://raw.githubusercontent.com/eXolnet/exolnet-macos-toolbox/master/bootstrap)"
+```
+
 ## Update
 
 ```bash
