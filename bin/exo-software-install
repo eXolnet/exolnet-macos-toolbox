@@ -242,7 +242,6 @@ if [[ " ${MAIN_PREFERENCES[@]} " =~ " development " ]]; then
         brew_unlink php@8.1
     fi
 
-
     if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " php82 " ]]; then
         e_header "Installing and configuring php 8.2"
         brew_install php@8.2
