@@ -83,7 +83,7 @@ fi
 
 if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " node " ]]; then
     e_header "Unlinking node"
-    brew_is_installed node@16 && brew_unlink node@16
+    brew_is_installed node@18 && brew_unlink node@18
 fi
 
 e_header "Upgrading formulae"
@@ -149,7 +149,7 @@ fi
 
 if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " node " ]]; then
     e_header "Reconfiguring node"
-    brew_link_force node@16
+    brew_link_force node@18
 fi
 
 e_header "Cleaning up"
