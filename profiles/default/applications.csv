@@ -14,6 +14,7 @@ font-roboto-mono,Roboto Mono (Font),on
 3cx-exolnet,3CX Desktop App (Application),on
 adobe-acrobat-reader,Adobe Acrobat Reader DC (Application),on
 adobe-creative-cloud,Adobe Creative Cloud (Application),off
+adobe-connect,Adobe Connect (Application),off
 airserver,AirServer (Application),off
 alfred,Alfred (Application),off
 android-studio,Android Studio (Application),off
@@ -48,6 +49,7 @@ kap,Kap (Application),on
 karabiner-elements,Karabiner Elements (Application),off
 keepassxc,KeePassXC (Application),off
 microsoft-office,Microsoft Office (Application),on
+microsoft-remote-desktop,Microsoft Remote Desktop,off
 microsoft-teams,Microsoft Teams (Application),on
 visual-studio-code,Microsoft VS Code (Application),on
 monitorcontrol,MonitorControl (Application),on
@@ -59,6 +61,7 @@ opera,Opera (Application),on
 virtualbox,Oracle VirtualBox (Application),off
 poedit,Poedit (Application),on
 postman,Postman (Application),on
+raycast,Raycast (Application),off
 rectangle,Rectangle (Application),on
 sequel-ace,Sequel Ace (Application),off
 sketch,Sketch (Application),on
