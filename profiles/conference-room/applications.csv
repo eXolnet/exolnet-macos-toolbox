@@ -30,7 +30,6 @@ docker,Docker CE (Application),off
 balenaetcher,Etcher (Application),off
 figma,Figma (Application),off
 forticlient-offline,FortiClient (Application),off
-atom,Github Atom (Application),on
 github,GitHub Desktop (Application),off
 google-chrome,Google Chrome (Application),on
 google-drive,Google Drive (Application),off
