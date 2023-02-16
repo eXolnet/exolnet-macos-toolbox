@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+e_header "Untapping homebrew core/cask taps"
+brew_update
+brew_is_tapped homebrew/core && brew_untap homebrew/core
+brew_is_tapped homebrew/cask && brew_untap homebrew/cask
