@@ -102,7 +102,7 @@ function brew_is_tapped()
 {
     local tap=$@
 
-    HOMEBREW_NO_AUTO_UPDATE=1 brew tap | grep -q "$tap" &> /dev/null
+    HOMEBREW_NO_AUTO_UPDATE=1 brew tap | egrep -q "^${tap}$" &> /dev/null
 
     return $?
 }
