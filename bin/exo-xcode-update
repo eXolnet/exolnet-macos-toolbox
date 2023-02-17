@@ -35,6 +35,14 @@ function sudo_softwareupdate()
 # Script checks
 #
 
+# Check if homebrew shell environment variables are defined
+if [[ -z "$HOMEBREW_PREFIX" ]]; then
+    echo
+    echo "Homebrew environment variables are missing."
+    echo "They must be present in your shell profile in order for this script to run."
+    exit 1
+fi
+
 # Check if command was ran as root.
 if [[ $(id -u) -eq 0 ]]; then
     echo
