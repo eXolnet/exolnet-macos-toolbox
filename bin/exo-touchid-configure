@@ -1,0 +1,50 @@
+#!/usr/bin/env bash
+
+#
+# Script setup
+#
+
+# Define toolbox directory if not set
+if [[ -z "$TOOLBOX" ]]; then
+    TOOLBOX="$HOME/.exolnet/toolbox"
+fi
+
+# Check if toolbox directory exists
+if [[ ! -d "$TOOLBOX" ]]; then
+    echo "Directory ~/.exolnet does not exists, exiting ..."
+    exit 1
+fi
+
+# Source helpers
+. "$TOOLBOX/lib/include"
+
+#
+# Script checks
+#
+
+# Check if homebrew shell environment variables are defined
+if [[ -z "$HOMEBREW_PREFIX" ]]; then
+    echo
+    echo "Homebrew environment variables are missing."
+    echo "They must be present in your shell profile in order for this script to run."
+    exit 1
+fi
+
+# Check if command was ran as root.
+if [[ $(id -u) -eq 0 ]]; then
+    echo
+    echo "The command \"$(basename "$0")\" should not be executed as root or via sudo directly."
+    echo "When a command requires root access, you will be prompted for a password as needed."
+    exit 1
+fi
+
+#
+# Script execution
+#
+
+e_header "Configuring system preferences"
+safe_execute "enable_sudo_touch_id" "Enabled touch id support for sudo" "Failed to enable touch id support for sudo"
+safe_execute "sudo_reset_timestamp" "Reset sudo credentials for the current session" "Failed to reset sudo credentials for the current session"
+safe_execute "sudo_whoami" "Validated touch id support for sudo" "Failed to validate touch id support for sudo"
+
+e_header "All done!"

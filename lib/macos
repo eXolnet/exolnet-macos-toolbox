@@ -19,6 +19,16 @@ auth       sufficient     pam_tid.so\
     grep -q '^auth       sufficient     pam_tid.so$' /private/etc/pam.d/sudo
 }
 
+function sudo_reset_timestamp()
+{
+    sudo --reset-timestamp
+}
+
+function sudo_whoami()
+{
+    sudo whoami
+}
+
 function enable_full_keyboard_access()
 {
     defaults write NSGlobalDomain AppleKeyboardUIMode -int 2
