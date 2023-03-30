@@ -147,6 +147,8 @@ fi
 if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " node " ]]; then
     e_header "Reconfiguring node"
     brew_link_force node@18
+    corepack_enable_yarn
+    corepack_prepare_yarn_stable
 fi
 
 e_header "Cleaning up"
