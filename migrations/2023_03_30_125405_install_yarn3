@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+# Read preferences
+DEVELOPMENT_PREFERENCES=$(read_preferences development)
+
+if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " node " ]]; then
+    e_header "Installing yarn 3"
+    corepack_enable_yarn
+    corepack_prepare_yarn_stable
+    yarn_enable_global_cache
+fi

@@ -6,3 +6,18 @@ function npm_global_install()
 
     safe_execute "npm install -g $package" "Installed $package" "Failed to install $package"
 }
+
+function corepack_enable_yarn()
+{
+    safe_execute "corepack enable yarn" "Enabled yarn" "Failed to enable yarn"
+}
+
+function corepack_prepare_yarn_stable()
+{
+    safe_execute "corepack prepare yarn@stable --activate" "Prepared and activated yarn stable" "Failed to prepare and activate yarn stable"
+}
+
+function yarn_enable_global_cache()
+{
+    safe_execute "yarn config set enableGlobalCache true --home" "Enabled yarn global cache" "Failed to enable yarn global cache"
+}
