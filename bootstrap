@@ -53,6 +53,7 @@ shell_env=$(${HOMEBREW_PREFIX}/bin/brew shellenv)
 cat >> "${shell_profile}" <<EOL
 # HOMEBREW BEGIN
 ${shell_env}
+export HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK=1
 # HOMEBREW END
 EOL
 
