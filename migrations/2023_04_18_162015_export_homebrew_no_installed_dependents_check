@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+
+function export_homebrew_no_installed_dependents_check()
+{
+    case "${SHELL}" in
+        */bash*)
+            if [[ -r "${HOME}/.bash_profile" ]]; then
+                shell_profile="${HOME}/.bash_profile"
+            else
+                shell_profile="${HOME}/.profile"
+            fi
+            ;;
+        */zsh*)
+            shell_profile="${HOME}/.zprofile"
+            ;;
+        *)
+            shell_profile="${HOME}/.profile"
+            ;;
+    esac
+
+    echo "export HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK=1" >> "${shell_profile}"
+}
+
+e_header "Configuring homebrew"
+safe_execute "export_homebrew_no_installed_dependents_check" "Appended HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK to shell profile" "Failed to append HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK to shell profile"
