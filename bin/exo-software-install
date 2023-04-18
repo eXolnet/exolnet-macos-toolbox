@@ -94,6 +94,7 @@ if [[ " ${MAIN_PREFERENCES[@]} " =~ " bash " ]]; then
 
         if [[ "$item" == "git" ]]; then
             git_create_global_gitignore
+            safe_execute "git_create_global_huskyrc" "Created global huskyrc file" "Failed to create global huskyrc file"
         fi
 
         if [[ "$item" == "python" ]]; then
