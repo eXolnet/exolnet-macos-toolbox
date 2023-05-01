@@ -9,7 +9,7 @@ function npm_global_install()
 
 function corepack_enable_yarn()
 {
-    safe_execute "corepack enable yarn" "Enabled yarn" "Failed to enable yarn"
+    safe_execute "corepack disable yarn && corepack enable yarn" "Enabled yarn" "Failed to enable yarn"
 }
 
 function corepack_prepare_yarn_stable()
