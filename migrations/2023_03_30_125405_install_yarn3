@@ -5,7 +5,7 @@ DEVELOPMENT_PREFERENCES=$(read_preferences development)
 
 if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " node " ]]; then
     e_header "Installing yarn 3"
-    corepack_enable_yarn
-    corepack_prepare_yarn_stable
-    yarn_enable_global_cache
+    safe_execute "corepack_enable_yarn" "Enabled yarn" "Failed to enable yarn"
+    safe_execute "corepack_prepare_yarn_stable" "Prepared and activated yarn stable" "Failed to prepare and activate yarn stable"
+    safe_execute "yarn_enable_global_cache" "Enabled yarn global cache" "Failed to enable yarn global cache"
 fi

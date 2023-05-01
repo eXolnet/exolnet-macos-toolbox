@@ -42,3 +42,29 @@ function git_add_file_to_global_gitignore()
 
     egrep -q "^${file}$" "$gitignore" || echo "$file" >> "$gitignore"
 }
+
+function git_create_global_huskyrc()
+{
+    local file="$HOME/.huskyrc"
+
+    touch "$file"
+
+    remove_insert_from_file "$file"
+
+cat >> "$file" <<'EOL'
+# EXOLNET-MACOS-TOOLBOX BEGIN
+if [ -f /opt/homebrew/bin/brew ]; then
+    brew_bin=/opt/homebrew/bin
+elif [ -f /usr/local/bin/brew ]; then
+    brew_bin=/usr/local/bin
+fi
+
+if [ ! -z "$brew_bin" ]; then
+    brew_bin=${brew_bin/\//\/}
+    # Insert brew bin directory before /usr/bin to allow programs
+    # like SourceTree to add a path to its custom git executable
+    export PATH=${PATH/\/usr\/bin:/$brew_bin:\/usr\/bin:}
+fi
+# EXOLNET-MACOS-TOOLBOX END
+EOL
+}

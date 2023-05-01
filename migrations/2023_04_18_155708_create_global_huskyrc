@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+# Read preferences
+BASH_PREFERENCES=$(read_preferences bash)
+
+if [[ " ${BASH_PREFERENCES[@]} " =~ " git " ]]; then
+    e_header "Configuring huskyrc"
+    safe_execute "git_create_global_huskyrc" "Created global huskyrc file" "Failed to create global huskyrc file"
+fi
