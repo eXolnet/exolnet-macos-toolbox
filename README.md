@@ -33,9 +33,11 @@ exo-php-rebuild
 * `exo-php-initialize`: Initialize php version for the current directory and configure the apache php version for the given slug.
 * `exo-php-rebuild`: Reinstall all php formulae, recompile all php extensions and reconfigure apache. Use this script to repair your development environment if your php and/or apache stop working. Should also be run after updating Homebrew.
 * `exo-self-migrate`: Apply migration to update current installation for newer version of exolnet-macos-toolbox or Homebrew.
+* `exo-self-test`: Run tests on exolnet-macos-toolbox.
 * `exo-self-update`: Update exolnet-macos-toolbox to the latest version.
 * `exo-software-install`: Install selected software. Can be run to fix broken installation.
 * `exo-software-select`: Select which software to install. Preferences are saved locally.
+* `exo-touchid-configure`: Enabled touch id support for sudo.
 * `exo-xcode-update`: Trigger a CommandLineTools update and install the latest version (if any).
 
 ## Caveats

@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+
+# This script logic and code was taken from https://github.com/Homebrew/install/blob/HEAD/install.sh
+
+#
+# Script setup
+#
+
+# Define toolbox directory if not set
+if [[ -z "$TOOLBOX" ]]; then
+    TOOLBOX="$HOME/.exolnet/toolbox"
+fi
+
+# Check if toolbox directory exists
+if [[ ! -d "$TOOLBOX" ]]; then
+    echo "Directory ~/.exolnet does not exists, exiting ..."
+    exit 1
+fi
+
+# Source helpers
+. "$TOOLBOX/lib/include"
+
+if [[ -z $(command -v bats) ]]; then
+    e_header "Installing bats-core"
+
+    ask_yes_no "bats-core is required to run tests. Would you like to install it?" && brew_install bats-core
+fi
+
+e_header "Running bats tests"
+bats "$TOOLBOX/tests"
