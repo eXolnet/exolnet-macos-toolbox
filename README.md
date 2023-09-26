@@ -37,6 +37,7 @@ exo-php-rebuild
 * `exo-self-update`: Update exolnet-macos-toolbox to the latest version.
 * `exo-software-install`: Install selected software. Can be run to fix broken installation.
 * `exo-software-select`: Select which software to install. Preferences are saved locally.
+* `exo-touchid-configure`: Enabled touch id support for sudo.
 * `exo-xcode-update`: Trigger a CommandLineTools update and install the latest version (if any).
 
 ## Caveats
