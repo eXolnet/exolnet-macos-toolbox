@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+# Read preferences
+DEVELOPMENT_PREFERENCES=$(read_preferences development)
+
+if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " node " ]]; then
+    e_header "Limit yarn version to v3"
+    safe_execute "corepack prepare yarn@3 --activate" "Prepared and activated yarn 3" "Failed to prepare and activate yarn 3"
+fi
