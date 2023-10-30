@@ -5,5 +5,5 @@ DEVELOPMENT_PREFERENCES=$(read_preferences development)
 
 if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " node " ]]; then
     e_header "Limit yarn version to v3"
-    safe_execute "corepack prepare yarn@3 --activate" "Prepared and activated yarn 3" "Failed to prepare and activate yarn 3"
+    safe_execute "corepack_prepare_yarn_stable" "Prepared and activated yarn stable" "Failed to prepare and activate yarn stable"
 fi

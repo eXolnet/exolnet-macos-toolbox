@@ -14,7 +14,7 @@ function corepack_enable_yarn()
 
 function corepack_prepare_yarn_stable()
 {
-    corepack prepare yarn@stable --activate
+    corepack prepare yarn@3 --activate
 }
 
 function yarn_enable_global_cache()
