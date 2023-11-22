@@ -65,7 +65,6 @@ if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " apache " ]]; then
     create_directory "$HTTPD_ETC/exolnet-vhosts"
     safe_execute "httpd_add_include_exolnet" "Added exolnet include directive" "Failed to add exolnet include directive"
     process_recursive "link_file" "$TOOLBOX/conf/httpd" "$HTTPD_ETC/exolnet"
-    generate_jinja2_file "$TOOLBOX/conf/httpd_php_fpm/php8.0-fpm.conf.j2" "$HTTPD_ETC/exolnet-php-fpm/php8.0-fpm.conf"
     generate_jinja2_file "$TOOLBOX/conf/httpd_php_fpm/php8.1-fpm.conf.j2" "$HTTPD_ETC/exolnet-php-fpm/php8.1-fpm.conf"
     generate_jinja2_file "$TOOLBOX/conf/httpd_php_fpm/php8.2-fpm.conf.j2" "$HTTPD_ETC/exolnet-php-fpm/php8.2-fpm.conf"
     generate_jinja2_file "$TOOLBOX/conf/httpd_vhosts/100-default.conf.j2" "$HTTPD_ETC/exolnet-vhosts/100-default.conf"
@@ -84,39 +83,6 @@ if [[ "${DEVELOPMENT_PREFERENCES[@]}" =~ "php" ]]; then
     remove_file "$HOMEBREW_PREFIX/bin/php"
     brew_install imagemagick
     brew_install pkg-config
-fi
-
-if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " php80 " ]]; then
-    e_header "Reinstalling and reconfiguring php 8.0"
-    brew_reinstall php@8.0
-    brew_link_force php@8.0
-    safe_execute "php_link_pcre2_header 8.0" "Linked pcre2 header to php@8.0 include directory" "Failed to link pcre2 header to php@8.0 include directory"
-    safe_execute "php_remove_imagick_extension_insert 8.0" "Removed php@8.0 imagick extension insert" "Failed to remove php@8.0 imagick extension insert"
-    safe_execute "php_remove_pcov_extension_insert 8.0" "Removed php@8.0 pcov extension insert" "Failed to remove php@8.0 pcov extension insert"
-    safe_execute "php_remove_redis_extension_insert 8.0" "Removed php@8.0 redis extension insert" "Failed to remove php@8.0 redis extension insert"
-    safe_execute "php_remove_xdebug_extension_insert 8.0" "Removed php@8.0 xdebug extension insert" "Failed to remove php@8.0 xdebug extension insert"
-    pecl_update_channels
-    pecl_reinstall 8.0 imagick
-    pecl_reinstall 8.0 pcov
-    pecl_reinstall 8.0 redis
-    pecl_reinstall 8.0 xdebug
-    safe_execute "php_remove_imagick_extension_from_php_ini 8.0" "Removed php@8.0 imagick extension from php.ini" "Failed to remove php@8.0 imagick extension from php.ini"
-    safe_execute "php_remove_pcov_extension_from_php_ini 8.0" "Removed php@8.0 pcov extension from php.ini" "Failed to remove php@8.0 pcov extension from php.ini"
-    safe_execute "php_remove_redis_extension_from_php_ini 8.0" "Removed php@8.0 redis extension from php.ini" "Failed to remove php@8.0 redis extension from php.ini"
-    safe_execute "php_remove_xdebug_extension_from_php_ini 8.0" "Removed php@8.0 xdebug extension from php.ini" "Failed to remove php@8.0 xdebug extension from php.ini"
-    safe_execute "php_configure_timezone 8.0" "Configured php@8.0 timezone" "Failed to configure php@8.0 timezone"
-    safe_execute "php_configure_upload_max_filesize 8.0" "Configured php@8.0 upload_max_filesize" "Failed to configure php@8.0 upload_max_filesize"
-    safe_execute "php_configure_imagick 8.0" "Configured php@8.0 imagick extension" "Failed to configure php@8.0 imagick extension"
-    safe_execute "php_configure_pcov 8.0" "Configured php@8.0 pcov extension" "Failed to configure php@8.0 pcov extension"
-    safe_execute "php_configure_redis 8.0" "Configured php@8.0 redis extension" "Failed to configure php@8.0 redis extension"
-    safe_execute "php_configure_xdebug 8.0" "Configured php@8.0 xdebug extension" "Failed to configure php@8.0 xdebug extension"
-    safe_execute "php_remove_default_php_fpm_pool 8.0" "Removed default php-fpm pool for php@8.0" "Failed to remove default php-fpm pool for php@8.0"
-    safe_execute "php_generate_php_fpm_pool 8.0" "Generated php-fpm pool for php@8.0" "Failed to generate php-fpm pool for php@8.0"
-    create_directory "$HOME/Sites/php80"
-    safe_execute "php_create_phpinfo php80" "Created phpinfo.php file for php@8.0" "Failed to create phpinfo.php file for php@8.0"
-    safe_execute "httpd_generate_include_php 8.0 php80" "Generated apache include file for php80 with php@8.0" "Failed to generated apache include file for php80 with php@8.0"
-    brew_restart php@8.0
-    brew_unlink php@8.0
 fi
 
 if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " php81 " ]]; then

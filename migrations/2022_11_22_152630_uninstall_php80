@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+function apache_purge_php80_include_conf()
+{
+    if [[ -d "$HTTPD_ETC/exolnet-include" ]]; then
+        grep -rl "php8.0-fpm.conf" "$HTTPD_ETC/exolnet-include" | while read -r file ; do
+            backup_file "$file"
+        done
+    fi
+}
+
+e_header "Uninstalling deprecated php versions"
+backup_file_if_exists "$HOME/Sites/php80"
+apache_purge_php80_include_conf
+backup_file_if_exists "$HTTPD_ETC/exolnet-php-fpm/php8.0-fpm.conf"
+brew_is_installed php@8.0 && brew_uninstall php@8.0
