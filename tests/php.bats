@@ -27,7 +27,7 @@ setup() {
     [ $status -eq 0 ]
     [[ "${lines[*]}" =~ "php@8.1 started" ]]
 
-    run curl --verbose https://php80.ssl.localhost/
+    run curl --verbose https://php81.ssl.localhost/
     [ $status -eq 0 ]
     [[ "${lines[*]}" =~ "< HTTP/1.1 200 OK" ]]
     [[ "${lines[*]}" =~ "exolnet-ext-imagick.ini" ]]
@@ -43,7 +43,7 @@ setup() {
     [ $status -eq 0 ]
     [[ "${lines[*]}" =~ "php     started" ]]
 
-    run curl --verbose https://php80.ssl.localhost/
+    run curl --verbose https://php82.ssl.localhost/
     [ $status -eq 0 ]
     [[ "${lines[*]}" =~ "< HTTP/1.1 200 OK" ]]
     [[ "${lines[*]}" =~ "exolnet-ext-imagick.ini" ]]
