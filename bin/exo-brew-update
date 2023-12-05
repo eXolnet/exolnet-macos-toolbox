@@ -138,6 +138,10 @@ if [[ "${DEVELOPMENT_PREFERENCES[@]}" =~ "php" ]]; then
     if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " php82 " ]]; then
         brew_is_installed php@8.2 && brew_restart php@8.2
     fi
+
+    if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " php83 " ]]; then
+        brew_is_installed php@8.3 && brew_restart php@8.3
+    fi
 fi
 
 if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " node " ]]; then
