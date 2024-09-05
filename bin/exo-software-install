@@ -94,12 +94,6 @@ if [[ " ${MAIN_PREFERENCES[@]} " =~ " bash " ]]; then
             git_create_global_gitignore
             safe_execute "git_create_global_huskyrc" "Created global huskyrc file" "Failed to create global huskyrc file"
         fi
-
-        if [[ "$item" == "python" ]]; then
-            pip3_upgrade pip
-            pip3_upgrade setuptools
-            pip3_upgrade wheel
-        fi
     done
 
     e_header "Loading completions"
