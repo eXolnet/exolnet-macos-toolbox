@@ -47,7 +47,6 @@ shopt -s dotglob
 shopt -s nullglob
 
 e_header "Tapping additional taps"
-brew_tap homebrew/cask-fonts
 brew_tap homebrew/services
 brew_tap exolnet/homebrew-formula
 brew_tap exolnet/homebrew-cask
