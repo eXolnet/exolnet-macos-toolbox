@@ -2,7 +2,7 @@
 
 setup() {
     load test_helper.bash
-    brew_is_installed mysql || skip "not installed"
+    brew_is_installed mysql@8.4 || skip "not installed"
 }
 
 @test "homebrew service is started" {
