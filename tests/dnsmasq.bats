@@ -8,5 +8,5 @@ setup() {
 @test "homebrew service is started" {
     run sudo brew services list
     [ $status -eq 0 ]
-    [[ "${lines[*]}" =~ "dnsmasq started" ]]
+    [[ $(echo "${lines[*]}" | grep dnsmasq) =~ "started" ]]
 }

@@ -8,7 +8,7 @@ setup() {
 @test "homebrew service is started" {
     run brew services list
     [ $status -eq 0 ]
-    [[ "${lines[*]}" =~ "redis   started" ]]
+    [[ $(echo "${lines[*]}" | grep redis) =~ "started" ]]
 }
 
 @test "redis is running" {

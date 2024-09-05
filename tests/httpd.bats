@@ -6,7 +6,7 @@ setup() {
 @test "homebrew service is started" {
     run sudo brew services list
     [ $status -eq 0 ]
-    [[ "${lines[*]}" =~ "httpd   started" ]]
+    [[ $(echo "${lines[*]}" | grep httpd) =~ "started" ]]
 }
 
 @test "apache server is installed" {

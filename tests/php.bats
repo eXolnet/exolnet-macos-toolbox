@@ -9,7 +9,7 @@ setup() {
 
     run brew services list
     [ $status -eq 0 ]
-    [[ "${lines[*]}" =~ "php@8.1 started" ]]
+    [[ $(echo "${lines[*]}" | grep php@8.1) =~ "started" ]]
 
     run curl --verbose https://php81.ssl.localhost/
     [ $status -eq 0 ]
@@ -25,7 +25,7 @@ setup() {
 
     run brew services list
     [ $status -eq 0 ]
-    [[ "${lines[*]}" =~ "php     started" ]]
+    [[ $(echo "${lines[*]}" | grep php@8.2) =~ "started" ]]
 
     run curl --verbose https://php82.ssl.localhost/
     [ $status -eq 0 ]
@@ -41,7 +41,7 @@ setup() {
 
     run brew services list
     [ $status -eq 0 ]
-    [[ "${lines[*]}" =~ "php     started" ]]
+    [[ $(echo "${lines[*]}" | grep "php ") =~ "started" ]]
 
     run curl --verbose https://php83.ssl.localhost/
     [ $status -eq 0 ]

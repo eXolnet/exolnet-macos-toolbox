@@ -8,7 +8,7 @@ setup() {
 @test "homebrew service is started" {
     run brew services list
     [ $status -eq 0 ]
-    [[ "${lines[*]}" =~ "mysql   started" ]]
+    [[ $(echo "${lines[*]}" | grep mysql) =~ "started" ]]
 }
 
 @test "mysql database is running" {
