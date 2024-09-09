@@ -60,7 +60,7 @@ create_file "$TOOLBOX/.updating"
 
 if [[ "${DEVELOPMENT_PREFERENCES[@]}" =~ " mysql " ]]; then
     e_header "Preparing mysql"
-    brew_is_status mysql stopped || brew_stop mysql
+    brew_is_status mysql@8.4 stopped || brew_stop mysql@8.4
 fi
 
 if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " apache " ]]; then
@@ -107,7 +107,7 @@ fi
 
 if [[ "${DEVELOPMENT_PREFERENCES[@]}" =~ " mysql " ]]; then
     e_header "Reconfiguring mysql"
-    brew_restart mysql
+    brew_restart mysql@8.4
     mysql_wait_for_connection
 fi
 

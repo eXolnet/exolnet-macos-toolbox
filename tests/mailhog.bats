@@ -8,7 +8,7 @@ setup() {
 @test "homebrew service is started" {
     run brew services list
     [ $status -eq 0 ]
-    [[ "${lines[*]}" =~ "mailhog started" ]]
+    [[ $(echo "${lines[*]}" | grep mailhog) =~ "started" ]]
 }
 
 @test "mailhog is installed" {

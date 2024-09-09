@@ -11,12 +11,12 @@ function mysql_create_users()
 {
     local mysql="$(mysql_get_cli_command)"
 
-    $mysql -e 'CREATE USER IF NOT EXISTS "exolnet_dev"@"localhost" IDENTIFIED WITH mysql_native_password' && \
-    $mysql -e 'CREATE USER IF NOT EXISTS "exolnet_local"@"localhost" IDENTIFIED WITH mysql_native_password' && \
-    $mysql -e 'CREATE USER IF NOT EXISTS "exolnet_prev"@"localhost" IDENTIFIED WITH mysql_native_password' && \
-    $mysql -e 'CREATE USER IF NOT EXISTS "exolnet_prod"@"localhost" IDENTIFIED WITH mysql_native_password' && \
-    $mysql -e 'CREATE USER IF NOT EXISTS "exolnet_qa"@"localhost" IDENTIFIED WITH mysql_native_password' && \
-    $mysql -e 'CREATE USER IF NOT EXISTS "exolnet_test"@"localhost" IDENTIFIED WITH mysql_native_password'
+    $mysql -e 'CREATE USER IF NOT EXISTS "exolnet_dev"@"localhost"' && \
+    $mysql -e 'CREATE USER IF NOT EXISTS "exolnet_local"@"localhost"' && \
+    $mysql -e 'CREATE USER IF NOT EXISTS "exolnet_prev"@"localhost"' && \
+    $mysql -e 'CREATE USER IF NOT EXISTS "exolnet_prod"@"localhost"' && \
+    $mysql -e 'CREATE USER IF NOT EXISTS "exolnet_qa"@"localhost"' && \
+    $mysql -e 'CREATE USER IF NOT EXISTS "exolnet_test"@"localhost"'
 }
 
 function mysql_grant_users()
@@ -35,7 +35,7 @@ function mysql_create_and_grant_current_user()
 {
     local mysql="$(mysql_get_cli_command)"
 
-    $mysql -e "CREATE USER IF NOT EXISTS '$(whoami)'@'localhost' IDENTIFIED WITH mysql_native_password" && \
+    $mysql -e "CREATE USER IF NOT EXISTS '$(whoami)'@'localhost'" && \
     $mysql -e "GRANT ALL ON *.* TO '$(whoami)'@'localhost' WITH GRANT OPTION"
 }
 

@@ -2,13 +2,13 @@
 
 setup() {
     load test_helper.bash
-    brew_is_installed mysql || skip "not installed"
+    brew_is_installed mysql@8.4 || skip "not installed"
 }
 
 @test "homebrew service is started" {
     run brew services list
     [ $status -eq 0 ]
-    [[ "${lines[*]}" =~ "mysql   started" ]]
+    [[ $(echo "${lines[*]}" | grep mysql) =~ "started" ]]
 }
 
 @test "mysql database is running" {

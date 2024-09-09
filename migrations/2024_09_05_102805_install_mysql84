@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+DEVELOPMENT_PREFERENCES=$(read_preferences development)
+
+if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " mysql " ]]; then
+    if brew_is_installed mysql; then
+        e_header "Removing mysql"
+        brew_stop mysql
+        waiting_for 10
+        backup_copy_file "$HOMEBREW_PREFIX/var/mysql"
+        brew_uninstall mysql
+    fi
+
+    e_header "Installing mysql 8.4"
+    brew_install mysql@8.4
+    brew_link_force mysql@8.4
+    brew_restart mysql@8.4
+    mysql_wait_for_connection
+fi
