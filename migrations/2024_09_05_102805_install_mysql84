@@ -12,6 +12,7 @@ if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " mysql " ]]; then
     fi
 
     e_header "Installing mysql 8.4"
+    brew_update
     brew_install mysql@8.4
     brew_link_force mysql@8.4
     brew_restart mysql@8.4
