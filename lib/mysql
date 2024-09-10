@@ -11,12 +11,12 @@ function mysql_create_users()
 {
     local mysql="$(mysql_get_cli_command)"
 
-    $mysql -e 'CREATE USER IF NOT EXISTS "exolnet_dev"@"localhost"' && \
-    $mysql -e 'CREATE USER IF NOT EXISTS "exolnet_local"@"localhost"' && \
-    $mysql -e 'CREATE USER IF NOT EXISTS "exolnet_prev"@"localhost"' && \
-    $mysql -e 'CREATE USER IF NOT EXISTS "exolnet_prod"@"localhost"' && \
-    $mysql -e 'CREATE USER IF NOT EXISTS "exolnet_qa"@"localhost"' && \
-    $mysql -e 'CREATE USER IF NOT EXISTS "exolnet_test"@"localhost"'
+    $mysql -e 'CREATE USER IF NOT EXISTS "exolnet_dev"@"localhost" IDENTIFIED WITH caching_sha2_password BY ""' && \
+    $mysql -e 'CREATE USER IF NOT EXISTS "exolnet_local"@"localhost" IDENTIFIED WITH caching_sha2_password BY ""' && \
+    $mysql -e 'CREATE USER IF NOT EXISTS "exolnet_prev"@"localhost" IDENTIFIED WITH caching_sha2_password BY ""' && \
+    $mysql -e 'CREATE USER IF NOT EXISTS "exolnet_prod"@"localhost" IDENTIFIED WITH caching_sha2_password BY ""' && \
+    $mysql -e 'CREATE USER IF NOT EXISTS "exolnet_qa"@"localhost" IDENTIFIED WITH caching_sha2_password BY ""' && \
+    $mysql -e 'CREATE USER IF NOT EXISTS "exolnet_test"@"localhost" IDENTIFIED WITH caching_sha2_password BY ""'
 }
 
 function mysql_grant_users()
