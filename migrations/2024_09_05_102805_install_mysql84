@@ -5,8 +5,7 @@ DEVELOPMENT_PREFERENCES=$(read_preferences development)
 if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " mysql " ]]; then
     if command -v mysql; then
         e_header "Migrate from mysql_native_password to caching_sha2_password"
-        local mysql="$(mysql_get_cli_command)"
-
+        mysql="$(mysql_get_cli_command)"
 
         $mysql -e 'ALTER USER IF EXISTS "exolnet_dev"@"localhost" IDENTIFIED WITH caching_sha2_password BY ""' && \
         $mysql -e 'ALTER USER IF EXISTS "exolnet_local"@"localhost" IDENTIFIED WITH caching_sha2_password BY ""' && \
