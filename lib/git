@@ -43,15 +43,17 @@ function git_add_file_to_global_gitignore()
     egrep -q "^${file}$" "$gitignore" || echo "$file" >> "$gitignore"
 }
 
-function git_create_global_huskyrc()
+function git_create_global_husky_config()
 {
-    local file="$HOME/.huskyrc"
+    local husky_config_dir="$HOME/.config/husky"
+    local husky_config_file="$husky_config_dir/init.sh"
 
-    touch "$file"
+    mkdir -p "$husky_config_dir"
+    touch "$husky_config_file"
 
-    remove_insert_from_file "$file"
+    remove_insert_from_file "$husky_config_file"
 
-cat >> "$file" <<'EOL'
+cat >> "$husky_config_file" <<'EOL'
 # EXOLNET-MACOS-TOOLBOX BEGIN
 if [ -f /opt/homebrew/bin/brew ]; then
     brew_bin=/opt/homebrew/bin
