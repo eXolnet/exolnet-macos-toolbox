@@ -191,25 +191,25 @@ if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " php84 " ]]; then
     brew_reinstall php@8.4
     brew_link_force php@8.4
     safe_execute "php_link_pcre2_header 8.4" "Linked pcre2 header to php@8.4 include directory" "Failed to link pcre2 header to php@8.4 include directory"
-    safe_execute "php_remove_imagick_extension_insert 8.4" "Removed php@8.4 imagick extension insert" "Failed to remove php@8.4 imagick extension insert"
-    safe_execute "php_remove_pcov_extension_insert 8.4" "Removed php@8.4 pcov extension insert" "Failed to remove php@8.4 pcov extension insert"
-    safe_execute "php_remove_redis_extension_insert 8.4" "Removed php@8.4 redis extension insert" "Failed to remove php@8.4 redis extension insert"
-    safe_execute "php_remove_xdebug_extension_insert 8.4" "Removed php@8.4 xdebug extension insert" "Failed to remove php@8.4 xdebug extension insert"
-    pecl_update_channels
-    pecl_reinstall 8.4 imagick
-    pecl_reinstall 8.4 pcov
-    pecl_reinstall 8.4 redis
-    pecl_reinstall 8.4 xdebug
-    safe_execute "php_remove_imagick_extension_from_php_ini 8.4" "Removed php@8.4 imagick extension from php.ini" "Failed to remove php@8.4 imagick extension from php.ini"
-    safe_execute "php_remove_pcov_extension_from_php_ini 8.4" "Removed php@8.4 pcov extension from php.ini" "Failed to remove php@8.4 pcov extension from php.ini"
-    safe_execute "php_remove_redis_extension_from_php_ini 8.4" "Removed php@8.4 redis extension from php.ini" "Failed to remove php@8.4 redis extension from php.ini"
-    safe_execute "php_remove_xdebug_extension_from_php_ini 8.4" "Removed php@8.4 xdebug extension from php.ini" "Failed to remove php@8.4 xdebug extension from php.ini"
+    # safe_execute "php_remove_imagick_extension_insert 8.4" "Removed php@8.4 imagick extension insert" "Failed to remove php@8.4 imagick extension insert"
+    # safe_execute "php_remove_pcov_extension_insert 8.4" "Removed php@8.4 pcov extension insert" "Failed to remove php@8.4 pcov extension insert"
+    # safe_execute "php_remove_redis_extension_insert 8.4" "Removed php@8.4 redis extension insert" "Failed to remove php@8.4 redis extension insert"
+    # safe_execute "php_remove_xdebug_extension_insert 8.4" "Removed php@8.4 xdebug extension insert" "Failed to remove php@8.4 xdebug extension insert"
+    # pecl_update_channels
+    # pecl_reinstall 8.4 imagick
+    # pecl_reinstall 8.4 pcov
+    # pecl_reinstall 8.4 redis
+    # pecl_reinstall 8.4 xdebug
+    # safe_execute "php_remove_imagick_extension_from_php_ini 8.4" "Removed php@8.4 imagick extension from php.ini" "Failed to remove php@8.4 imagick extension from php.ini"
+    # safe_execute "php_remove_pcov_extension_from_php_ini 8.4" "Removed php@8.4 pcov extension from php.ini" "Failed to remove php@8.4 pcov extension from php.ini"
+    # safe_execute "php_remove_redis_extension_from_php_ini 8.4" "Removed php@8.4 redis extension from php.ini" "Failed to remove php@8.4 redis extension from php.ini"
+    # safe_execute "php_remove_xdebug_extension_from_php_ini 8.4" "Removed php@8.4 xdebug extension from php.ini" "Failed to remove php@8.4 xdebug extension from php.ini"
     safe_execute "php_configure_timezone 8.4" "Configured php@8.4 timezone" "Failed to configure php@8.4 timezone"
     safe_execute "php_configure_upload_max_filesize 8.4" "Configured php@8.4 upload_max_filesize" "Failed to configure php@8.4 upload_max_filesize"
-    safe_execute "php_configure_imagick 8.4" "Configured php@8.4 imagick extension" "Failed to configure php@8.4 imagick extension"
-    safe_execute "php_configure_pcov 8.4" "Configured php@8.4 pcov extension" "Failed to configure php@8.4 pcov extension"
-    safe_execute "php_configure_redis 8.4" "Configured php@8.4 redis extension" "Failed to configure php@8.4 redis extension"
-    safe_execute "php_configure_xdebug 8.4" "Configured php@8.4 xdebug extension" "Failed to configure php@8.4 xdebug extension"
+    # safe_execute "php_configure_imagick 8.4" "Configured php@8.4 imagick extension" "Failed to configure php@8.4 imagick extension"
+    # safe_execute "php_configure_pcov 8.4" "Configured php@8.4 pcov extension" "Failed to configure php@8.4 pcov extension"
+    # safe_execute "php_configure_redis 8.4" "Configured php@8.4 redis extension" "Failed to configure php@8.4 redis extension"
+    # safe_execute "php_configure_xdebug 8.4" "Configured php@8.4 xdebug extension" "Failed to configure php@8.4 xdebug extension"
     safe_execute "php_remove_default_php_fpm_pool 8.4" "Removed default php-fpm pool for php@8.4" "Failed to remove default php-fpm pool for php@8.4"
     safe_execute "php_generate_php_fpm_pool 8.4" "Generated php-fpm pool for php@8.4" "Failed to generate php-fpm pool for php@8.4"
     create_directory "$HOME/Sites/php84"
