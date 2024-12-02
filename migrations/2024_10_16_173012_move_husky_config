@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+function bash_move_husky_config()
+{
+    local huskyrc="$HOME/.huskyrc"
+    local husky_config_dir="$HOME/.config/husky"
+    local husky_config_file="$husky_config_dir/init.sh"
+
+    if [[ -f "$huskyrc" ]]; then
+        mkdir -p "$husky_config_dir"
+        mv "$huskyrc" "$husky_config_file"
+    fi
+}
+
+# Read preferences
+BASH_PREFERENCES=$(read_preferences bash)
+
+if [[ " ${BASH_PREFERENCES[@]} " =~ " git " ]]; then
+    e_header "Move .huskyrc to .config/husky/init.sh"
+    safe_execute "bash_move_husky_config" "Moved ~/.huskyrc to ~/.config/husky/init.sh" "Failed to move ~/.huskyrc to ~/.config/husky/init.sh"
+fi

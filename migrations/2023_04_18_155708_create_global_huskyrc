@@ -5,5 +5,5 @@ BASH_PREFERENCES=$(read_preferences bash)
 
 if [[ " ${BASH_PREFERENCES[@]} " =~ " git " ]]; then
     e_header "Configuring huskyrc"
-    safe_execute "git_create_global_huskyrc" "Created global huskyrc file" "Failed to create global huskyrc file"
+    safe_execute "git_create_global_husky_config" "Created global husky config file" "Failed to create global husky config file"
 fi
