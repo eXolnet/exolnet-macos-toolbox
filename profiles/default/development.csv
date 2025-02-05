@@ -1,7 +1,6 @@
 mysql,MySQL,on
 dnsmasq,Dnsmasq,on
 apache,Apache,on
-php81,PHP 8.1,on
 php82,PHP 8.2,on
 php83,PHP 8.3,on
 php84,PHP 8.4,on
