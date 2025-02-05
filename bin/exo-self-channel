@@ -1,0 +1,60 @@
+#!/usr/bin/env bash
+
+#
+# Script setup
+#
+
+# Define toolbox directory if not set
+if [[ -z "$TOOLBOX" ]]; then
+    TOOLBOX="$HOME/.exolnet/toolbox"
+fi
+
+# Check if toolbox directory exists
+if [[ ! -d "$TOOLBOX" ]]; then
+    echo "Directory ~/.exolnet does not exists, exiting ..."
+    exit 1
+fi
+
+# Source helpers
+TOOLBOX_NO_HEADER=true
+
+. "$TOOLBOX/lib/include"
+
+#
+# Script checks
+#
+
+# Check if command was ran as root.
+if [[ $(id -u) -eq 0 ]]; then
+    echo
+    echo "The command \"$(basename "$0")\" should not be executed as root or via sudo directly."
+    echo "When a command requires root access, you will be prompted for a password as needed."
+    exit 1
+fi
+
+#
+# Script execution
+#
+
+if [[ $# -eq 0 ]]; then
+    branch=$(git -C "$TOOLBOX" rev-parse --abbrev-ref HEAD )
+
+    if [[ $branch == "master" ]]; then
+        echo "Current channel: stable"
+    elif [[ $branch == "develop" ]]; then
+        echo "Current channel: dev"
+    else
+        echo "Current branch: $branch"
+    fi
+elif [[ $1 == "stable" ]]; then
+    safe_execute "git_checkout master" "Switched to stable channel" "Failed to switch to stable channel"
+elif [[ $1 == "dev" ]]; then
+    safe_execute "git_checkout develop" "Switched to dev channel" "Failed to switch to dev channel"
+else
+    echo "The channel provided is invalid."
+    echo
+    echo "Available channels:"
+    echo "  stable: The stable channel"
+    echo "  dev: The development channel"
+    exit 1
+fi
