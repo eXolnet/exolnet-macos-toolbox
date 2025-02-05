@@ -1,5 +1,12 @@
 #!/usr/bin/env bash
 
+function git_checkout()
+{
+    local branch=$1
+
+    git -C "$TOOLBOX" checkout "$branch"
+}
+
 function git_fetch()
 {
     git -C "$TOOLBOX" fetch
