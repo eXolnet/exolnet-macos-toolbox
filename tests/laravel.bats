@@ -50,8 +50,8 @@ setup() {
     php artisan db:seed
 }
 
-@test "yarn development" {
-    yarn development
+@test "yarn production" {
+    yarn production
 }
 
 @test "create symbolic link to ~/Sites" {
