@@ -83,7 +83,7 @@ fi
 
 if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " node " ]]; then
     e_header "Unlinking node"
-    brew_is_installed node@18 && brew_unlink node@18
+    brew_is_installed node@22 && brew_unlink node@22
 fi
 
 e_header "Upgrading formulae"
@@ -146,7 +146,7 @@ fi
 
 if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " node " ]]; then
     e_header "Reconfiguring node"
-    brew_link_force node@18
+    brew_link_force node@22
     safe_execute "corepack_enable_yarn" "Enabled yarn" "Failed to enable yarn"
     safe_execute "corepack_prepare_yarn_stable" "Prepared and activated yarn stable" "Failed to prepare and activate yarn stable"
 fi

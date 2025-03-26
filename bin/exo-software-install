@@ -284,14 +284,14 @@ if [[ " ${MAIN_PREFERENCES[@]} " =~ " development " ]]; then
 
     if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " bitwarden-cli " ]]; then
         e_header "Installing and configuring bitwarden cli"
-        brew_install bitwarden-cli # installing before node@18 to avoid conflict
+        brew_install bitwarden-cli # installing before node@22 to avoid conflict
     fi
 
     if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " node " ]]; then
         e_header "Installing and configuring node"
         brew_is_installed node && brew_unlink node
-        brew_install node@18
-        brew_link_force node@18
+        brew_install node@22
+        brew_link_force node@22
         safe_execute "corepack_enable_yarn" "Enabled yarn" "Failed to enable yarn"
         safe_execute "corepack_prepare_yarn_stable" "Prepared and activated yarn stable" "Failed to prepare and activate yarn stable"
         safe_execute "yarn_enable_global_cache" "Enabled yarn global cache" "Failed to enable yarn global cache"
