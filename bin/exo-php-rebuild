@@ -201,8 +201,8 @@ fi
 if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " node " ]]; then
     e_header "Reinstalling and reconfiguring node"
     brew_is_installed node && brew_unlink node
-    brew_install node@18
-    brew_link_force node@18
+    brew_install node@22
+    brew_link_force node@22
 fi
 
 # Display if backups were made
