@@ -3,14 +3,13 @@ qlcolorcode,QLColorCode (QuickLook plugin),on
 qlmarkdown,QLMarkdown (Application & QuickLook plugin),on
 qlstephen,QLStephen (QuickLook plugin),on
 suspicious-package,Suspicious Package (Application & QuickLook plugin),off
-colorpicker-skalacolor,Skala Color (Colorpicker),on
 font-dejavu,DejaVu (Font),on
 font-jetbrains-mono,JetBrains Mono (Font),on
 font-noto-sans,Noto Sans (Font),on
 font-noto-serif,Noto Serif (Font),on
 font-roboto,Roboto (Font),on
 font-roboto-mono,Roboto Mono (Font),on
-1password,1Password (Application),off
+1password,1Password (Application),on
 3cx-exolnet,3CX Desktop App (Application),on
 adobe-acrobat-reader,Adobe Acrobat Reader DC (Application),on
 adobe-creative-cloud,Adobe Creative Cloud (Application),off
@@ -19,11 +18,11 @@ airserver,AirServer (Application),off
 alfred,Alfred (Application),off
 android-studio,Android Studio (Application),off
 sourcetree,Atlassian SourceTree (Application),on
-bitwarden,Bitwarden (Application),on
+bitwarden,Bitwarden (Application),off
 caffeine,Caffeine (Application),off
 canon-printer-driver,Canon MF Printer Driver & Utilities (Application),off
 canon-scanner-driver,Canon Scanner Driver & Utilities (Application),on
-coconutbattery,coconutBattery (Application),on
+coconutbattery,coconutBattery (Application),off
 discord,Discord (Application),off
 diskmaker-x,DiskMaker X (Application),off
 docker,Docker CE (Application),on
@@ -48,7 +47,7 @@ kap,Kap (Application),on
 karabiner-elements,Karabiner Elements (Application),off
 keepassxc,KeePassXC (Application),off
 microsoft-office,Microsoft Office (Application),on
-microsoft-remote-desktop,Microsoft Remote Desktop,off
+microsoft-remote-desktop,Microsoft Remote Desktop,on
 microsoft-teams,Microsoft Teams (Application),on
 visual-studio-code,Microsoft VS Code (Application),on
 monitorcontrol,MonitorControl (Application),on
@@ -61,22 +60,22 @@ virtualbox,Oracle VirtualBox (Application),off
 poedit,Poedit (Application),on
 postman,Postman (Application),on
 raycast,Raycast (Application),off
-rectangle,Rectangle (Application),on
+rectangle,Rectangle (Application),off
 sequel-ace,Sequel Ace (Application),off
-sketch,Sketch (Application),on
+sketch,Sketch (Application),off
 skype,Skype (Application),off
-slack,Slack (Application),on
+slack,Slack (Application),off
 spotify,Spotify (Application),off
 steam,Steam (Application),off
 sublime-merge,Sublime Merge (Application),off
 sublime-text,Sublime Text (Application),off
 tableplus,TablePlus (Application),off
 teamviewer,TeamViewer (Application),off
-topnotch,TopNotch (Application),on
-tunnelblick,Tunnelblick (Application),on
+topnotch,TopNotch (Application),off
+tunnelblick,Tunnelblick (Application),off
 ukelele,Ukelele (Application),off
 unetbootin,UNetbootin (Application),off
 vagrant,Vagrant (Application),off
 vlc,VLC media player (Application),off
 wireshark,Wireshark (Application),off
-zoom,Zoom.us (Application),on
+zoom,Zoom.us (Application),off

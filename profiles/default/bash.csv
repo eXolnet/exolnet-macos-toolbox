@@ -41,12 +41,12 @@ bash-completion,bash-completion,on
 bundler-completion,bundler-completion,off
 gem-completion,gem-completion,off
 gradle-completion,gradle-completion,off
-grunt-completion,grunt-completion,on
+grunt-completion,grunt-completion,off
 launchctl-completion,launchctl-completion,on
 maven-completion,maven-completion,off
 pip-completion,pip-completion,off
 rails-completion,rails-completion,off
 rake-completion,rake-completion,off
 ruby-completion,ruby-completion,off
-vagrant-completion,vagrant-completion,on
+vagrant-completion,vagrant-completion,off
 yarn-completion,yarn-completion,on
