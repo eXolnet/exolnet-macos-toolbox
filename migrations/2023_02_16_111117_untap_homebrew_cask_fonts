@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
 
 e_header "Untapping homebrew/homebrew-cask-fonts taps"
-brew_update
 brew_is_tapped homebrew/homebrew-cask-fonts && brew_untap homebrew/homebrew-cask-fonts
