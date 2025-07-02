@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+e_header "Untapping homebrew/cask-fonts taps"
+[ -d "$HOMEBREW_PREFIX/Library/Taps/homebrew/homebrew-cask-fonts" ] && brew_untap homebrew/cask-fonts
