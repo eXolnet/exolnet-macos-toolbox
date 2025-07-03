@@ -9,7 +9,9 @@ function npm_global_install()
 
 function corepack_enable_yarn()
 {
-    [ -L "$HOMEBREW_PREFIX/bin/yarn" ] || corepack enable yarn
+    [ -L "$HOMEBREW_PREFIX/bin/yarn" ] && rm -f "$HOMEBREW_PREFIX/bin/yarn"
+    [ -L "$HOMEBREW_PREFIX/bin/yarnpkg" ] && rm -f "$HOMEBREW_PREFIX/bin/yarnpkg"
+    corepack enable yarn
 }
 
 function corepack_prepare_yarn_stable()
