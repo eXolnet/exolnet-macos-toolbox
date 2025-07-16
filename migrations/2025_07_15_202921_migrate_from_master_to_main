@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+
+e_header "Migrate toolbox from master to main branch"
+
+e_arrow "Updating toolbox repository"
+git -C "$TOOLBOX" fetch origin --prune --quiet
+
+if ! git -C "$TOOLBOX" show-ref --verify --quiet refs/remotes/origin/main; then
+    e_error "The main branch does not exist in the remote repository. Please ensure the remote repository has a main branch."
+    exit 1
+fi
+
+branch=$(git -C "$TOOLBOX" rev-parse --abbrev-ref HEAD)
+e_arrow "Current branch is $branch"
+
+if [[ "$branch" == "master" ]]; then
+    e_arrow "Renaming local master branch to main"
+    git -C "$TOOLBOX" branch -m master main >/dev/null
+
+    e_arrow "Setting upstream for main branch"
+    git -C "$TOOLBOX" branch --set-upstream-to=origin/main main >/dev/null
+
+    e_arrow "Updating head for origin"
+    git -C "$TOOLBOX" remote set-head origin -a >/dev/null
+
+    e_success "Successfully migrated to main branch"
+elif [[ "$branch" == "main" ]]; then
+    e_success "Already on main branch, no migration needed"
+else
+    e_success "Current branch is not master or main, so migration is not applicable"
+fi

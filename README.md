@@ -9,12 +9,12 @@ eXolnet macOS toolbox.
 Run the following:
 
 ```bash
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/eXolnet/exolnet-macos-toolbox/master/bootstrap)"
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/eXolnet/exolnet-macos-toolbox/main/bootstrap)"
 ```
 
 You can also pre-select another profile on installation
 ```bash
-PROFILE=conference-room bash -c "$(curl -fsSL https://raw.githubusercontent.com/eXolnet/exolnet-macos-toolbox/master/bootstrap)"
+PROFILE=conference-room bash -c "$(curl -fsSL https://raw.githubusercontent.com/eXolnet/exolnet-macos-toolbox/main/bootstrap)"
 ```
 
 ## Update
