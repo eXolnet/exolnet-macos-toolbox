@@ -8,7 +8,7 @@ function install_homebrew()
         e_success "Installed homebrew"
     else
         echo
-        /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+        /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/main/install)"
     fi
 }
 

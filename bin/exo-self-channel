@@ -39,7 +39,7 @@ fi
 if [[ $# -eq 0 ]]; then
     branch=$(git -C "$TOOLBOX" rev-parse --abbrev-ref HEAD )
 
-    if [[ $branch == "master" ]]; then
+    if [[ $branch == "main" ]]; then
         echo "Current channel: stable"
     elif [[ $branch == "develop" ]]; then
         echo "Current channel: dev"
@@ -47,7 +47,7 @@ if [[ $# -eq 0 ]]; then
         echo "Current branch: $branch"
     fi
 elif [[ $1 == "stable" ]]; then
-    safe_execute "git_checkout master" "Switched to stable channel" "Failed to switch to stable channel"
+    safe_execute "git_checkout main" "Switched to stable channel" "Failed to switch to stable channel"
 elif [[ $1 == "dev" ]]; then
     safe_execute "git_checkout develop" "Switched to dev channel" "Failed to switch to dev channel"
 else
