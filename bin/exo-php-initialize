@@ -86,21 +86,25 @@ php_version=$(php_convert_version_to_dot_version "$selected_version")
 safe_execute "brew list $brew_version" "Found $brew_version" "Failed to find $brew_version"
 link_file "$(brew --prefix)/opt/$brew_version/bin/php" ".php"
 
-slug=$(basename "$PWD")
+slugs=$(basename "$PWD")
 echo
-ask_question_with_default "Name of the symlink pointing to this project?" "$slug"
+ask_question_with_default "Name of the symlink pointing to this project?" "$slugs"
 echo
-slug="$REPLY"
 
-if ! [[ "$slug" =~ ^[a-zA-Z0-9_-]+$ ]]; then
-    e_error "Symlink name can only contains alphanumeric characters, underscores and dashes"
-    exit 1
-fi
+# Split by comma or space and iterate
+IFS=', ' read -ra slugs <<< "$REPLY"
+for slug in "${slugs[@]}"; do
+    # trim spaces
+    slug=$(echo "$slug" | xargs)
 
-httpd_create_include_php "$slug"
-safe_execute "httpd_generate_include_php $php_version $slug" "Generated apache include file for $slug with php $php_version" "Failed to generated apache include file for $slug with php $php_version"
+    if ! [[ "$slug" =~ ^[a-zA-Z0-9_-]+$ ]]; then
+        e_error "Symlink name can only contains alphanumeric characters, underscores and dashes: $slug"
+        exit 1
+    fi
 
+    httpd_create_include_php "$slug"
+    safe_execute "httpd_generate_include_php $php_version $slug" "Generated apache include file for $slug with php $php_version" "Failed to generated apache include file for $slug with php $php_version"
+done
 sudo_brew_restart httpd
 
 e_header "All done!"
-
