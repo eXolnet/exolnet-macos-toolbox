@@ -239,6 +239,8 @@ if [[ " ${MAIN_PREFERENCES[@]} " =~ " development " ]]; then
         e_header "Installing and configuring php 8.4"
         brew_install php@8.4
         brew_link_force php@8.4
+        brew_install php-intl
+        brew_link_force php-intl
         safe_execute "php_link_pcre2_header 8.4" "Linked pcre2 header to php@8.4 include directory" "Failed to link pcre2 header to php@8.4 include directory"
         # safe_execute "php_remove_imagick_extension_insert 8.4" "Removed php@8.4 imagick extension insert" "Failed to remove php@8.4 imagick extension insert"
         # safe_execute "php_remove_pcov_extension_insert 8.4" "Removed php@8.4 pcov extension insert" "Failed to remove php@8.4 pcov extension insert"
