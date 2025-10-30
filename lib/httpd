@@ -65,6 +65,33 @@ cat >> "$file" <<EOL
 EOL
 }
 
+function httpd_generate_include_spa()
+{
+    local slug=$1
+    local file="$HTTPD_ETC/exolnet-include/$slug.conf"
+
+    remove_spa_insert_from_file "$file"
+
+cat >> "$file" <<EOL
+# EXOLNET-MACOS-TOOLBOX-SPA BEGIN
+<Directory ${HOMEBREW_PREFIX}/var/www/${slug}>
+    Options +IncludesNOEXEC
+    AddOutputFilter INCLUDES .html
+</Directory>
+# EXOLNET-MACOS-TOOLBOX-SPA END
+EOL
+}
+
+function httpd_enable_include_module()
+{
+    /usr/bin/sed -i '' 's/^#\(LoadModule include_module .*\)$/\1/g' "$HTTPD_ETC/httpd.conf"
+}
+
+function httpd_enable_unique_id_module()
+{
+    /usr/bin/sed -i '' 's/^#\(LoadModule unique_id_module .*\)$/\1/g' "$HTTPD_ETC/httpd.conf"
+}
+
 function httpd_enable_mpm_event_module()
 {
     /usr/bin/sed -i '' 's/^#\(LoadModule mpm_event_module .*\)$/\1/g' "$HTTPD_ETC/httpd.conf"

@@ -1,0 +1,85 @@
+#!/usr/bin/env bash
+
+#
+# Script setup
+#
+
+# Define toolbox directory if not set
+if [[ -z "$TOOLBOX" ]]; then
+    TOOLBOX="$HOME/.exolnet/toolbox"
+fi
+
+# Check if toolbox directory exists
+if [[ ! -d "$TOOLBOX" ]]; then
+    echo "Directory ~/.exolnet does not exists, exiting ..."
+    exit 1
+fi
+
+# Source helpers
+. "$TOOLBOX/lib/include"
+
+#
+# Script checks
+#
+
+# Check if homebrew shell environment variables are defined
+if [[ -z "$HOMEBREW_PREFIX" ]]; then
+    echo
+    echo "Homebrew environment variables are missing."
+    echo "They must be present in your shell profile in order for this script to run."
+    exit 1
+fi
+
+# Check if command was ran as root.
+if [[ $(id -u) -eq 0 ]]; then
+    echo
+    echo "The command \"$(basename "$0")\" should not be executed as root or via sudo directly."
+    echo "When a command requires root access, you will be prompted for a password as needed."
+    exit 1
+fi
+
+# Usage
+if [[ $1 == "--help" ]]; then
+    first=true
+
+    echo -n "Usage: exo-spa-initialize [symlink-name1,symlink-name2,...]"
+    exit 1
+fi
+
+#
+# Script execution
+#
+
+# VirtualHosts
+e_header "Initializing VirtualHosts"
+
+if [[ -z "$2" ]]; then
+    echo
+    slug_default=$(basename "$PWD")
+    ask_question_with_default "Name of the symlink pointing to this project?" "$slug_default"
+    echo
+else
+    REPLY="${@:2}"
+fi
+
+# Split by comma or space and iterate
+IFS=', ' read -ra slugs <<< "$REPLY"
+for slug in "${slugs[@]}"; do
+    # trim spaces
+    slug=$(echo "$slug" | xargs)
+
+    e_arrow "$slug"
+
+    if ! [[ "$slug" =~ ^[a-zA-Z0-9_-]+$ ]]; then
+        e_error "Symlink name can only contains alphanumeric characters, underscores and dashes: $slug"
+        exit 1
+    fi
+
+    httpd_create_include_php "$slug"
+    safe_execute "httpd_enable_include_module" "Enable include module in httpd" "Failed to enable include module in httpd"
+    safe_execute "httpd_enable_unique_id_module" "Enable unique_id module in httpd" "Failed to enable unique_id module in httpd"
+    safe_execute "httpd_generate_include_spa $php_version $slug" "Generated apache include file for SPA $slug" "Failed to generated apache include file for SPA $slug"
+done
+sudo_brew_restart httpd
+
+e_header "All done!"

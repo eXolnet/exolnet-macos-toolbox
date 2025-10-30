@@ -277,6 +277,14 @@ function remove_insert_from_file2()
     /usr/bin/sed -i '' '/; EXOLNET-MACOS-TOOLBOX BEGIN/,/; EXOLNET-MACOS-TOOLBOX END/d' "$file"
 }
 
+function remove_spa_insert_from_file()
+{
+    local file=$1
+
+    # See: https://nixtricks.wordpress.com/2013/01/09/sed-delete-the-lines-lying-in-between-two-patterns/
+    /usr/bin/sed -i '' '/# EXOLNET-MACOS-TOOLBOX-SPA BEGIN/,/# EXOLNET-MACOS-TOOLBOX-SPA END/d' "$file"
+}
+
 function waiting_for()
 {
     local seconds=$1
