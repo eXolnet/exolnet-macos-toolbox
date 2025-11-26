@@ -46,15 +46,19 @@ fi
 DEVELOPMENT_PREFERENCES=$(read_preferences development)
 
 if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " apache " ]]; then
-    e_header "Reconfiguring apache with ssl"
+    e_header "Installing and configuring apache with ssl"
     sudo_brew_is_status httpd stopped || sudo_brew_stop httpd
     create_directory "$HOME/Sites"
-    # brew_install httpd
-    # brew_install mkcert
-    # brew_install nss
-    # create_directory "$HTTPD_SSL/localhost"
-    # safe_execute "mkcert_install_local_ca" "Installed local certificate authority" "Failed to install local certificate authority"
-    # safe_execute "mkcert_generate_ssl_certificate" "Generated localhost ssl certificate" "Failed to generate localhost ssl certificate"
+
+    if [[ ! -z "$EXO_SOFTWARE_INSTALL" ]]; then
+        brew_install httpd
+        brew_install mkcert
+        brew_install nss
+        create_directory "$HTTPD_SSL/localhost"
+        safe_execute "mkcert_install_local_ca" "Installed local certificate authority" "Failed to install local certificate authority"
+        safe_execute "mkcert_generate_ssl_certificate" "Generated localhost ssl certificate" "Failed to generate localhost ssl certificate"
+    fi
+
     safe_execute "httpd_replace_listen_80" "Changed listen port 8080 -> 80" "Failed to change listen port 8080 -> 80"
     safe_execute "httpd_replace_listen_443" "Changed listen port 8443 -> 443" "Failed to change listen port 8443 -> 443"
     safe_execute "httpd_disable_mpm_prefork_module" "Enabled mpm prefork module in httpd" "Failed to enable mpm prefork module in httpd"
@@ -79,7 +83,7 @@ if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " apache " ]]; then
 fi
 
 if [[ "${DEVELOPMENT_PREFERENCES[@]}" =~ "php" ]]; then
-    e_header "Preparing php reinstallation and reconfiguration"
+    e_header "Preparing php installation and configuration"
     brew_stop_all_php_fpm
     brew_unlink_all_php
     remove_file "$HOMEBREW_PREFIX/bin/php"
@@ -88,7 +92,7 @@ if [[ "${DEVELOPMENT_PREFERENCES[@]}" =~ "php" ]]; then
 fi
 
 if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " php82 " ]]; then
-    e_header "Reinstalling and reconfiguring php 8.2"
+    e_header "Installing and configuring php 8.2"
     brew_reinstall php@8.2
     brew_link_force php@8.2
     safe_execute "php_link_pcre2_header 8.2" "Linked pcre2 header to php@8.2 include directory" "Failed to link pcre2 header to php@8.2 include directory"
@@ -121,7 +125,7 @@ if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " php82 " ]]; then
 fi
 
 if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " php83 " ]]; then
-    e_header "Reinstalling and reconfiguring php 8.3"
+    e_header "Installing and configuring php 8.3"
     brew_reinstall php@8.3
     brew_link_force php@8.3
     safe_execute "php_link_pcre2_header 8.3" "Linked pcre2 header to php@8.3 include directory" "Failed to link pcre2 header to php@8.3 include directory"
@@ -154,11 +158,9 @@ if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " php83 " ]]; then
 fi
 
 if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " php84 " ]]; then
-    e_header "Reinstalling and reconfiguring php 8.4"
+    e_header "Installing and configuring php 8.4"
     brew_reinstall php@8.4
     brew_link_force php@8.4
-    # brew_reinstall php-intl
-    # brew_link_force php-intl
     safe_execute "php_link_pcre2_header 8.4" "Linked pcre2 header to php@8.4 include directory" "Failed to link pcre2 header to php@8.4 include directory"
     safe_execute "php_remove_imagick_extension_insert 8.4" "Removed php@8.4 imagick extension insert" "Failed to remove php@8.4 imagick extension insert"
     safe_execute "php_remove_pcov_extension_insert 8.4" "Removed php@8.4 pcov extension insert" "Failed to remove php@8.4 pcov extension insert"
@@ -189,7 +191,7 @@ if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " php84 " ]]; then
 fi
 
 if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " php85 " ]]; then
-    e_header "Reinstalling and reconfiguring php 8.5"
+    e_header "Installing and configuring php 8.5"
     brew_reinstall php@8.5
     brew_link_force php@8.5
     brew_reinstall php-intl
@@ -224,7 +226,7 @@ if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " php85 " ]]; then
 fi
 
 if [[ "${DEVELOPMENT_PREFERENCES[@]}" =~ "php" ]]; then
-    e_header "Finishing php reinstallation and reconfiguration"
+    e_header "Finishing php installation and configuration"
     brew_install composer
     brew_install php-code-sniffer
     brew_install wp-cli
@@ -237,10 +239,20 @@ if [[ "${DEVELOPMENT_PREFERENCES[@]}" =~ "php" ]]; then
 fi
 
 if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " node " ]]; then
-    e_header "Reinstalling and reconfiguring node"
+    e_header "Installing and configuring node"
     brew_is_installed node && brew_unlink node
     brew_install node@22
     brew_link_force node@22
+
+    if [[ ! -z "$EXO_SOFTWARE_INSTALL" ]]; then
+        safe_execute "corepack_enable_yarn" "Enabled yarn" "Failed to enable yarn"
+        safe_execute "corepack_prepare_yarn_stable" "Prepared and activated yarn stable" "Failed to prepare and activate yarn stable"
+        safe_execute "yarn_enable_global_cache" "Enabled yarn global cache" "Failed to enable yarn global cache"
+        npm_global_install bower
+        npm_global_install gulp-cli
+        npm_global_install grunt-cli
+        npm_global_install dotenv-cli
+    fi
 fi
 
 # Display if backups were made
@@ -249,4 +261,6 @@ if [[ "$BACKUP" == true ]]; then
     e_arrow "Existing files were moved to $BACKUP_DIR"
 fi
 
-e_header "All done!"
+if [[ -z "$EXO_SOFTWARE_INSTALL" ]]; then
+    e_header "All done!"
+fi
