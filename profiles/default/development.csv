@@ -8,7 +8,6 @@ php85,PHP 8.5,on
 node,Node,on
 redis,Redis,on
 mailhog,MailHog,on
-bitwarden-cli,Bitwarden CLI,off
 gh,GitHub CLI,on
 awscli,AWS CLI,off
 ansible,Ansible,off

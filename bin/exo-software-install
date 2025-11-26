@@ -319,11 +319,6 @@ if [[ " ${MAIN_PREFERENCES[@]} " =~ " development " ]]; then
         sudo_brew_restart httpd
     fi
 
-    if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " bitwarden-cli " ]]; then
-        e_header "Installing and configuring bitwarden cli"
-        brew_install bitwarden-cli # installing before node@22 to avoid conflict
-    fi
-
     if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " node " ]]; then
         e_header "Installing and configuring node"
         brew_is_installed node && brew_unlink node
