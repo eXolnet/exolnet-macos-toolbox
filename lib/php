@@ -14,6 +14,14 @@ function _pecl()
     yes '' | pecl "$@"
 }
 
+function pecl_prepare()
+{
+    local version=$1
+
+    create_directory $(php_get_extension_path "$version")
+    create_directory "$PHP_ETC/$version/conf.d"
+}
+
 function pecl_install()
 {
     local version=$1
