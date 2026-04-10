@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+
+function mailhog_rename_preference()
+{
+    rename_stored_preference_key development mailhog mailpit
+}
+
+# Read preferences
+DEVELOPMENT_PREFERENCES=$(read_preferences development)
+
+if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " mailhog " ]]; then
+    if brew_is_installed mailhog; then
+        e_header "Uninstalling mailhog"
+        brew_is_status mailhog started && brew_stop mailhog
+        brew_uninstall mailhog
+    fi
+
+    e_header "Renaming preference mailhog to mailpit"
+    safe_execute "mailhog_rename_preference" "Renamed preference mailhog to mailpit" "Failed to rename preference mailhog to mailpit"
+
+    e_header "Installing and configuring mailpit"
+    brew_install mailpit
+    brew_restart mailpit
+
+    if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " apache " ]]; then
+        remove_file "$HTTPD_ETC/exolnet-vhosts/750-mailhog.conf"
+        generate_jinja2_file "$TOOLBOX/conf/httpd_vhosts_extra/750-mailpit.conf.j2" "$HTTPD_ETC/exolnet-vhosts/750-mailpit.conf"
+        backup_file_if_exists "$HOME/Sites/mailhog"
+        create_directory "$HOME/Sites/mailpit"
+        sudo_brew_restart httpd
+    fi
+fi

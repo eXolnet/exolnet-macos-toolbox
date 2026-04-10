@@ -63,3 +63,15 @@ function read_preferences()
         cat "$preferences"
     fi
 }
+
+function rename_stored_preference_key()
+{
+    local menu=$1
+    local from=$2
+    local to=$3
+    local file="$STORAGE_PREFERENCES_DIR/$menu"
+
+    if [[ -f "$file" ]]; then
+        /usr/bin/sed -i '' "s/$from/$to/g" "$file"
+    fi
+}

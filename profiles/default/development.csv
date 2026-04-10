@@ -7,7 +7,7 @@ php84,PHP 8.4,on
 php85,PHP 8.5,on
 node,Node,on
 redis,Redis,on
-mailhog,MailHog,on
+mailpit,Mailpit,on
 gh,GitHub CLI,on
 awscli,AWS CLI,off
 ansible,Ansible,off
