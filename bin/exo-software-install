@@ -136,14 +136,14 @@ if [[ " ${MAIN_PREFERENCES[@]} " =~ " development " ]]; then
         brew_restart redis
     fi
 
-    if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " mailhog " ]]; then
-        e_header "Installing and configuring mailhog"
-        brew_install mailhog
-        brew_restart mailhog
+    if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " mailpit " ]]; then
+        e_header "Installing and configuring mailpit"
+        brew_install mailpit
+        brew_restart mailpit
 
         if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " apache " ]]; then
-            generate_jinja2_file "$TOOLBOX/conf/httpd_vhosts_extra/750-mailhog.conf.j2" "$HTTPD_ETC/exolnet-vhosts/750-mailhog.conf"
-            create_directory "$HOME/Sites/mailhog"
+            generate_jinja2_file "$TOOLBOX/conf/httpd_vhosts_extra/750-mailpit.conf.j2" "$HTTPD_ETC/exolnet-vhosts/750-mailpit.conf"
+            create_directory "$HOME/Sites/mailpit"
             sudo_brew_restart httpd
         fi
     fi
