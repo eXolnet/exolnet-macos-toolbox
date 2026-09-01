@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+
+function redis_rename_preference_to_valkey()
+{
+    rename_stored_preference_key development redis valkey
+}
+
+function redis_migrate_data_to_valkey()
+{
+    local dump_file="$HOME/.exolnet/redis-to-valkey-dump.rdb"
+
+    redis-cli --rdb "$dump_file" > /dev/null
+    cat "$dump_file" | valkey-cli --pipe > /dev/null
+    rm -f "$dump_file"
+}
+
+# Read preferences
+DEVELOPMENT_PREFERENCES=$(read_preferences development)
+
+if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " redis " ]]; then
+    if brew_is_installed redis; then
+        e_header "Migrating data from redis to valkey"
+        brew_is_status redis started || brew_start redis
+        brew_install valkey
+        brew_restart valkey
+        safe_execute "redis_migrate_data_to_valkey" "Migrated data from redis to valkey" "Failed to migrate data from redis to valkey"
+
+        e_header "Uninstalling redis"
+        brew_is_status redis started && brew_stop redis
+        brew_uninstall redis
+    else
+        e_header "Installing and configuring valkey"
+        brew_install valkey
+        brew_restart valkey
+    fi
+
+    e_header "Renaming preference redis to valkey"
+    safe_execute "redis_rename_preference_to_valkey" "Renamed preference redis to valkey" "Failed to rename preference redis to valkey"
+fi
