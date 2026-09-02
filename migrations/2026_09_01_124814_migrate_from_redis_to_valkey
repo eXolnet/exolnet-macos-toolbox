@@ -12,7 +12,7 @@ function redis_dump_data()
 
 function valkey_get_dump_dir()
 {
-    valkey-cli config get dir | tail -1
+    grep "^dir " "$HOMEBREW_PREFIX/etc/valkey.conf" | cut -d ' ' -f 2
 }
 
 # Read preferences
@@ -33,16 +33,10 @@ if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " redis " ]]; then
         e_header "Installing valkey"
         safe_execute "brew_install valkey" "Installed valkey" "Failed to install valkey"
 
-        e_header "Starting valkey"
-        safe_execute "brew_start valkey" "Started valkey" "Failed to start valkey"
-
         VALKEY_DUMP_DIR=$(valkey_get_dump_dir)
 
-        e_header "Stopping valkey"
-        safe_execute "brew_stop valkey" "Stopped valkey" "Failed to stop valkey"
-
         e_header "Importing dump into valkey"
-        safe_execute "mv $REDIS_DUMP_FILE $VALKEY_DUMP_DIR/dump.rdb" "Imported dump into valkey" "Failed to import dump into valkey"
+        safe_execute "mv $REDIS_DUMP_FILE ${VALKEY_DUMP_DIR}dump.rdb" "Imported dump into valkey" "Failed to import dump into valkey"
 
         e_header "Starting valkey"
         safe_execute "brew_start valkey" "Started valkey" "Failed to start valkey"
