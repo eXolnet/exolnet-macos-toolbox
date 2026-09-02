@@ -12,7 +12,21 @@ function redis_dump_data()
 
 function valkey_get_dump_dir()
 {
-    grep "^dir " "$HOMEBREW_PREFIX/etc/valkey.conf" | cut -d ' ' -f 2
+    local conf="$HOMEBREW_PREFIX/etc/valkey.conf"
+
+    [[ -f "$conf" ]] || return 1
+
+    grep -E '^[[:space:]]*dir[[:space:]]+' "$conf" | head -n 1 | awk '{print $2}' | tr -d '"'
+}
+
+function valkey_import_dump()
+{
+    [[ -n "$VALKEY_DUMP_DIR" ]] || return 1
+
+    local dump_dir="${VALKEY_DUMP_DIR%/}/"
+
+    brew_is_status valkey started && brew_stop valkey
+    mv "$REDIS_DUMP_FILE" "${dump_dir}dump.rdb"
 }
 
 # Read preferences
@@ -36,7 +50,7 @@ if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " redis " ]]; then
         VALKEY_DUMP_DIR=$(valkey_get_dump_dir)
 
         e_header "Importing dump into valkey"
-        safe_execute "mv $REDIS_DUMP_FILE ${VALKEY_DUMP_DIR}dump.rdb" "Imported dump into valkey" "Failed to import dump into valkey"
+        safe_execute "valkey_import_dump" "Imported dump into valkey" "Failed to import dump into valkey"
 
         e_header "Starting valkey"
         safe_execute "brew_start valkey" "Started valkey" "Failed to start valkey"
@@ -45,7 +59,7 @@ if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " redis " ]]; then
         safe_execute "brew_install valkey" "Installed valkey" "Failed to install valkey"
 
         e_header "Starting valkey"
-        safe_execute "brew_restart valkey" "Started valkey" "Failed to start valkey"
+        safe_execute "brew_restart valkey" "Restarted valkey" "Failed to restart valkey"
     fi
 
     e_header "Renaming preference redis to valkey"
