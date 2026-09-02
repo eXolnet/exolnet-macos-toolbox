@@ -5,15 +5,14 @@ function redis_rename_preference_to_valkey()
     rename_stored_preference_key development redis valkey
 }
 
-function redis_migrate_data_to_valkey()
+function redis_dump_data()
 {
-    local valkey_dir
+    redis-cli --rdb "$1" > /dev/null
+}
 
-    brew_is_status valkey started || brew_start valkey &&
-    valkey_dir=$(valkey-cli config get dir | tail -1) &&
-    brew_stop valkey &&
-    redis-cli --rdb "$valkey_dir/dump.rdb" > /dev/null &&
-    brew_start valkey
+function valkey_get_dump_dir()
+{
+    valkey-cli config get dir | tail -1
 }
 
 # Read preferences
@@ -21,18 +20,38 @@ DEVELOPMENT_PREFERENCES=$(read_preferences development)
 
 if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " redis " ]]; then
     if brew_is_installed redis; then
+        REDIS_DUMP_FILE=$(mktemp -t redis-to-valkey)
+
         e_header "Migrating data from redis to valkey"
         brew_is_status redis started || brew_start redis
-        brew_install valkey
-        safe_execute "redis_migrate_data_to_valkey" "Migrated data from redis to valkey" "Failed to migrate data from redis to valkey"
+        safe_execute "redis_dump_data $REDIS_DUMP_FILE" "Dumped redis data" "Failed to dump redis data"
 
         e_header "Uninstalling redis"
         brew_is_status redis started && brew_stop redis
-        brew_uninstall redis
+        safe_execute "brew_uninstall redis" "Uninstalled redis" "Failed to uninstall redis"
+
+        e_header "Installing valkey"
+        safe_execute "brew_install valkey" "Installed valkey" "Failed to install valkey"
+
+        e_header "Starting valkey"
+        safe_execute "brew_start valkey" "Started valkey" "Failed to start valkey"
+
+        VALKEY_DUMP_DIR=$(valkey_get_dump_dir)
+
+        e_header "Stopping valkey"
+        safe_execute "brew_stop valkey" "Stopped valkey" "Failed to stop valkey"
+
+        e_header "Importing dump into valkey"
+        safe_execute "mv $REDIS_DUMP_FILE $VALKEY_DUMP_DIR/dump.rdb" "Imported dump into valkey" "Failed to import dump into valkey"
+
+        e_header "Starting valkey"
+        safe_execute "brew_start valkey" "Started valkey" "Failed to start valkey"
     else
-        e_header "Installing and configuring valkey"
-        brew_install valkey
-        brew_restart valkey
+        e_header "Installing valkey"
+        safe_execute "brew_install valkey" "Installed valkey" "Failed to install valkey"
+
+        e_header "Starting valkey"
+        safe_execute "brew_restart valkey" "Started valkey" "Failed to start valkey"
     fi
 
     e_header "Renaming preference redis to valkey"

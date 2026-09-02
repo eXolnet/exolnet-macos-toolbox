@@ -132,13 +132,6 @@ if [[ " ${MAIN_PREFERENCES[@]} " =~ " development " ]]; then
 
     if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " valkey " ]]; then
         e_header "Installing and configuring valkey"
-
-        if brew_is_installed redis; then
-            e_error "Redis is installed and incompatible with Valkey in toolbox. Redis will be stopped and uninstalled."
-            brew_is_status redis started && brew_stop redis
-            brew_uninstall redis
-        fi
-
         brew_install valkey
         brew_restart valkey
     fi
