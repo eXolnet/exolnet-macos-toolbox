@@ -130,10 +130,10 @@ if [[ " ${MAIN_PREFERENCES[@]} " =~ " development " ]]; then
 
     EXO_SOFTWARE_INSTALL=1 TOOLBOX_NO_HEADER=1 exo-php-rebuild
 
-    if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " redis " ]]; then
-        e_header "Installing and configuring redis"
-        brew_install redis
-        brew_restart redis
+    if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " valkey " ]]; then
+        e_header "Installing and configuring valkey"
+        brew_install valkey
+        brew_restart valkey
     fi
 
     if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " mailpit " ]]; then
