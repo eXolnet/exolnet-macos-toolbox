@@ -33,7 +33,15 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-TOOLBOX="$( cd "$( dirname "${BASH_SOURCE[0]}" )/../.." && pwd )"
+if [ -n "${BASH_SOURCE-}" ] ; then
+    _ACTIVATE_SOURCE="${BASH_SOURCE[0]}"
+elif [ -n "${ZSH_VERSION-}" ] ; then
+    _ACTIVATE_SOURCE="${(%):-%N}"
+else
+    _ACTIVATE_SOURCE="$0"
+fi
+TOOLBOX="$( cd "$( dirname "$_ACTIVATE_SOURCE" )/../.." && pwd )"
+unset _ACTIVATE_SOURCE
 export TOOLBOX
 
 _OLD_VIRTUAL_PATH="$PATH"
