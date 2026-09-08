@@ -26,6 +26,7 @@ function valkey_import_dump()
     local dump_dir="${VALKEY_DUMP_DIR%/}/"
 
     brew_is_status valkey started && brew_stop valkey
+    backup_file_if_exists "${dump_dir}dump.rdb"
     mv "$REDIS_DUMP_FILE" "${dump_dir}dump.rdb"
 }
 
@@ -40,10 +41,6 @@ if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " redis " ]]; then
         brew_is_status redis started || brew_start redis
         safe_execute "redis_dump_data $REDIS_DUMP_FILE" "Dumped redis data" "Failed to dump redis data"
 
-        e_header "Uninstalling redis"
-        brew_is_status redis started && brew_stop redis
-        safe_execute "brew_uninstall redis" "Uninstalled redis" "Failed to uninstall redis"
-
         e_header "Installing valkey"
         safe_execute "brew_install valkey" "Installed valkey" "Failed to install valkey"
 
@@ -54,6 +51,10 @@ if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " redis " ]]; then
 
         e_header "Starting valkey"
         safe_execute "brew_start valkey" "Started valkey" "Failed to start valkey"
+
+        e_header "Uninstalling redis"
+        brew_is_status redis started && brew_stop redis
+        safe_execute "brew_uninstall redis" "Uninstalled redis" "Failed to uninstall redis"
     else
         e_header "Installing valkey"
         safe_execute "brew_install valkey" "Installed valkey" "Failed to install valkey"
