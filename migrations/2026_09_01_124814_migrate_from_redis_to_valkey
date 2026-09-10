@@ -46,6 +46,11 @@ if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " redis " ]]; then
 
         VALKEY_DUMP_DIR=$(valkey_get_dump_dir)
 
+        if [[ -z "$VALKEY_DUMP_DIR" ]]; then
+            e_error "Unable to determine Valkey dump directory (missing or invalid $HOMEBREW_PREFIX/etc/valkey.conf)"
+            exit 1
+        fi
+
         e_header "Importing dump into valkey"
         safe_execute "valkey_import_dump" "Imported dump into valkey" "Failed to import dump into valkey"
 
