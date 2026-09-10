@@ -49,11 +49,13 @@ if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " redis " ]]; then
         e_header "Importing dump into valkey"
         safe_execute "valkey_import_dump" "Imported dump into valkey" "Failed to import dump into valkey"
 
+        e_header "Stopping redis"
+        brew_is_status redis started && brew_stop redis
+
         e_header "Starting valkey"
         safe_execute "brew_start valkey" "Started valkey" "Failed to start valkey"
 
         e_header "Uninstalling redis"
-        brew_is_status redis started && brew_stop redis
         safe_execute "brew_uninstall redis" "Uninstalled redis" "Failed to uninstall redis"
     else
         e_header "Installing valkey"
