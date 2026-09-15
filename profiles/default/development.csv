@@ -6,7 +6,7 @@ php83,PHP 8.3,on
 php84,PHP 8.4,on
 php85,PHP 8.5,on
 node,Node,on
-redis,Redis,on
+valkey,Valkey,on
 mailpit,Mailpit,on
 gh,GitHub CLI,on
 awscli,AWS CLI,off
