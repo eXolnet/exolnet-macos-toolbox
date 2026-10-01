@@ -45,6 +45,7 @@ if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " redis " ]]; then
     # 3. Import Redis dump into Valkey
     if [[ -f "$REDIS_DUMP_FILE" ]]; then
         e_header "Importing Redis dump into Valkey"
+        waiting_for 10
         safe_execute "valkey_import_dump" "Imported dump into Valkey" "Failed to import dump into Valkey"
     fi
 
