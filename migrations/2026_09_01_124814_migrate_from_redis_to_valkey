@@ -1,0 +1,55 @@
+#!/usr/bin/env bash
+
+function redis_rename_preference_to_valkey()
+{
+    rename_stored_preference_key development redis valkey
+}
+
+function redis_dump_data()
+{
+    npx --yes redis-dump > "$1"
+}
+
+function valkey_import_dump()
+{
+    [[ -n "$REDIS_DUMP_FILE" ]] || return 1
+
+    local valkey_rdb="$HOMEBREW_PREFIX/var/db/valkey/dump.rdb"
+    backup_file_if_exists "$valkey_rdb"
+
+    cat "$REDIS_DUMP_FILE" | valkey-cli --pipe
+}
+
+# Read preferences
+DEVELOPMENT_PREFERENCES=$(read_preferences development)
+
+if [[ " ${DEVELOPMENT_PREFERENCES[@]} " =~ " redis " ]]; then
+    # 1. Backup and uninstall Redis
+    if brew_is_installed redis; then
+        REDIS_DUMP_FILE=$(mktemp -t redis-to-valkey.rdb.XXXXXX)
+
+        e_header "Backup Redis data to $REDIS_DUMP_FILE"
+        brew_is_status redis started || brew_start redis
+        safe_execute "redis_dump_data $REDIS_DUMP_FILE" "Dumped redis data" "Failed to dump redis data"
+
+        e_header "Uninstalling Redis"
+        brew_is_status redis started && brew_stop redis
+        safe_execute "brew_uninstall redis" "Uninstalled redis" "Failed to uninstall redis"
+    fi
+
+    # 2. Install Valkey
+    e_header "Installing Valkey"
+    safe_execute "brew_install valkey" "Installed Valkey" "Failed to install Valkey"
+    safe_execute "brew_start valkey" "Starting Valkey" "Failed to start Valkey"
+
+    # 3. Import Redis dump into Valkey
+    if [[ -f "$REDIS_DUMP_FILE" ]]; then
+        e_header "Importing Redis dump into Valkey"
+        waiting_for 10
+        safe_execute "valkey_import_dump" "Imported dump into Valkey" "Failed to import dump into Valkey"
+    fi
+
+    # 4. Rename preference key
+    e_header "Renaming preference redis to valkey"
+    safe_execute "redis_rename_preference_to_valkey" "Renamed preference redis to valkey" "Failed to rename preference redis to valkey"
+fi
