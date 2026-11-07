@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+function apache_purge_php82_include_conf()
+{
+    if [[ -d "$HTTPD_ETC/exolnet-include" ]]; then
+        grep -rl "php8.2-fpm.conf" "$HTTPD_ETC/exolnet-include" | while read -r file ; do
+            backup_file "$file"
+        done
+    fi
+}
+
+function php82_remove_preference()
+{
+    remove_stored_preference_key development php82
+}
+
+e_header "Uninstalling deprecated php versions"
+backup_file_if_exists "$HOME/Sites/php82"
+apache_purge_php82_include_conf
+backup_file_if_exists "$HTTPD_ETC/exolnet-php-fpm/php8.2-fpm.conf"
+brew_is_status php@8.2 started && brew_stop php@8.2
+brew_is_installed php@8.2 && brew_uninstall php@8.2
+safe_execute "php82_remove_preference" "Removed php82 preference" "Failed to remove php82 preference"
