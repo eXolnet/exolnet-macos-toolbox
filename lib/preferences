@@ -75,3 +75,20 @@ function rename_stored_preference_key()
         /usr/bin/sed -i '' "s/$from/$to/g" "$file"
     fi
 }
+
+function remove_stored_preference_key()
+{
+    local menu=$1
+    local key=$2
+    local file="$STORAGE_PREFERENCES_DIR/$menu"
+    local preference
+    local preferences=()
+
+    [[ -f "$file" ]] || return 0
+
+    for preference in $(cat "$file"); do
+        [[ "$preference" == "$key" ]] || preferences+=("$preference")
+    done
+
+    echo "${preferences[*]}" > "$file"
+}
