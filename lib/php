@@ -53,7 +53,7 @@ function php_get_extension_path()
 {
     local version=$1
 
-    local opt_prefix=$(brew --prefix "php@$version")
+    local opt_prefix="${HOMEBREW_PREFIX}/opt/php@${version}"
     local extension_dir=$(php-config --extension-dir) # or `pecl config-get ext_dir`
     local php_basename=$(basename "$extension_dir")
 
