@@ -53,13 +53,29 @@ setup() {
 }
 
 @test "php 8.5 is installed" {
+    brew_is_installed php@8.5 || skip "not installed"
+
+    run brew services list
+    [ $status -eq 0 ]
+    [[ $(echo "${lines[*]}" | grep php@8.5) =~ "started" ]]
+
+    run curl --verbose https://php85.ssl.localhost/
+    [ $status -eq 0 ]
+    [[ "${lines[*]}" =~ "< HTTP/1.1 200 OK" ]]
+    [[ "${lines[*]}" =~ "exolnet-ext-imagick.ini" ]]
+    [[ "${lines[*]}" =~ "exolnet-ext-pcov.ini" ]]
+    [[ "${lines[*]}" =~ "exolnet-ext-redis.ini" ]]
+    [[ "${lines[*]}" =~ "exolnet-ext-xdebug.ini" ]]
+}
+
+@test "php 8.6 is installed" {
     brew_is_installed php || skip "not installed"
 
     run brew services list
     [ $status -eq 0 ]
     [[ $(echo "${lines[*]}" | grep "php ") =~ "started" ]]
 
-    run curl --verbose https://php85.ssl.localhost/
+    run curl --verbose https://php86.ssl.localhost/
     [ $status -eq 0 ]
     [[ "${lines[*]}" =~ "< HTTP/1.1 200 OK" ]]
     # [[ "${lines[*]}" =~ "exolnet-ext-imagick.ini" ]]
