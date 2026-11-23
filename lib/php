@@ -53,7 +53,7 @@ function php_get_extension_path()
 {
     local version=$1
 
-    local opt_prefix=$(brew --prefix "php@$version")
+    local opt_prefix="${HOMEBREW_PREFIX}/opt/php@${version}"
     local extension_dir=$(php-config --extension-dir) # or `pecl config-get ext_dir`
     local php_basename=$(basename "$extension_dir")
 
@@ -344,6 +344,10 @@ function php_convert_version_to_dot_version()
             echo '8.5'
             ;;
 
+        php86)
+            echo '8.6'
+            ;;
+
         *)
             echo 'invalid'
 
@@ -361,6 +365,7 @@ function brew_stop_all_php_fpm()
     brew_is_installed php@8.3 && brew_stop php@8.3
     brew_is_installed php@8.4 && brew_stop php@8.4
     brew_is_installed php@8.5 && brew_stop php@8.5
+    brew_is_installed php@8.6 && brew_stop php@8.6
 }
 
 function brew_unlink_all_php()
@@ -369,4 +374,5 @@ function brew_unlink_all_php()
     brew_is_installed php@8.3 && brew_unlink php@8.3
     brew_is_installed php@8.4 && brew_unlink php@8.4
     brew_is_installed php@8.5 && brew_unlink php@8.5
+    brew_is_installed php@8.6 && brew_unlink php@8.6
 }

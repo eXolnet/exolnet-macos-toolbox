@@ -5,6 +5,7 @@ php82,PHP 8.2,on
 php83,PHP 8.3,on
 php84,PHP 8.4,on
 php85,PHP 8.5,on
+php86,PHP 8.6,on
 node,Node,on
 valkey,Valkey,on
 mailpit,Mailpit,on
